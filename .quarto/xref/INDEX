@@ -1,0 +1,20 @@
+{
+  "about.qmd": {
+    "about.html": "4fe51410"
+  },
+  "posts/post-with-code/index.ipynb": {
+    "index.html": "e65cd97c"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "9f26b196"
+  },
+  "index.qmd": {
+    "index.html": "09704b50"
+  },
+  "posts/post-with-code/04-Ecommerce Purchases Exercise - Solutions.ipynb": {
+    "04-Ecommerce Purchases Exercise - Solutions.html": "d3637db9"
+  },
+  "posts/Test Post 1/04-Ecommerce Purchases Exercise - Solutions.ipynb": {
+    "04-Ecommerce Purchases Exercise - Solutions.html": "54134eb5"
+  }
+}

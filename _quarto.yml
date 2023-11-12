@@ -1,0 +1,17 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "djsData"
+  navbar:
+    right:
+      - about.qmd
+
+format:
+  html:
+    theme: Lux
+    css: styles.css
+
+
+

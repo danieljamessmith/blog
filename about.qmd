@@ -1,0 +1,23 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com
+    - icon: github
+      text: Github
+      href: https://github.com
+
+---
+
+I am Daniel Smith, an aspiring Data Scientist and a recent graduate in Applied Mathematics.
+
+I created this blog to serve both as a portfolio to show to potential employers and for the interest of anyone else currently following or considering a similar path.
+
+The blog is made with Quarto, an open source techinical publishing system supporting Jupyter Notebooks. I am using GitHub Pages to host.
