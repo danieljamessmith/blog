@@ -9,7 +9,7 @@
 <meta name="author" content="Daniel Smith">
 <meta name="dcterms.date" content="2023-11-23">
 
-<title>djsData - The Spaceship Titanic with LightGBM</title>
+<title>djsPortfolio - The Spaceship Titanic with LightGBM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">djsData</span>
+    <span class="navbar-title">djsPortfolio</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -172,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>We achieve &gt;80% accuracy on the Spaceship Titanic dataset from Kaggle by training a LightGBM classifier, with hyperparameters tuned using a random search.</p>
+<p>We train a LightGBM classifier with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset from Kaggle, an impressive score for a simple model.</p>
 <div class="cell" data-tags="[]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1502,7 +1502,7 @@ dtype: int64</code></pre>
 </section>
 <section id="tuning-a-lgbmclassifier-with-randomizedsearchcv" class="level1">
 <h1>Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></h1>
-<p>Before we can fit a model to the data, we need to encode the categorical and boolean features in a way the <code>LGBMClassifier</code> can understand. &gt; - Categorical features are encoded with the <code>pandas.Categorical</code> datatype. This is convenient and avoids the need to manually encode using, for example, <code>pandas.get_dummies</code>. Not all ML models can handle categorical features encoded in this way, for example neural networks cannot. Luckily LightGBM can. &gt; - Boolean features are convert to the <code>int</code> datatype.</p>
+<p>Before we can fit a model to the data, we need to encode the categorical and boolean features in a way the <code>LGBMClassifier</code> can understand. &gt; * Categorical features are encoded with the <code>pandas.Categorical</code> datatype. This is convenient and avoids the need to manually encode using, for example, <code>pandas.get_dummies</code>. Not all ML models can handle categorical features encoded in this way, for example neural networks cannot. Luckily LightGBM can. &gt; * Boolean features are convert to the <code>int</code> datatype.</p>
 <div class="cell" data-tags="[]" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>train.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="45">
@@ -1863,7 +1863,7 @@ Length: 4277, dtype: int32</code></pre>
 <h1>Further Directions</h1>
 <p>Our model’s performance could be improved through work in several different directions, such as further feature engineering, further hyperparameter tuning and experimentation with other models.</p>
 <p>For example, we could engineer a new feature <code>FamilySize</code> based upon the number of passengers with the same surname. This would pose the challenge of first finding a way to fill the null values in the <code>Name</code> column.</p>
-<p>Our method for filling the null values in the categorical columns such as <code>Destination</code> and <code>HomePlanet</code> were simplistic, just filling based upon the most common occurance without attempting to preserve the overall distribution of the data over such categories. More sophisticated methods of filling that attempt to preserve data distribution might result in a more powerful and more generalisable model.</p>
+<p>Our method for filling the null values in the categorical columns such as <code>Destination</code> and <code>HomePlanet</code> was simplistic, just filling based upon the most common occurance without attempting to preserve the overall distribution of the data over such categories. More sophisticated methods of filling that attempt to preserve data distribution might result in a more powerful and more generalisable model.</p>
 <p>Tuning the <code>LGBMClassifier</code> with <code>GridSearchCV</code> rather than <code>RandomSearchCV</code> might obtain slight performance gains at the cost of greater computational expense.</p>
 <p>We experimented with other ML models alongside LightGBM, particularly other gradient boosting algorithsm such as XGBoost and CatBoost. These models have the advantage of being able to handle categorical features encoded with the <code>pandas.Categorical</code> datatype. For example, an XGBoost solution might look like</p>
 <div class="cell" data-tags="[]" data-execution_count="65">
@@ -1885,7 +1885,7 @@ Length: 4277, dtype: int32</code></pre>
 <div class="cell" data-tags="[]" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>estimator <span class="op">=</span> XGBClassifier(tree_method<span class="op">=</span><span class="st">'hist'</span>,enable_categorical<span class="op">=</span><span class="va">True</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The experimenental setting <code>enable_categorical=True</code> is required for <code>XGBClassifier</code> to train on a dataset with features of the <code>pandas.Categorical</code> type. Only certain values for <code>tree_method</code> such as <code>'hist'</code> support this feature.</p>
+<p>The experimental setting <code>enable_categorical=True</code> is required for <code>XGBClassifier</code> to train on a dataset with features of the <code>pandas.Categorical</code> type. Only certain values for <code>tree_method</code> such as <code>'hist'</code> support this feature.</p>
 <div class="cell" data-tags="[]" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>random_search <span class="op">=</span> RandomizedSearchCV(</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>estimator,</span>

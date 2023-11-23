@@ -11,7 +11,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am Daniel Smith, an aspiring Data Scientist and a recent graduate in Applied Mathematics.\nI created this blog to serve both as a portfolio to show to potential employers and for the interest of anyone else currently following or considering a similar path.\nThe blog is made with Quarto, an open source techinical publishing system supporting Jupyter Notebooks. I am using GitHub Pages to host."
+    "text": "The blog is made with Quarto, an open source techinical publishing system supporting Jupyter Notebooks. I am using GitHub Pages to host."
   },
   {
     "objectID": "index.html",
@@ -60,7 +60,7 @@
     "href": "posts/The Spaceship Titanic with LightGBM.html",
     "title": "The Spaceship Titanic with LightGBM",
     "section": "",
-    "text": "We achieve &gt;80% accuracy on the Spaceship Titanic dataset from Kaggle by training a LightGBM classifier, with hyperparameters tuned using a random search.\nimport pandas as pd\nimport numpy as np\nfrom scipy.stats import randint, uniform\n\n# Visulisation\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n%matplotlib inline\n\n# Sklearn\nfrom sklearn.model_selection import train_test_split, RandomizedSearchCV\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\n# Model\nfrom lightgbm import LGBMClassifier"
+    "text": "We train a LightGBM classifier with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset from Kaggle, an impressive score for a simple model.\nimport pandas as pd\nimport numpy as np\nfrom scipy.stats import randint, uniform\n\n# Visulisation\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n%matplotlib inline\n\n# Sklearn\nfrom sklearn.model_selection import train_test_split, RandomizedSearchCV\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\n# Model\nfrom lightgbm import LGBMClassifier"
   },
   {
     "objectID": "posts/The Spaceship Titanic with LightGBM.html#filling-homeplanet-destination-and-vip",
