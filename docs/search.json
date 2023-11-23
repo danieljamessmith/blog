@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Blog",
     "section": "",
-    "text": "The Spaceship Titanic with LightGBM\n\n\n\n\n\n\n\nLightGBM\n\n\nBinary Classification\n\n\n\n\n\n\n\n\n\n\n\nNov 23, 2023\n\n\nDaniel Smith\n\n\n\n\n\n\nNo matching items"
+    "text": "The Spaceship Titanic with LightGBM\n\n\n\n\n\n\n\nLightGBM\n\n\nBinary Classification\n\n\n\n\nWe train a LightGBM classifier with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset from Kaggle, an impressive score for a simple model.\n\n\n\n\n\n\nNov 23, 2023\n\n\nDaniel Smith\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/Spaceship Titanic/The Spaceship Titanic with LightGBM.html",
@@ -60,7 +60,7 @@
     "href": "posts/The Spaceship Titanic with LightGBM.html",
     "title": "The Spaceship Titanic with LightGBM",
     "section": "",
-    "text": "We train a LightGBM classifier with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset from Kaggle, an impressive score for a simple model.\nimport pandas as pd\nimport numpy as np\nfrom scipy.stats import randint, uniform\n\n# Visulisation\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n%matplotlib inline\n\n# Sklearn\nfrom sklearn.model_selection import train_test_split, RandomizedSearchCV\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\n# Model\nfrom lightgbm import LGBMClassifier"
+    "text": "import pandas as pd\nimport numpy as np\nfrom scipy.stats import randint, uniform\n\n# Visulisation\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n%matplotlib inline\n\n# Sklearn\nfrom sklearn.model_selection import train_test_split, RandomizedSearchCV\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\n# Model\nfrom lightgbm import LGBMClassifier"
   },
   {
     "objectID": "posts/The Spaceship Titanic with LightGBM.html#filling-homeplanet-destination-and-vip",

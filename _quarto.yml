@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "djsPortfolio"
+  title: "djs - Portfolio"
   navbar:
     right:
       - about.qmd
