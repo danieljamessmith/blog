@@ -39,7 +39,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "The blog is made with Quarto, an open source techinical publishing system supporting Jupyter Notebooks. I am using GitHub Pages to host."
+    "text": "This portfolio is made with Quarto, an open source techinical publishing system that provides functionality to render Jupyter Notebooks as blog posts. I am using GitHub Pages to host."
   },
   {
     "objectID": "index.html",
