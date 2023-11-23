@@ -964,7 +964,7 @@ Name: count, dtype: int64</code></pre>
 <div class="cell" data-tags="[]" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Solo'</span>] <span class="op">=</span> (data[<span class="st">'GroupSize'</span>] <span class="op">==</span> <span class="dv">1</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We won’t use <code>Cabin</code> directly, but we engineer a new feature <code>CabinSide</code> by taking the first character of <code>Cabin</code>. “P” for port and “S” for starboard. To implement this we fill <code>Cabin</code> with a placeholder value.</p>
+<p>We won’t use <code>Cabin</code> directly, but we engineer a new feature <code>CabinSide</code> by taking the last character of <code>Cabin</code>. “P” for port and “S” for starboard. To implement this we fill <code>Cabin</code> with a placeholder value.</p>
 <div class="cell" data-tags="[]" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Cabin'</span>] <span class="op">=</span> data[<span class="st">'Cabin'</span>].fillna(<span class="st">'T/0/P'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1508,12 +1508,10 @@ dtype: int64</code></pre>
 <section id="tuning-a-lgbmclassifier-with-randomizedsearchcv" class="level1">
 <h1>Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></h1>
 <p>Before we can fit a model to the data, we need to encode the categorical and boolean features in a way the <code>LGBMClassifier</code> can understand.</p>
-<blockquote class="blockquote">
 <ul>
-<li>Categorical features are encoded with the <code>pandas.Categorical</code> datatype. This is convenient and avoids the need to manually encode using, for example, <code>pandas.get_dummies</code>. Not all ML models can handle categorical features encoded in this way, for example neural networks cannot. Luckily LightGBM can.</li>
-<li>Boolean features are convert to the <code>int</code> datatype.</li>
+<li><p>Categorical features are encoded with the <code>pandas.Categorical</code> datatype. This is convenient and avoids the need to manually encode using, for example, <code>pandas.get_dummies</code>. LightGBM can handle categorical features encoded in this way but not all ML algorithms can, for example neural networks cannot.</p></li>
+<li><p>Boolean features are converted to the <code>int</code> datatype.</p></li>
 </ul>
-</blockquote>
 <div class="cell" data-tags="[]" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>train.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="45">
@@ -1876,7 +1874,7 @@ Length: 4277, dtype: int32</code></pre>
 <p>For example, we could engineer a new feature <code>FamilySize</code> based upon the number of passengers with the same surname. This would pose the challenge of first finding a way to fill the null values in the <code>Name</code> column.</p>
 <p>Our method for filling the null values in the categorical columns such as <code>Destination</code> and <code>HomePlanet</code> was simplistic, just filling based upon the most common occurance without attempting to preserve the overall distribution of the data over such categories. More sophisticated methods of filling that attempt to preserve data distribution might result in a more powerful and more generalisable model.</p>
 <p>Tuning the <code>LGBMClassifier</code> with <code>GridSearchCV</code> rather than <code>RandomSearchCV</code> might obtain slight performance gains at the cost of greater computational expense.</p>
-<p>We experimented with other ML models alongside LightGBM, particularly other gradient boosting algorithsm such as XGBoost and CatBoost. These models have the advantage of being able to handle categorical features encoded with the <code>pandas.Categorical</code> datatype. For example, an XGBoost solution might look like</p>
+<p>We experimented with other ML models alongside LightGBM, particularly other gradient boosting algorithms such as XGBoost and CatBoost. These models have the advantage of being able to handle categorical features encoded with the <code>pandas.Categorical</code> datatype. For example, an XGBoost solution might look like</p>
 <div class="cell" data-tags="[]" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xgboost <span class="im">import</span> XGBClassifier</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
