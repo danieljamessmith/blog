@@ -4,6 +4,7 @@ project:
 
 website:
   title: "djs - Portfolio"
+  site-url: "https://danieljamessmith.github.io/portfolio/"
   navbar:
     right:
       - about.qmd
