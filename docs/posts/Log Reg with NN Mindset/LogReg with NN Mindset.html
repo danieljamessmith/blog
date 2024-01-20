@@ -172,7 +172,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>We implement logistic regression from scratch (i.e.&nbsp;using only NumPy) and interpret it as a 0-layer Neural Network. We use the resulting model to identify cats in an image classification problem, and experiment with tuning the learning rate of gradient descent.</p>
-<p>This post is based upon an exercise in <a href="https://www.coursera.org/learn/neural-networks-deep-learning?specialization=deep-learning">Neural Networks and Deep Learning</a> on Coursera. Credit for data and images goes to <a href="https://www.deeplearning.ai">DeepLearning.AI.</a></p>
 <div class="cell" data-tags="[]" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -198,7 +197,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#6">6 - ANIMAL TESTING</a></li>
 <li><a href="#7">7 - EXPERIMENTING WITH LEARNING RATES</a></li>
 </ul>
-<p><a name="1"></a> # 1 - DATA</p>
+<p><a name="1"></a></p>
+<section id="data" class="level1">
+<h1>1 - DATA</h1>
 <p>The data comprises of training and test sets of 64x64 images, some of cats and some of not-cats. Each image is encoded as a NumPy array of shape (64,64,3), where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
 <p>The problem is then to contruct and train a model that can accurately classify an unseen image as either a cat (<span class="math inline">\(y=1\)</span>) or a non-cat (<span class="math inline">\(y=0\)</span>).</p>
 <div class="cell" data-tags="[]" data-execution_count="3">
@@ -309,6 +310,7 @@ test_set_y shape: (1, 50)</code></pre>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>test_set_x <span class="op">=</span> test_set_x_flatten <span class="op">/</span> <span class="fl">255.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a name="2"></a></p>
+</section>
 <section id="the-sigmoid" class="level1">
 <h1>2- THE SIGMOID</h1>
 <p>The <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> <span class="math inline">\(\sigma\)</span> is defined as</p>
@@ -350,7 +352,10 @@ For example, we can use this property to plot a graph of <span class="math inlin
 <p><img src="LogReg with NN Mindset_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p><a name="3"></a> # 3 - LOGISTIC REGRESSION AND GRADIENT DESCENT</p>
+<p><a name="3"></a></p>
+</section>
+<section id="logistic-regression-and-gradient-descent" class="level1">
+<h1>3 - LOGISTIC REGRESSION AND GRADIENT DESCENT</h1>
 <p>The following image illustrates how the algorithm of <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as a 0-layer Neural Network, i.e.&nbsp;as a single layer <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a>.</p>
 <p><img src="percep.png" style="width:650px;height:400px;"></p>
 <p><a name="3.1"></a></p>
@@ -385,7 +390,7 @@ J &amp;= \frac{1}{m} \sum_{i=1}^{m} \mathcal{L}\left(a^{(i)}, y^{(i)}\right)\\[0
 </section>
 <section id="vectorization" class="level2">
 <h2 class="anchored" data-anchor-id="vectorization">3.2 - Vectorization</h2>
-<p>Looping over all the <span class="math inline">\(m\)</span> training examples <span class="math inline">\(\left (x^{(i)},y^{(i)} \right)\)</span> in turn to calculate <span class="math inline">\(\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right) = \sigma\left( w^T x^{(i)} + b\right)\)</span> and <span class="math inline">\(\mathcal{L}\left(a^{(i)}, y^{(i)}\right)\)</span> is very computationally inefficient if <span class="math inline">\(m\)</span> is very large <span class="math inline">\(\left(\text{e.g.}\,\, m\sim10^6\right)\)</span> as is common in modern industry applications.</p>
+<p>Looping over all the <span class="math inline">\(m\)</span> training examples <span class="math inline">\(\left (x^{(i)},y^{(i)} \right)\)</span> in turn to calculate <span class="math inline">\(\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right) = \sigma\left( w^T x^{(i)} + b\right)\)</span> and <span class="math inline">\(\mathcal{L}\left(a^{(i)}, y^{(i)}\right)\)</span> is computationally inefficient if <span class="math inline">\(m\)</span> is large <span class="math inline">\(\left(\text{e.g.}\,\, m\sim10^6\right)\)</span> as is common in modern industry applications.</p>
 <p>By turning to a so called <em>Vectorized</em> implementation we can take advantage of NumPy’s powerful numerical linear algebra capabilities. Define vectors <span class="math inline">\(Z = \left( z^{(1)}, z^{(2)}, \dots, z^{(m)} \right) \in \mathbb{R}^m\)</span> and <span class="math inline">\(A = \left( a^{(1)}, a^{(2)}, \dots, a^{(m)} \right) \in \mathbb{R}^m\)</span>. Define the <span class="math inline">\(n\,\times\,m\)</span> matrix <span class="math inline">\(X\)</span> with <span class="math inline">\(i^{\text{th}}\)</span> column <span class="math inline">\(x^{(i)}\)</span>. That is,</p>
 <p><span class="math display">\[\begin{equation}
 X = \begin{bmatrix}
@@ -413,7 +418,7 @@ w^T X + \left(b,b,\dots,b\right) &amp;= \left( w^T x^{(1)}+b, \,w^T x^{(2)}+b, \
 w_j &amp;\rightarrow w_j - \alpha \frac{\partial J}{\partial w_j}\\[0.1cm]
 b &amp;\rightarrow b - \alpha \frac{\partial J}{\partial b}
 \end{align*}\]</span></p>
-<p>where <span class="math inline">\(\alpha &lt;&lt; 1\)</span> is a fixed hyperparameter called the <em>learning rate</em>. Another free hyperparameter introduced with gradient descent is the number of iterations to recursively update <span class="math inline">\(b\)</span> and <span class="math inline">\(w_j\)</span> by the above formulae.</p>
+<p>where <span class="math inline">\(\alpha &lt;&lt; 1\)</span> is a fixed hyperparameter called the <em>learning rate</em>. Another free hyperparameter introduced with gradient descent is the number of iterations to repeat this updating process.</p>
 <p><a name="4"></a></p>
 </section>
 </section>
