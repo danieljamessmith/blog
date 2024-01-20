@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/Spaceship Titanic/The Spaceship Titanic with LightGBM.html</loc>
-    <lastmod>2024-01-11T19:38:13.520Z</lastmod>
+    <lastmod>2024-01-20T00:05:15.186Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-01-11T19:38:09.749Z</lastmod>
+    <lastmod>2024-01-20T00:12:52.213Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
@@ -14,6 +14,10 @@
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/Energy Forecasting with XGBoost/post - predicting energy consumption with XGBoost.html</loc>
-    <lastmod>2024-01-11T19:38:11.631Z</lastmod>
+    <lastmod>2024-01-20T00:05:13.329Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/Log Reg with NN Mindset/LogReg with NN Mindset.html</loc>
+    <lastmod>2024-01-20T00:14:43.617Z</lastmod>
   </url>
 </urlset>
