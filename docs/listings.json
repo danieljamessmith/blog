@@ -2,9 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/Log Reg with NN Mindset/LogReg with NN Mindset.html",
-      "/posts/Energy Forecasting with XGBoost/post - predicting energy consumption with XGBoost.html",
-      "/posts/Spaceship Titanic/The Spaceship Titanic with LightGBM.html"
+      "/posts/3 - Log Reg with NN Mindset/index.html",
+      "/posts/2 - Energy Forecasting with XGBoost/index.html",
+      "/posts/1 - Spaceship Titanic with LightGBM/index.html"
     ]
   }
 ]

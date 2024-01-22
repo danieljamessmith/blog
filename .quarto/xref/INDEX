@@ -28,5 +28,20 @@
   },
   "posts/Log Reg with NN Mindset/LogReg with NN Mindset.ipynb": {
     "LogReg with NN Mindset.html": "3eea277a"
+  },
+  "posts/1 - Spaceship Titanic with LightGBM/index.ipynb": {
+    "index.html": "68c6d359"
+  },
+  "posts/2 - Energy Forecasting with XGBoost/index.ipynb": {
+    "index.html": "48169924"
+  },
+  "posts/3 - Log Reg with NN Mindset/index.ipynb": {
+    "index.html": "11cb4a7c"
+  },
+  "posts/D2 - Random Variables/index.ipynb": {
+    "index.html": "94637d45"
+  },
+  "posts/D1 - Charge-Off Prediction with a Neural Network/index.ipynb": {
+    "index.html": "f9404110"
   }
 }
