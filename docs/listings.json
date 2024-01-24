@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html",
       "/posts/3 - Log Reg with NN Mindset/index.html",
       "/posts/2 - Energy Forecasting with XGBoost/index.html",
       "/posts/1 - Spaceship Titanic with LightGBM/index.html"
