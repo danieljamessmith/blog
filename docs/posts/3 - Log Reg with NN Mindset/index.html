@@ -8,7 +8,7 @@
 
 <meta name="author" content="Daniel Smith">
 <meta name="dcterms.date" content="2024-01-16">
-<meta name="description" content="Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Validation accuracy is increased from 70% to 82% by including an L2-regularization term in the loss function and tuning the regularization hyperparameter using a gridsearch.">
+<meta name="description" content="Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Overfitting to the training data is counteracted by including a regularization term in the cost function. The regularization parameter is tuned to improve accuracy on the validation data.">
 
 <title>djs - Portfolio - Logistic Regression with a Neural Network Mindset</title>
 <style>
@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Validation accuracy is increased from 70% to 82% by including an L2-regularization term in the loss function and tuning the regularization hyperparameter using a gridsearch.
+    Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Overfitting to the training data is counteracted by including a regularization term in the cost function. The regularization parameter is tuned to improve accuracy on the validation data.
   </div>
 </div>
 
@@ -260,6 +260,9 @@ Table of Contents<span class="tocSkip"></span>
 </li>
 </ul>
 </div>
+<p>The data and basic architecture of this post is taken from an exercise in the first course of Andrew Ng’s Deep Learning Specialization:</p>
+<p>https://www.coursera.org/specializations/deep-learning</p>
+<p>I have however expanded upon the exercise in several aspects, most notably by regularizing the model.</p>
 <section id="data" class="level1">
 <h1>DATA</h1>
 <p>The data comprises of training and test sets of 64x64 images, some of cats and some of non-cats. Each image is encoded as a NumPy array of shape (64,64,3), where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
@@ -291,10 +294,11 @@ Table of Contents<span class="tocSkip"></span>
 </div>
 </div>
 <p>And our test set comprises of another 50 images</p>
-<p><strong>!! IMPORTANT REMARK !!</strong></p>
+<section id="important-remark" class="level3">
+<h3 class="anchored" data-anchor-id="important-remark">IMPORTANT REMARK</h3>
 <p>The arrays <code>test_set_x_orig</code> and <code>test_set_y</code> and their flattened/normalized/etc counterparts are referred to as the <strong>test</strong> set both in code and in text.</p>
 <p>In practice this data forms more of a <strong>validation/development</strong> set, as I use classification accuracy on this set to tune the regularization hyperparameter and evaluate the model based upon its performance on unseen images from my camera roll which form the true <em>test</em> set.</p>
-<p>Strictly speaking this is an abuse of language (albeit a common one) and not great practice as the train and validation sets should be of comparable size and both drawn from the same probability distribution.</p>
+<p>Strictly speaking this is an abuse of language (albeit a common one) and poor practice. Both the test and validation sets should be of comparable size. Both sets should also be drawn from the same probability distribution.</p>
 <p>I won’t worry about such details here, as the purpose of this post is to explain the mathematics of logistic regression and to demonstrate its implementation from scratch in NumPy.</p>
 <div class="cell" data-tags="[]" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a 'cat' image</span></span>
@@ -378,16 +382,15 @@ test_set_y shape: (1, 50)</code></pre>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>test_set_x <span class="op">=</span> test_set_x_flatten <span class="op">/</span> <span class="fl">255.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+</section>
 <section id="the-sigmoid" class="level1">
 <h1>THE SIGMOID</h1>
 <p>The <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> <span class="math inline">\(\sigma\)</span> is defined as</p>
 <p><span class="math display">\[\sigma: \mathbb{R} \to \left(0,1\right)\]</span></p>
 <p><span class="math display">\[\begin{align*}
-\sigma(x) &amp;:= \frac{1}{1 + e^{-x}}\\[0.1cm]
-          &amp;= \frac{e^{x}}{1+e^{x}}
+\sigma(x) &amp;= \frac{1}{1 + e^{-x}}\\[0.1cm]
 \end{align*}\]</span></p>
-<p><span class="math inline">\(\sigma\)</span> is non-linear, smooth and strictly increasing. It is the activation function of choice for the output layer of Neural Networks applied to binary classification problems.<br>
-In particular, logistic regression uses the sigmoid to extract a prediction of the label for a given feature vector (after composing with a threshold).</p>
+<p><span class="math inline">\(\sigma\)</span> is non-linear, smooth and strictly increasing. It is the activation function of choice for the output layer of neural networks built for binary classification problems. In particular, logistic regression uses the sigmoid to extract a prediction of the label for a given feature vector.</p>
 <div class="cell" data-tags="[]" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -401,8 +404,7 @@ In particular, logistic regression uses the sigmoid to extract a prediction of t
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>np.exp(<span class="op">-</span>z))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This implementation of the sigmoid, using <code>numpy.exp</code> instead of <code>math.exp</code>, allows it to be applied to a NumPy array element-wise. This will turn out to be important when implementing logistic regression.<br>
-For example, we can use this property to plot a graph of <span class="math inline">\(\sigma\)</span> on <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<p>This implementation of the sigmoid, using <code>numpy.exp</code> instead of <code>math.exp</code>, allows it to be applied to a NumPy array element-wise. This allows a more computationally efficient implementation of logistic regression. Using this property to plot a graph of <span class="math inline">\(\sigma\)</span> on <span class="math inline">\(\mathbb{R}\)</span>:</p>
 <div class="cell" data-tags="[]" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x_values <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">100</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>y_values <span class="op">=</span> sigmoid(x_values) <span class="co"># Applying the sigmoid to each element of the x_values array</span></span>
@@ -422,7 +424,7 @@ For example, we can use this property to plot a graph of <span class="math inlin
 </section>
 <section id="logistic-regression-and-gradient-descent" class="level1">
 <h1>LOGISTIC REGRESSION AND GRADIENT DESCENT</h1>
-<p>The following image illustrates how the algorithm of <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as as a single <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a> with sigmoid activation.</p>
+<p>The following image illustrates how the algorithm of <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as as a single <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a> (neuron) with sigmoid activation.</p>
 <p><img src="percep.png" style="width:650px;height:400px;"></p>
 <section id="mathematical-expression-of-the-algorithm" class="level2">
 <h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">Mathematical expression of the algorithm</h2>
