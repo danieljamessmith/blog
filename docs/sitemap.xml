@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html</loc>
-    <lastmod>2024-02-05T21:00:13.827Z</lastmod>
+    <lastmod>2024-03-16T17:28:16.076Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/2 - Energy Forecasting with XGBoost/index.html</loc>
-    <lastmod>2024-02-05T21:00:11.507Z</lastmod>
+    <lastmod>2024-03-04T08:08:13.890Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-02-05T21:00:07.349Z</lastmod>
+    <lastmod>2024-01-25T14:32:21.053Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
-    <lastmod>2024-02-05T21:00:06.340Z</lastmod>
+    <lastmod>2024-03-16T17:39:33.515Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/1 - Spaceship Titanic with LightGBM/index.html</loc>
-    <lastmod>2024-02-05T21:00:09.608Z</lastmod>
+    <lastmod>2024-03-04T08:08:13.873Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/3 - Log Reg with NN Mindset/index.html</loc>
-    <lastmod>2024-02-05T21:00:12.543Z</lastmod>
+    <lastmod>2024-03-04T08:08:13.930Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/5 - Geocoding Postcodes with Python/index.html</loc>
+    <lastmod>2024-03-16T17:42:32.264Z</lastmod>
   </url>
 </urlset>
