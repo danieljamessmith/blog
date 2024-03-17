@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="3b62bff7-d0a5-4b39-ba23-4131e8959697" class="cell" data-tags="[]" data-execution_count="1">
+<div id="3b62bff7-d0a5-4b39-ba23-4131e8959697" class="cell" data-tags="[]" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -198,16 +198,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pgeocode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As part of my voluntary work for <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a>, a Nottingham charity providing support and shelter for the homeless and vulnerably housed, I undertook a project studying the geographic distribution of individual donors to the charity across the UK.</p>
-<p>In this post I illustrate an issue I encountered while attempting to encode the postcodes of individual donors as latitude and longitude pairs, and the solution I found.</p>
+<p>In this post I illustrate an issue I encountered while attempting to encode the postcodes of individual donors as latitude and longitude pairs, and the solution.</p>
 <p>The goal of encoding the postcodes was to produce visualisations showing how donors are distributed across Nottingham. This allowed us to gain insight into which areas/demographics should be targeted by marketing campaigns, and which social groups are underrepresented in Emmanuel House’s donor database.</p>
-<div id="2098b6df-3a04-4cec-b69c-e677e2a8bdd1" class="cell" data-tags="[]" data-execution_count="2">
+<div id="2098b6df-3a04-4cec-b69c-e677e2a8bdd1" class="cell" data-tags="[]" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'nottm_postcodes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>nottm_postcodes.csv</code> is a file I constructed consisting of 100 random postcodes within Nottingham city.</p>
 <p><strong>Importantly, these are not postcodes of real donors to the charity. Sharing such information online would violate GDPR. These postcodes are randomly selected from publicly available datasets</strong></p>
-<div id="e76a89be-0d44-467f-a633-f2a4dd0acae5" class="cell" data-tags="[]" data-execution_count="3">
+<div id="e76a89be-0d44-467f-a633-f2a4dd0acae5" class="cell" data-tags="[]" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <div>
 
 
@@ -265,7 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="9830fc31-2035-497f-a6dd-222e6d1ce1cb" class="cell" data-tags="[]" data-execution_count="4">
+<div id="9830fc31-2035-497f-a6dd-222e6d1ce1cb" class="cell" data-tags="[]" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -278,29 +278,29 @@ dtypes: object(1)
 memory usage: 928.0+ bytes</code></pre>
 </div>
 </div>
-<div id="c4d1281e-62f2-4532-beaf-bb5ad5117eab" class="cell" data-tags="[]" data-execution_count="5">
+<div id="c4d1281e-62f2-4532-beaf-bb5ad5117eab" class="cell" data-tags="[]" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.nunique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="30">
 <pre><code>Postcode    100
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="3abd5f99-2a78-4887-a58d-a426108060ab" class="cell" data-tags="[]" data-execution_count="6">
+<div id="3abd5f99-2a78-4887-a58d-a426108060ab" class="cell" data-tags="[]" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>postcodes <span class="op">=</span> df[<span class="st">'Postcode'</span>].to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="geocoding-with-pgeocode" class="level1">
 <h1>Geocoding with pgeocode</h1>
 <p>I first attempted to geocode the postcodes using <a href="https://pypi.org/project/pgeocode/">pgeocode</a>, a lightweight Python library for geocoding postcodes and distance calculations.</p>
-<div id="0eb6f3b4-f313-4ef9-87a7-6ce0be946101" class="cell" data-tags="[]" data-execution_count="7">
+<div id="0eb6f3b4-f313-4ef9-87a7-6ce0be946101" class="cell" data-tags="[]" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nomi <span class="op">=</span> pgeocode.Nominatim(<span class="st">'gb'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dac2d324-9e49-4469-9fac-f1ff5e9be66e" class="cell" data-tags="[]" data-execution_count="8">
+<div id="dac2d324-9e49-4469-9fac-f1ff5e9be66e" class="cell" data-tags="[]" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Querying postcode:'</span>, df.iloc[<span class="dv">0</span>][<span class="st">'Postcode'</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nomi.query_postal_code(df.iloc[<span class="dv">0</span>][<span class="st">'Postcode'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Querying postcode: NG9 3WF</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>postal_code                                                     NG9
 country_code                                                     GB
 place_name        Bramcote, Beeston, Toton, Stapleford, Attenbor...
@@ -316,9 +316,9 @@ accuracy                                                        4.0
 Name: 0, dtype: object</code></pre>
 </div>
 </div>
-<div id="df093f84-668b-4695-a907-1df20e2345f9" class="cell" data-tags="[]" data-execution_count="9">
+<div id="df093f84-668b-4695-a907-1df20e2345f9" class="cell" data-tags="[]" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nomi.query_postal_code(postcodes)[[<span class="st">'latitude'</span>,<span class="st">'longitude'</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div>
 
 
@@ -362,12 +362,12 @@ Name: 0, dtype: object</code></pre>
 </div>
 </div>
 </div>
-<div id="30940f57-8b12-4166-9383-fb364df48cfc" class="cell" data-tags="[]" data-execution_count="10">
+<div id="30940f57-8b12-4166-9383-fb364df48cfc" class="cell" data-tags="[]" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Latitude'</span>,<span class="st">'Longitude'</span>]] <span class="op">=</span> nomi.query_postal_code(postcodes)[[<span class="st">'latitude'</span>,<span class="st">'longitude'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a5cf76a3-7102-4791-8162-56929e8a906b" class="cell" data-tags="[]" data-execution_count="11">
+<div id="a5cf76a3-7102-4791-8162-56929e8a906b" class="cell" data-tags="[]" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="36">
 <div>
 
 
@@ -418,9 +418,9 @@ Name: 0, dtype: object</code></pre>
 </div>
 </div>
 <p>At a first glance it seems that pgeocode has provided an elegent solution to the problem in only a few lines of fast-running code. However upon closer inspection:</p>
-<div id="16689ec1-d982-42e6-8422-bc0e1d97f4fb" class="cell" data-tags="[]" data-execution_count="12">
+<div id="16689ec1-d982-42e6-8422-bc0e1d97f4fb" class="cell" data-tags="[]" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Latitude'</span>,<span class="st">'Longitude'</span>]].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>Latitude   Longitude
 52.953600  -1.150500    42
 52.929150  -1.114850    13
@@ -435,9 +435,9 @@ Name: 0, dtype: object</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="24dc898a-2a18-45fb-bb25-781c5a48e927" class="cell" data-tags="[]" data-execution_count="13">
+<div id="24dc898a-2a18-45fb-bb25-781c5a48e927" class="cell" data-tags="[]" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Latitude'</span>,<span class="st">'Longitude'</span>]].nunique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>Latitude     10
 Longitude    10
 dtype: int64</code></pre>
@@ -446,7 +446,7 @@ dtype: int64</code></pre>
 <p>Despite <code>df</code> containing 100 unique postcodes, pgeocode has only encoded these into 10 different latitude, longitude pairs.</p>
 <p>Whats worse is that 42(!!) distinct postcodes were each encoded into (52.953600, -1.150500).</p>
 <p>We can judge this approach by contructing a visualisation in the form as an interactive .html map using <a href="https://pypi.org/project/folium/">Folium</a>:</p>
-<div id="b4c551b3-3187-4d06-addd-0e78ffe44171" class="cell" data-tags="[]" data-execution_count="14">
+<div id="b4c551b3-3187-4d06-addd-0e78ffe44171" class="cell" data-tags="[]" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pgeocode_map <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">13</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> df.iterrows():</span>
@@ -454,10 +454,688 @@ dtype: int64</code></pre>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        location<span class="op">=</span>[row[<span class="st">'Latitude'</span>], row[<span class="st">'Longitude'</span>]],</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ).add_to(pgeocode_map)</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>pgeocode_map.save(<span class="st">"pgeocode_map.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>pgeocode_map.save(<span class="st">'pgeocode_map.html'</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>pgeocode_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_c3e02d6f9be8156f1a84e69ae77ca7ab {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_c3e02d6f9be8156f1a84e69ae77ca7ab&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c3e02d6f9be8156f1a84e69ae77ca7ab = L.map(
+                &quot;map_c3e02d6f9be8156f1a84e69ae77ca7ab&quot;,
+                {
+                    center: [52.9548, -1.1581],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_cf02a19cb03084c0a4df0fc05a80f513 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 19, &quot;maxZoom&quot;: 19, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            );
+        
+    
+            tile_layer_cf02a19cb03084c0a4df0fc05a80f513.addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_eab98c751bfce1d3921c8e8079d25011 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_99130db4218c7029dbd37d766950b814 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_9cf11e7c06e62795f50486793979dac3 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ad268745e6bbfc83a44996474e5e03ba = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_8b4e7a73247fc73a4092001c1c2611d0 = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_3c3ad6fbe7fa7445f121d2eac4843680 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_f4cd5f7688f28cf388748c27aaa80466 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_c09a6c71baff48b0a1b6bd960969ba1b = L.marker(
+                [52.970960000000005, -1.081],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_4ff4126defee76b7c35b933f6a6a0aad = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_cdd7a86c564cbb3bf96f230cd26bd137 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1602fd3ad34bfe85a7a0ff8f45a1cb9c = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_09b00adf89b26b949fdbef05d82fc181 = L.marker(
+                [52.952565517241375, -0.8941689655172415],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_8e0321de188ba1ba2dea5b1db637e001 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b29604b4f43be97e7ebb8110aee09dc2 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_72b73f712b0e0df1e06c6596d61d9c47 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_532fa5dd8fc9cd354b1c13e76e2b5e83 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_50a1bbeb4b54e701f476b7b0e6c74164 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_f2a84d890a8e18d0ba16ed6416a6d5a7 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_072c9e387f9df4f9f40276ba98b971e4 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_a8b1787a8fcb645f659f5ea0f6e0832d = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_20767255ff0625086292a404ea348508 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_7172387cd7dd5c2880fbdfa35e2259e4 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_493951e62472e154d2c9afe4e99786f9 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_d4098ff2e796dcfedadc9590c0b62ce8 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_3f8366badb17f8c09df40636e1728059 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_e2b7f96ff5cfc48749fdd5cf0d16a98b = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_d499a7ebc5851ab3fe70327cdbbd7f12 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_4109c1606a8e64d164553c0a59f09ea2 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b40646330d4fbc232f980205c77e1ea7 = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_c93e31f64887d48ebf16e8793cb927ab = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ce26398b58a4f0ef1af37bd899ea04c8 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_5caa764ae79c89814161c662c7882a1b = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_87d6ea5c5e6b3e14243fe4a060dd3458 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_8e30bcd37686997402d12aaab32cf9f2 = L.marker(
+                [52.970960000000005, -1.081],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_991d08ab50088ed7d0c87ebb45953022 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_c698b915e2db8bb4cd8611b4c3c77a01 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1899dbc4ed087589697d33450d4042dd = L.marker(
+                [52.9989, -1.1971],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b575c2c9d834b4004ff4e1d731138045 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_4d582cec13cc704d6c9d49236273772e = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_123d2a1c6661106290bf15ce7c3c994d = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_bab8f15b9d2426c91696ee9294004162 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_dbb7899bcef0ae9174e4e903e7882a1d = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_e89b8e7490a7b481932a2c682145650e = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_2a5a8a70bac89f0e6c484bcce488dd5e = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_61f9bd73b23f98c79843ff35506a012a = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1cd8d9ef952f5ebeab3a399861a0ef89 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_167835ef56e15ac0ff39762e2211f287 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_0c3f1a6284e4615acae8d7bf302b630d = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_219a1f8bbc76f16cbecf63ffc7e094ab = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1265b9335fd8213d88de186a65ae2a1c = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_d9a700e6a0619026ba81bb1e277f973c = L.marker(
+                [52.90357894736842, -1.0442736842105262],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_5a22745a5d8b5be03d3444abbb76fdde = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_fd4eed36a488f6227a353da0debff54a = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_46bc7d56a868fb91219dd16815f727f2 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b521e3dccdfb7b3e8f238bcc8038a132 = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_0f3625e41687ed31b3163ef3e746b41e = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ef44b8c600fb4fd9fd0f4a1a18fe5e62 = L.marker(
+                [52.9989, -1.1971],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b08de8d84cde89d104ce53dbc0da7ca8 = L.marker(
+                [52.970960000000005, -1.081],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_6c2ecf6bdcf78ac912d6fa9e3fa9a2b4 = L.marker(
+                [52.9989, -1.1971],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1b505178c5e8fcb56e5cf1e3fdb8fbb9 = L.marker(
+                [52.87862, -1.19524],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_016dea7e2f7e76f051a1d853c4bc9b53 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_bb79f7f37098b386ff14102824b46621 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_2aa3dbb467ea97761b76c1ad8be22876 = L.marker(
+                [52.9989, -1.1971],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_93cdf05098ca712c660182e701c94e96 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_6622f9ff1b69013322e8f5d1913d4eff = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_f6c5e5493469d01db1dcf0da67a00678 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_7a95b235461d79bfc003e68df252fcd0 = L.marker(
+                [52.87862, -1.19524],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_30bb7a1c21c937aeb86d139eebdd2335 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_2ef069c2ddcb92414e687737c249874c = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_4cb2c75e41f430f37dfc5fbecab5e95a = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_6948955a1e5ee7770d2720178a164717 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b9705f8bbe4db45b9b62b80a267eb53f = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_9abcb5c3ebbbb6bc726db3bb3e7087cf = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_bb6d2cded6b5efea19e8e8d13cf6f69b = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_909b3a8acc010a4a138de5b0c98fe32b = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_14a9a074ffd40fa71c5668242a3d7ebf = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_34239d4f83d4e915a7dc754858bc294e = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_09f7b3082992677ac83b4f96cba30761 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_82abd1509cc8fa65dcf711615a7a44c9 = L.marker(
+                [53.0006, -1.1315],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_0e2c84ccbf64b8eab7bcec3ef2f836b7 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_7d690b598a215e31d2c10e4e150ac76c = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_f189565cec9ab3983212776b7fed6d39 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1b3f69c938d529f9f582ee99cc4ecafa = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_946442b933a2f4acb138a02231c96083 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_db8aa0391292c950d507685570646015 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ce12eb7ee8c6bb12e729cd5c2c50828f = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_8e3e8e6112162a386fc7d1a9a9dd83eb = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_9b5f978c5d0a7d544d13e6f80ecbc05d = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1253151a2d4c36ab605e958c80567a21 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_56da96577aa928f3266dbb6037f0fa70 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ba9ac5be2c0a72d1ae600762efd658d0 = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_551fd9ccf498f3037fc1e4a3af287753 = L.marker(
+                [52.9989, -1.1971],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_9eacb5698bfcf6a35cbeaedc5d6d5134 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_660a37647fee60377447c98aa24bc2ab = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_9a34ef9ee123916cd2ec49a2e6632b70 = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_f5636d0c93e9f9627f77eba2ae376b51 = L.marker(
+                [52.92915, -1.11485],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_1139124b35ea89e4c84955f4a2c4cf2a = L.marker(
+                [52.9648, -1.2132],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_ee3ddbcf00b48a97c3c36d3cd2d957ef = L.marker(
+                [52.919140000000006, -1.24548],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_04dc4ddcdb57a800f224760808662594 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            var marker_b24a12cd0ccacb1378e42aac44786584 = L.marker(
+                [52.9536, -1.1505],
+                {}
+            ).addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+    
+            tile_layer_cf02a19cb03084c0a4df0fc05a80f513.addTo(map_c3e02d6f9be8156f1a84e69ae77ca7ab);
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
 </div>
 <p>Taking a screenshot of this map and displaying using matplotlib:</p>
-<div id="2e7342d6-676e-4789-ba95-fb92f847bef1" class="cell" data-tags="[]" data-execution_count="15">
+<div id="2e7342d6-676e-4789-ba95-fb92f847bef1" class="cell" data-tags="[]" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> mpimg.imread(<span class="st">'pgeocode_map.png'</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>imgplot <span class="op">=</span> plt.imshow(img)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -470,7 +1148,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>It indeed seems that pgeocode has encoded the postcodes with a less than desirable accuracy, resulting in large numbers of distinct postcodes being sent to the same point on the map.</p>
-<div id="03ddbf91-0c80-4c5f-835a-14e803ab51a3" class="cell" data-tags="[]" data-execution_count="16">
+<div id="03ddbf91-0c80-4c5f-835a-14e803ab51a3" class="cell" data-tags="[]" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -478,12 +1156,12 @@ dtype: int64</code></pre>
 <h1>Geocoding with ONS data</h1>
 <p>Upon suggestion from a friend I proceeded to directly encode the postcodes by downloading data from the Office for National Statistics (ONS) instead of relying on a Python library.</p>
 <p>This had the advantage of resulting in a far more accurate geocoding, but had the disadvantage of being more computationally expensive.</p>
-<div id="b31e2735-6343-44ba-9fda-8608b40cc23d" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> pd.read_csv(<span class="vs">r"C:\Users\Daniel\Downloads\open_postcode_geo.csv\open_postcode_geo.csv"</span>, header<span class="op">=</span><span class="va">None</span>)</span>
+<div id="b31e2735-6343-44ba-9fda-8608b40cc23d" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> pd.read_csv(<span class="vs">r'C:\Users\Daniel\Downloads\open_postcode_geo.csv\open_postcode_geo.csv'</span>, header<span class="op">=</span><span class="va">None</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> post[[<span class="dv">0</span>, <span class="dv">7</span>, <span class="dv">8</span>]]</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> post.rename({<span class="dv">0</span>: <span class="st">'Postcode'</span>, <span class="dv">7</span>: <span class="st">'Latitude'</span>, <span class="dv">8</span>: <span class="st">'Longitude'</span>}, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>post.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="42">
 <div>
 
 
@@ -498,34 +1176,34 @@ dtype: int64</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">910559</td>
-<td>GU22 9PQ</td>
-<td>51.304894</td>
-<td>-0.559580</td>
+<td data-quarto-table-cell-role="th">717388</td>
+<td>EC4A 2LE</td>
+<td>51.513622</td>
+<td>-0.112106</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1770156</td>
-<td>PL14 5HX</td>
-<td>50.486283</td>
-<td>-4.472293</td>
+<td data-quarto-table-cell-role="th">1402379</td>
+<td>MK40 2LE</td>
+<td>52.144992</td>
+<td>-0.462139</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">1314452</td>
-<td>M14 6AY</td>
-<td>53.437343</td>
-<td>-2.226147</td>
+<td data-quarto-table-cell-role="th">1094844</td>
+<td>KT1 3QG</td>
+<td>51.407402</td>
+<td>-0.280400</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2588679</td>
-<td>WV16 5BP</td>
-<td>52.533551</td>
-<td>-2.427564</td>
+<td data-quarto-table-cell-role="th">1612623</td>
+<td>NR29 4RQ</td>
+<td>52.702233</td>
+<td>1.623660</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2260415</td>
-<td>SW3 5DW</td>
-<td>51.483789</td>
-<td>-0.172505</td>
+<td data-quarto-table-cell-role="th">2294608</td>
+<td>TA20 4DN</td>
+<td>50.868756</td>
+<td>-2.933350</td>
 </tr>
 </tbody>
 </table>
@@ -536,17 +1214,17 @@ dtype: int64</code></pre>
 <p><code>open_postcode_geo.csv</code> can be downloaded from <a href="https://www.data.gov.uk/dataset/091feb1c-aea6-45c9-82bf-768a15c65307/open-postcode-geo">https://www.data.gov.uk/dataset/091feb1c-aea6-45c9-82bf-768a15c65307/open-postcode-geo</a> and is contructed from data made publicly available by the ONS.</p>
 <p><code>open_postcode_geo.csv</code> consists of over 2.6 million UK postcodes, along with their latitudes and longitudes. Other information about the postcodes is also included which is irrelevant for the purposes of this post.</p>
 <p>Because of the length of the dataset the code cells in this section take some time to run.</p>
-<div id="fb6531e3-6dc1-4068-a34d-f56bb736db42" class="cell" data-tags="[]" data-execution_count="18">
+<div id="fb6531e3-6dc1-4068-a34d-f56bb736db42" class="cell" data-tags="[]" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="43">
 <pre><code>2631536</code></pre>
 </div>
 </div>
 <p>We can now geocode the postcodes in <code>df</code> by joining the corresponding Latitude and Longitude from <code>post</code>:</p>
-<div id="cdc23f69-af10-498c-a00c-226758ac4b90" class="cell" data-tags="[]" data-execution_count="19">
+<div id="cdc23f69-af10-498c-a00c-226758ac4b90" class="cell" data-tags="[]" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(post, on<span class="op">=</span><span class="st">'Postcode'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="44">
 <div>
 
 
@@ -596,9 +1274,9 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="5625f8e2-b713-4a6a-b445-8dd8d45aec83" class="cell" data-tags="[]" data-execution_count="20">
+<div id="5625f8e2-b713-4a6a-b445-8dd8d45aec83" class="cell" data-tags="[]" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>]].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="45">
 <pre><code>Latitude   Longitude
 52.945107  -1.135586    8
 52.955008  -1.141045    4
@@ -614,17 +1292,17 @@ dtype: int64</code></pre>
 Name: count, Length: 85, dtype: int64</code></pre>
 </div>
 </div>
-<div id="0b875237-6ddb-4ad0-bc0c-c8c2206c8865" class="cell" data-tags="[]" data-execution_count="21">
+<div id="0b875237-6ddb-4ad0-bc0c-c8c2206c8865" class="cell" data-tags="[]" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Latitude'</span>,<span class="st">'Longitude'</span>]].nunique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>Latitude     85
 Longitude    85
 dtype: int64</code></pre>
 </div>
 </div>
-<p>This program has resulted in 85 unique latitude, longitude pairs. A significant improvement over the results from pgeocode.</p>
+<p>This solution has resulted in 85 unique latitude, longitude pairs. A significant improvement over the results from pgeocode.</p>
 <p>Producing another visualisation using Folium:</p>
-<div id="d23d3e88-5e28-4a69-a3f4-febc7bd3d9f3" class="cell" data-tags="[]" data-execution_count="22">
+<div id="d23d3e88-5e28-4a69-a3f4-febc7bd3d9f3" class="cell" data-tags="[]" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ons_map <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">13</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> df.iterrows():</span>
@@ -632,10 +1310,688 @@ dtype: int64</code></pre>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        location<span class="op">=</span>[row[<span class="st">'Latitude'</span>], row[<span class="st">'Longitude'</span>]],</span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    ).add_to(ons_map)</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>ons_map.save(<span class="st">"ons_map.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>ons_map.save(<span class="st">'ons_map.html'</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>ons_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_b87b1247e9382e85f7c1a2b623656547 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_b87b1247e9382e85f7c1a2b623656547&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_b87b1247e9382e85f7c1a2b623656547 = L.map(
+                &quot;map_b87b1247e9382e85f7c1a2b623656547&quot;,
+                {
+                    center: [52.9548, -1.1581],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_6836b0ffff2b647b4e5bc316d6e22b3d = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 19, &quot;maxZoom&quot;: 19, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            );
+        
+    
+            tile_layer_6836b0ffff2b647b4e5bc316d6e22b3d.addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_5a2213d3ea40615a2f65fd60fedb49c2 = L.marker(
+                [52.930121, -1.198353],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_8fde8f1e85ff505d830ebc503598fb74 = L.marker(
+                [52.921587, -1.247504],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_af3b76986b68cb332d3d36d3912fd97b = L.marker(
+                [52.938985, -1.23951],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_db51ae0bd0cbdcaeeda1bcb1cfc71150 = L.marker(
+                [52.955008, -1.141045],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_31a6c209d9b82c913f24a788a5ae39dc = L.marker(
+                [52.99667, -1.106307],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_84bf106c19975266a3499608fa0e727f = L.marker(
+                [52.962736, -1.178797],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_c2073d30e94e78d6b720e7ae701e3700 = L.marker(
+                [52.942328, -1.182442],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_41eb413376a8e755a79079c03eba4187 = L.marker(
+                [52.970752, -1.112158],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_0b6318ce746612402df3b3b17f1dce98 = L.marker(
+                [52.962756, -1.197511],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_df81a7d5a9d09b6294843bf3bb4a2bd7 = L.marker(
+                [52.92007, -1.228136],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_bcf59ecf48c64960f76b95d8eeaef9d3 = L.marker(
+                [52.995671, -1.147733],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_66e5ac6b3c4de8e40cb968e72c883d78 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_e9bf762000272c8dbd34ebbc8973ea60 = L.marker(
+                [52.957021, -1.148493],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_50767caa2129dd8f77282590b9b5eb84 = L.marker(
+                [52.952972, -1.228161],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_580eb958507da84fa212ed45582d5a14 = L.marker(
+                [52.961606, -1.104514],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_57012e5de5fa27a01f9c6d5c29e31bc2 = L.marker(
+                [52.953058, -1.144924],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_42757252a87bbefe814f6bdc5aecb79d = L.marker(
+                [52.958944, -1.147101],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_a81104c28baddafc6226e6456068575d = L.marker(
+                [52.948837, -1.180888],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_b1941905300f673442c0bdd108e80d20 = L.marker(
+                [52.971537, -1.221291],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_6dba60af9106addb6644429a33c570e9 = L.marker(
+                [52.996258, -1.177354],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f05c6b6237af0897315a1b6531a4c0ef = L.marker(
+                [52.934824, -1.245356],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_a19fd2882d7c163a23c36ef2bce03d56 = L.marker(
+                [52.931034, -1.211308],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_630363adc4952227076485679575e642 = L.marker(
+                [52.9347, -1.120052],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f62eb1f861fb3cfc3028855284831557 = L.marker(
+                [52.958673, -1.14072],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_922d6a1edfa1e7bf4ad0dce634ce5978 = L.marker(
+                [52.946599, -1.143963],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_bc45ba20e693093f17b5f1f077bb90a4 = L.marker(
+                [52.916102, -1.14992],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_63b9f1223d1e86378bf6cad7bb445b98 = L.marker(
+                [52.955053, -1.14103],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_e2cf88b06c0e275258fd2e59009c7a6a = L.marker(
+                [52.968773, -1.14378],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_9a853f4a646a96f2b896925a1a0eb50b = L.marker(
+                [52.978695, -1.152327],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_9559abf92283b6369dcfb75dfe1215bd = L.marker(
+                [52.995671, -1.147733],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_64bbc359cee0a705ef190cc8bccdd690 = L.marker(
+                [52.925336, -1.115675],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_c577a0d47fb29e86de74fb2bf229f7cc = L.marker(
+                [52.984927, -1.153888],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_7dba71eff90ca714547bb5e656c134c2 = L.marker(
+                [52.921852, -1.199933],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_a75b059bd228a4cbdef136a94fb44df2 = L.marker(
+                [52.971616, -1.115952],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_c6e73708926f2c47a47676d74257b53b = L.marker(
+                [52.955008, -1.141045],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_c12b6c0bcb9cfc7984ba527cd93413ca = L.marker(
+                [52.953445, -1.144602],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_74aae766f9602abe1918656b8f261e64 = L.marker(
+                [52.980532, -1.179321],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_efb41e98adb00f409eb565ba4922164f = L.marker(
+                [52.970564, -1.219671],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_d60b32b13a7cf05a47a70d333fa98360 = L.marker(
+                [52.953623, -1.158158],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_20bd386bb34b0b7f12b173ac0ddff68e = L.marker(
+                [52.959883, -1.222125],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_7129c73baa6a565242468138aed97884 = L.marker(
+                [52.938823, -1.179604],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_8ad5e60ca53e71edb306d67001522c53 = L.marker(
+                [52.998288, -1.135252],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_1ff13550444b729e8ef5fa8676dc68bc = L.marker(
+                [52.956046, -1.141665],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_07d1af2974f594259b598ba768c4aaf8 = L.marker(
+                [52.968191, -1.114652],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_5a17a704e3f48db8bb211aed8bbfa847 = L.marker(
+                [52.957127, -1.163377],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_8ae04e3c2a56c5dd281d569ddf64a2b7 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_68b4b5c10eeae9f29a497659574ca71b = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_62997bb0d7023fd920dd42ace1c70a58 = L.marker(
+                [52.978179, -1.133125],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_c49dd6564378d15fa26922eb94d92546 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_5e62bcce41fc7a13b38a9d024beb9145 = L.marker(
+                [52.9207, -1.20101],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_97e614f207c5289657058e7cdb2bd8a7 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_2b619343bf25114d02d0ab7707200216 = L.marker(
+                [52.958671, -1.1035],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_6df19750db733353eed14ace3d425690 = L.marker(
+                [52.925683, -1.106773],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_a7e9bcaed55116ad94c032c0e406f32c = L.marker(
+                [52.951125, -1.172781],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_ab9f638259c1934a26312f87692f3a1a = L.marker(
+                [52.989208, -1.144136],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_76290dda629dc7ab2ab0ffbfc9e4ce10 = L.marker(
+                [52.959299, -1.169335],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_06749579a45fe115e92435ecd3480456 = L.marker(
+                [52.992397, -1.188437],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_9f60d77954755947bff1152c0b3d4c20 = L.marker(
+                [52.969504, -1.102788],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_1fc82f5cfd1eff5e9915716d12115815 = L.marker(
+                [52.998223, -1.202069],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f65a60b577463a54d7e3478fc950fc61 = L.marker(
+                [52.92536, -1.157251],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_b1026255d2f56fe9ae4f235a309b8bcf = L.marker(
+                [52.977857, -1.238111],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_7c75928ea6a1ecb6630e94bef111214f = L.marker(
+                [52.955571, -1.143074],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_1f24d5dc65bc48e5faf8670c8e7493cb = L.marker(
+                [52.997481, -1.188002],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_1f8cda8215f9ac9ec52abd5a5a167092 = L.marker(
+                [52.931344, -1.211838],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_145cc445a94f4b0ec9c97469915bb400 = L.marker(
+                [52.963166, -1.206347],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_06b8167a01634c1a1eadf23df73aa45e = L.marker(
+                [52.953415, -1.172409],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_ca6e2508009d776cfa746db75670fe88 = L.marker(
+                [52.922035, -1.164809],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_4c4003a3b6b144d793fdfd56adf157bf = L.marker(
+                [52.99495, -1.099996],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_235b25824722bd20b04702fa1d543f1f = L.marker(
+                [52.955735, -1.150526],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_7e59671c91b17dbea45fa48e658a36d0 = L.marker(
+                [52.978026, -1.195739],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f9cd7321c1a74a9a92c20cb59f9edb6f = L.marker(
+                [52.940895, -1.15625],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_d55477afd18946021e57222fbf94acd3 = L.marker(
+                [52.955008, -1.141045],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_75bc30b53ac2db4215f5a7a23c2c59ca = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_d5f74110f5604c1fc1f20a7faf5cb288 = L.marker(
+                [52.991382, -1.148935],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_2c7426d29083c766d543407509b54128 = L.marker(
+                [52.959868, -1.149375],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_5bac5ddf99ecda65506ce611718bdf65 = L.marker(
+                [52.95382, -1.13806],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_e2f065649a198f7ed12c177914549e29 = L.marker(
+                [52.955008, -1.141045],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_563757a84fa1d144805b32fba889e5f9 = L.marker(
+                [52.967246, -1.16644],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_2df2ab7d86566e6e3c814c5787f28ff6 = L.marker(
+                [52.979984, -1.174297],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_1c54817f75cb61733cb809c6800973ec = L.marker(
+                [52.956008, -1.171405],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_892103d7d03555e4fa82512ad93404d0 = L.marker(
+                [52.955053, -1.14103],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_158339816e5b52a4eff54e8c36883879 = L.marker(
+                [52.954279, -1.140866],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_09c5b10714eebb69d1ad562406e95783 = L.marker(
+                [52.945817, -1.12572],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f2ed039ada449f2befe04799e8ec65d5 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_aa96b42d05c3dc37db391397fc8728a5 = L.marker(
+                [52.952059, -1.170039],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_f8f4abccc96816a57d8d0d8c5eaa1081 = L.marker(
+                [52.963411, -1.178963],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_687961dbc2812985403d42c01a0c623c = L.marker(
+                [52.977344, -1.118501],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_0990de0940b69936702b2a08beb3f4c5 = L.marker(
+                [52.959917, -1.222127],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_489106b31ff5bfa883a5fdd868fdefe4 = L.marker(
+                [52.978617, -1.170498],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_e1329b1cf4d165025aa9ae1a95fecc71 = L.marker(
+                [52.971888, -1.208063],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_ae0d41b2d590f14770cfc871acbdf8ca = L.marker(
+                [52.930121, -1.198353],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_985368be79ad9fcf03a5159056b0e3d4 = L.marker(
+                [52.992002, -1.180879],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_fe717ea3c85f0e2b46b4e1f53f5cead0 = L.marker(
+                [52.947093, -1.166649],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_445c67f1a6c05705d5490778537871f3 = L.marker(
+                [52.952828, -1.14536],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_0753f793d7af67cf8e6fb008cc8b216e = L.marker(
+                [52.942257, -1.225569],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_7cde12d3065834dfecedc955b0c368a3 = L.marker(
+                [52.945107, -1.135586],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_5bdb44ded0526696b85b63068b93d667 = L.marker(
+                [52.958858, -1.196705],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_cb2ef975075c41eda5bb15ecfd4a2c9e = L.marker(
+                [52.930121, -1.198353],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_ff1a033ddd640a660404ad9466c1e177 = L.marker(
+                [52.958515, -1.144966],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            var marker_450c9aa0fef0f9b16074d7ad40d6736a = L.marker(
+                [52.959917, -1.222127],
+                {}
+            ).addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+    
+            tile_layer_6836b0ffff2b647b4e5bc316d6e22b3d.addTo(map_b87b1247e9382e85f7c1a2b623656547);
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
+</div>
 </div>
 <p>Taking a screenshot of the map using ShareX and displaying using matplotlib:</p>
-<div id="6dd80a10-fc69-4dab-a00d-60f895407063" class="cell" data-tags="[]" data-execution_count="23">
+<div id="6dd80a10-fc69-4dab-a00d-60f895407063" class="cell" data-tags="[]" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> mpimg.imread(<span class="st">'ons_map.png'</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>imgplot <span class="op">=</span> plt.imshow(img)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6942be1d314f6c30d3cecac988560b7d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_6942be1d314f6c30d3cecac988560b7d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6942be1d314f6c30d3cecac988560b7d = L.map(
+                "map_6942be1d314f6c30d3cecac988560b7d",
+                {
+                    center: [52.9548, -1.1581],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_59674b0023e563d6918dbb3f7cc39d14 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_59674b0023e563d6918dbb3f7cc39d14.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_48cb52272f9f459a35995ed55ba045c5 = L.featureGroup(
+                {}
+            );
+        
+    
+            var circle_marker_b76b53f345b011240a259e8f88848499 = L.circleMarker(
+                [52.930121, -1.198353],
+                {"bubblingMouseEvents": true, "color": "#9cce00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9cce00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_e53f80e0447f81fba98fd13888f8cdae = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_42aa5e29833c8fe89f52ebea04c63b75 = $(`<div id="html_42aa5e29833c8fe89f52ebea04c63b75" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £61.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.25<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_e53f80e0447f81fba98fd13888f8cdae.setContent(html_42aa5e29833c8fe89f52ebea04c63b75);
+            
+        
+
+        circle_marker_b76b53f345b011240a259e8f88848499.bindPopup(popup_e53f80e0447f81fba98fd13888f8cdae)
+        ;
+
+        
+    
+    
+            var circle_marker_ddddca17e39e94e267d9e5005dbb3f8f = L.circleMarker(
+                [52.921587, -1.247504],
+                {"bubblingMouseEvents": true, "color": "#359b00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#359b00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_ff8cc567deb116ca89574dd933be8e14 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b40a15679e3da7d9cdf1abb57cd6bf24 = $(`<div id="html_b40a15679e3da7d9cdf1abb57cd6bf24" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £21.00<br>                  Number of Donations: 1<br>                  Average Donation: £21.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_ff8cc567deb116ca89574dd933be8e14.setContent(html_b40a15679e3da7d9cdf1abb57cd6bf24);
+            
+        
+
+        circle_marker_ddddca17e39e94e267d9e5005dbb3f8f.bindPopup(popup_ff8cc567deb116ca89574dd933be8e14)
+        ;
+
+        
+    
+    
+            var circle_marker_5eff1760c70b7db1f1ad5ad3ceccae5a = L.circleMarker(
+                [52.938985, -1.23951],
+                {"bubblingMouseEvents": true, "color": "#45a200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#45a200ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_4924bd26905906692d0a093e3bd696ce = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a9ecbe431a60f075cb85a016d02fbea7 = $(`<div id="html_a9ecbe431a60f075cb85a016d02fbea7" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £27.00<br>                  Number of Donations: 1<br>                  Average Donation: £27.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_4924bd26905906692d0a093e3bd696ce.setContent(html_a9ecbe431a60f075cb85a016d02fbea7);
+            
+        
+
+        circle_marker_5eff1760c70b7db1f1ad5ad3ceccae5a.bindPopup(popup_4924bd26905906692d0a093e3bd696ce)
+        ;
+
+        
+    
+    
+            var circle_marker_7305708c8e08b4297cd6cce4cdc0247e = L.circleMarker(
+                [52.955008, -1.141045],
+                {"bubblingMouseEvents": true, "color": "#bfe000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bfe000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_3906a528a27999748501ff3b94964d68 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_715bcb599f436db5cbab164442954631 = $(`<div id="html_715bcb599f436db5cbab164442954631" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £75.00<br>                  Number of Donations: 5<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_3906a528a27999748501ff3b94964d68.setContent(html_715bcb599f436db5cbab164442954631);
+            
+        
+
+        circle_marker_7305708c8e08b4297cd6cce4cdc0247e.bindPopup(popup_3906a528a27999748501ff3b94964d68)
+        ;
+
+        
+    
+    
+            var circle_marker_bf436d8f8a7627fa0bf0d09bda865402 = L.circleMarker(
+                [52.99667, -1.106307],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7087674118caf9b57deebc83fca281bb = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ac985d27ca745369e7d7b2c1db1b2f19 = $(`<div id="html_ac985d27ca745369e7d7b2c1db1b2f19" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_7087674118caf9b57deebc83fca281bb.setContent(html_ac985d27ca745369e7d7b2c1db1b2f19);
+            
+        
+
+        circle_marker_bf436d8f8a7627fa0bf0d09bda865402.bindPopup(popup_7087674118caf9b57deebc83fca281bb)
+        ;
+
+        
+    
+    
+            var circle_marker_19b0fafb4d5427e5d604ccf7a9efb1d8 = L.circleMarker(
+                [52.962736, -1.178797],
+                {"bubblingMouseEvents": true, "color": "#4fa800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4fa800ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_d7bf5d20b569607b79e80858d5edb230 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_651a596fae7121b510c123fb44d6cdb9 = $(`<div id="html_651a596fae7121b510c123fb44d6cdb9" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £31.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_d7bf5d20b569607b79e80858d5edb230.setContent(html_651a596fae7121b510c123fb44d6cdb9);
+            
+        
+
+        circle_marker_19b0fafb4d5427e5d604ccf7a9efb1d8.bindPopup(popup_d7bf5d20b569607b79e80858d5edb230)
+        ;
+
+        
+    
+    
+            var circle_marker_b765ff9dcd4ba3a5db5e2ca873cea3ab = L.circleMarker(
+                [52.942328, -1.182442],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_c59e0966866c9e8eedf48f66643ab003 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3c93c53c3d357c61711c56fc0551a66e = $(`<div id="html_3c93c53c3d357c61711c56fc0551a66e" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_c59e0966866c9e8eedf48f66643ab003.setContent(html_3c93c53c3d357c61711c56fc0551a66e);
+            
+        
+
+        circle_marker_b765ff9dcd4ba3a5db5e2ca873cea3ab.bindPopup(popup_c59e0966866c9e8eedf48f66643ab003)
+        ;
+
+        
+    
+    
+            var circle_marker_008119b3fb8a01c7dedac1d72186f6d9 = L.circleMarker(
+                [52.970752, -1.112158],
+                {"bubblingMouseEvents": true, "color": "#4fa800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4fa800ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_f636ecec6d130176187b28ddb453fc55 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f8752793c4dfd4c29b7fbfdb707fedfa = $(`<div id="html_f8752793c4dfd4c29b7fbfdb707fedfa" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £31.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_f636ecec6d130176187b28ddb453fc55.setContent(html_f8752793c4dfd4c29b7fbfdb707fedfa);
+            
+        
+
+        circle_marker_008119b3fb8a01c7dedac1d72186f6d9.bindPopup(popup_f636ecec6d130176187b28ddb453fc55)
+        ;
+
+        
+    
+    
+            var circle_marker_e24fd8763185b348213123399a4585b4 = L.circleMarker(
+                [52.962756, -1.197511],
+                {"bubblingMouseEvents": true, "color": "#2e9700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e9700ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_fe6885893e88c9aec11cdb81868b50da = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_322171ceff7e9bb2efe47f652a153124 = $(`<div id="html_322171ceff7e9bb2efe47f652a153124" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £18.00<br>                  Number of Donations: 1<br>                  Average Donation: £18.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_fe6885893e88c9aec11cdb81868b50da.setContent(html_322171ceff7e9bb2efe47f652a153124);
+            
+        
+
+        circle_marker_e24fd8763185b348213123399a4585b4.bindPopup(popup_fe6885893e88c9aec11cdb81868b50da)
+        ;
+
+        
+    
+    
+            var circle_marker_9990e03550208b2ce4733a76758d32e2 = L.circleMarker(
+                [52.92007, -1.228136],
+                {"bubblingMouseEvents": true, "color": "#bfe000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bfe000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_6e0d24d8e6fcc2a67247f22a527cb0f5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a80cd781c1cbbfeb783c91fa5e69f992 = $(`<div id="html_a80cd781c1cbbfeb783c91fa5e69f992" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £75.00<br>                  Number of Donations: 5<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_6e0d24d8e6fcc2a67247f22a527cb0f5.setContent(html_a80cd781c1cbbfeb783c91fa5e69f992);
+            
+        
+
+        circle_marker_9990e03550208b2ce4733a76758d32e2.bindPopup(popup_6e0d24d8e6fcc2a67247f22a527cb0f5)
+        ;
+
+        
+    
+    
+            var circle_marker_c8d6977877a73dc5b5005f021b145cc2 = L.circleMarker(
+                [52.995671, -1.147733],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_408f87e951b05ec7e86207fe174999ca = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a2a6f90ed19b734b2c530c964fb12d19 = $(`<div id="html_a2a6f90ed19b734b2c530c964fb12d19" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_408f87e951b05ec7e86207fe174999ca.setContent(html_a2a6f90ed19b734b2c530c964fb12d19);
+            
+        
+
+        circle_marker_c8d6977877a73dc5b5005f021b145cc2.bindPopup(popup_408f87e951b05ec7e86207fe174999ca)
+        ;
+
+        
+    
+    
+            var circle_marker_7fbfe705a39d94e02f44077235e808f7 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#5eaf00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5eaf00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_3583a4419a8bb6037a6565aaeae2dacc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e22aea9d980a340480d11ffc524a6949 = $(`<div id="html_e22aea9d980a340480d11ffc524a6949" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £37.00<br>                  Number of Donations: 2<br>                  Average Donation: £18.50<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_3583a4419a8bb6037a6565aaeae2dacc.setContent(html_e22aea9d980a340480d11ffc524a6949);
+            
+        
+
+        circle_marker_7fbfe705a39d94e02f44077235e808f7.bindPopup(popup_3583a4419a8bb6037a6565aaeae2dacc)
+        ;
+
+        
+    
+    
+            var circle_marker_4f6841b4dfac5a31e95e0129a19dd94b = L.circleMarker(
+                [52.952972, -1.228161],
+                {"bubblingMouseEvents": true, "color": "#9ecf00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9ecf00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_aa366c101362427ef39cfb6d317b00be = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3172ac97e8b4d6b9304f6753ff3fb675 = $(`<div id="html_3172ac97e8b4d6b9304f6753ff3fb675" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £62.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_aa366c101362427ef39cfb6d317b00be.setContent(html_3172ac97e8b4d6b9304f6753ff3fb675);
+            
+        
+
+        circle_marker_4f6841b4dfac5a31e95e0129a19dd94b.bindPopup(popup_aa366c101362427ef39cfb6d317b00be)
+        ;
+
+        
+    
+    
+            var circle_marker_9039eff87e560649dcc50a4680778fd7 = L.circleMarker(
+                [52.961606, -1.104514],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_c4c5d758095c8610cf06c08577700826 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8878bb75f13c7b2b8f6fb91bbbc4757b = $(`<div id="html_8878bb75f13c7b2b8f6fb91bbbc4757b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_c4c5d758095c8610cf06c08577700826.setContent(html_8878bb75f13c7b2b8f6fb91bbbc4757b);
+            
+        
+
+        circle_marker_9039eff87e560649dcc50a4680778fd7.bindPopup(popup_c4c5d758095c8610cf06c08577700826)
+        ;
+
+        
+    
+    
+            var circle_marker_a3f0c5ec98b8c181d28a7f5d31e88ce2 = L.circleMarker(
+                [52.953058, -1.144924],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_51e3a6c968373ec167120237ed968e9f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b6f18b81b44bdbe56a318552ad48cd69 = $(`<div id="html_b6f18b81b44bdbe56a318552ad48cd69" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_51e3a6c968373ec167120237ed968e9f.setContent(html_b6f18b81b44bdbe56a318552ad48cd69);
+            
+        
+
+        circle_marker_a3f0c5ec98b8c181d28a7f5d31e88ce2.bindPopup(popup_51e3a6c968373ec167120237ed968e9f)
+        ;
+
+        
+    
+    
+            var circle_marker_6c798898c6dfa8db21beaf48ee1ebb99 = L.circleMarker(
+                [52.958944, -1.147101],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7086637c5f9e5f7791837b15b4354f21 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0f277ddb4256d2c12d4ad3d8f02c5a6c = $(`<div id="html_0f277ddb4256d2c12d4ad3d8f02c5a6c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_7086637c5f9e5f7791837b15b4354f21.setContent(html_0f277ddb4256d2c12d4ad3d8f02c5a6c);
+            
+        
+
+        circle_marker_6c798898c6dfa8db21beaf48ee1ebb99.bindPopup(popup_7086637c5f9e5f7791837b15b4354f21)
+        ;
+
+        
+    
+    
+            var circle_marker_985d4d7cfbc12d0ef0bd31a7ccb02d29 = L.circleMarker(
+                [52.948837, -1.180888],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_127641ddae29519a949dedc8f70f4ede = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_33a058e0c7e260f1ee746950710d1f97 = $(`<div id="html_33a058e0c7e260f1ee746950710d1f97" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_127641ddae29519a949dedc8f70f4ede.setContent(html_33a058e0c7e260f1ee746950710d1f97);
+            
+        
+
+        circle_marker_985d4d7cfbc12d0ef0bd31a7ccb02d29.bindPopup(popup_127641ddae29519a949dedc8f70f4ede)
+        ;
+
+        
+    
+    
+            var circle_marker_b850ec1b9a1a64c7f42ed481f749a6d5 = L.circleMarker(
+                [52.971537, -1.221291],
+                {"bubblingMouseEvents": true, "color": "#99cd00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#99cd00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_6f7afa78770ca00e0acb754796a65793 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_966e4eebd6edac0baf72f448af0c4bea = $(`<div id="html_966e4eebd6edac0baf72f448af0c4bea" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £60.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_6f7afa78770ca00e0acb754796a65793.setContent(html_966e4eebd6edac0baf72f448af0c4bea);
+            
+        
+
+        circle_marker_b850ec1b9a1a64c7f42ed481f749a6d5.bindPopup(popup_6f7afa78770ca00e0acb754796a65793)
+        ;
+
+        
+    
+    
+            var circle_marker_d357f832e504c8d6b9b912c59285d56d = L.circleMarker(
+                [52.996258, -1.177354],
+                {"bubblingMouseEvents": true, "color": "#2e9700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e9700ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_f884969b354c2df7c15916742dc56304 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f14869d6e003b77660a1c9788bbd3b68 = $(`<div id="html_f14869d6e003b77660a1c9788bbd3b68" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £18.00<br>                  Number of Donations: 1<br>                  Average Donation: £18.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_f884969b354c2df7c15916742dc56304.setContent(html_f14869d6e003b77660a1c9788bbd3b68);
+            
+        
+
+        circle_marker_d357f832e504c8d6b9b912c59285d56d.bindPopup(popup_f884969b354c2df7c15916742dc56304)
+        ;
+
+        
+    
+    
+            var circle_marker_bfd9b37a0abec3b86d4e5f1599d09b68 = L.circleMarker(
+                [52.934824, -1.245356],
+                {"bubblingMouseEvents": true, "color": "#d1e900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d1e900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_4a8436354af0f7407b2fdfa5a6e5d7f8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3abce67a474a3118d354bf264aa95189 = $(`<div id="html_3abce67a474a3118d354bf264aa95189" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £82.00<br>                  Number of Donations: 5<br>                  Average Donation: £16.40<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_4a8436354af0f7407b2fdfa5a6e5d7f8.setContent(html_3abce67a474a3118d354bf264aa95189);
+            
+        
+
+        circle_marker_bfd9b37a0abec3b86d4e5f1599d09b68.bindPopup(popup_4a8436354af0f7407b2fdfa5a6e5d7f8)
+        ;
+
+        
+    
+    
+            var circle_marker_8fb096c6737c5f75b85b1b3aa70365a6 = L.circleMarker(
+                [52.931034, -1.211308],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_29e60187e4451806993764e8644f0b66 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_781f0e740b9488564b9e3ce3bf59605b = $(`<div id="html_781f0e740b9488564b9e3ce3bf59605b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_29e60187e4451806993764e8644f0b66.setContent(html_781f0e740b9488564b9e3ce3bf59605b);
+            
+        
+
+        circle_marker_8fb096c6737c5f75b85b1b3aa70365a6.bindPopup(popup_29e60187e4451806993764e8644f0b66)
+        ;
+
+        
+    
+    
+            var circle_marker_7bdb0636521f09c5005d418f36679dda = L.circleMarker(
+                [52.958673, -1.14072],
+                {"bubblingMouseEvents": true, "color": "#3d9f00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3d9f00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_c06bb319f911305deb99d66b77f0d0a4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_540200c498c7609649d65b982d50e5d2 = $(`<div id="html_540200c498c7609649d65b982d50e5d2" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £24.00<br>                  Number of Donations: 1<br>                  Average Donation: £24.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_c06bb319f911305deb99d66b77f0d0a4.setContent(html_540200c498c7609649d65b982d50e5d2);
+            
+        
+
+        circle_marker_7bdb0636521f09c5005d418f36679dda.bindPopup(popup_c06bb319f911305deb99d66b77f0d0a4)
+        ;
+
+        
+    
+    
+            var circle_marker_3a48c56d659bb61f8e641981e6c2a0ca = L.circleMarker(
+                [52.946599, -1.143963],
+                {"bubblingMouseEvents": true, "color": "#289400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#289400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_0520b9c6a3db15614bbf0d77162ef480 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f5e78a79b65c9d5c5494554a870c6ddf = $(`<div id="html_f5e78a79b65c9d5c5494554a870c6ddf" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £16.00<br>                  Number of Donations: 1<br>                  Average Donation: £16.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_0520b9c6a3db15614bbf0d77162ef480.setContent(html_f5e78a79b65c9d5c5494554a870c6ddf);
+            
+        
+
+        circle_marker_3a48c56d659bb61f8e641981e6c2a0ca.bindPopup(popup_0520b9c6a3db15614bbf0d77162ef480)
+        ;
+
+        
+    
+    
+            var circle_marker_9756822151c139a330f3280d0703bf93 = L.circleMarker(
+                [52.955053, -1.14103],
+                {"bubblingMouseEvents": true, "color": "#51a900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#51a900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_a099814a62f89b6179c9fbca6b0cfe0a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3fd505a2765ec96bfb97870ab4be2f0a = $(`<div id="html_3fd505a2765ec96bfb97870ab4be2f0a" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £32.00<br>                  Number of Donations: 1<br>                  Average Donation: £32.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_a099814a62f89b6179c9fbca6b0cfe0a.setContent(html_3fd505a2765ec96bfb97870ab4be2f0a);
+            
+        
+
+        circle_marker_9756822151c139a330f3280d0703bf93.bindPopup(popup_a099814a62f89b6179c9fbca6b0cfe0a)
+        ;
+
+        
+    
+    
+            var circle_marker_d029e43727ce2ec16aa988ad162c0597 = L.circleMarker(
+                [52.995671, -1.147733],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7e0465626937a4ea91e37538d42bba6b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_19eff15062eabfe2f6934a2710b5ef26 = $(`<div id="html_19eff15062eabfe2f6934a2710b5ef26" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_7e0465626937a4ea91e37538d42bba6b.setContent(html_19eff15062eabfe2f6934a2710b5ef26);
+            
+        
+
+        circle_marker_d029e43727ce2ec16aa988ad162c0597.bindPopup(popup_7e0465626937a4ea91e37538d42bba6b)
+        ;
+
+        
+    
+    
+            var circle_marker_c47639b4685a96fac9fc720f23996ecd = L.circleMarker(
+                [52.925336, -1.115675],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_36724418671fda2d17b6dd3021df2145 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5d39457d2b2dd822844cb4e66d3a57cf = $(`<div id="html_5d39457d2b2dd822844cb4e66d3a57cf" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_36724418671fda2d17b6dd3021df2145.setContent(html_5d39457d2b2dd822844cb4e66d3a57cf);
+            
+        
+
+        circle_marker_c47639b4685a96fac9fc720f23996ecd.bindPopup(popup_36724418671fda2d17b6dd3021df2145)
+        ;
+
+        
+    
+    
+            var circle_marker_7723836b14920c6d8811271cff729400 = L.circleMarker(
+                [52.971616, -1.115952],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_1981349d94b5bbade8340fc4b5b85333 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_82202dfedb1cb13ea4cbecd3c8dd090a = $(`<div id="html_82202dfedb1cb13ea4cbecd3c8dd090a" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_1981349d94b5bbade8340fc4b5b85333.setContent(html_82202dfedb1cb13ea4cbecd3c8dd090a);
+            
+        
+
+        circle_marker_7723836b14920c6d8811271cff729400.bindPopup(popup_1981349d94b5bbade8340fc4b5b85333)
+        ;
+
+        
+    
+    
+            var circle_marker_a64bb867c9633df7ba0776af5d063080 = L.circleMarker(
+                [52.955008, -1.141045],
+                {"bubblingMouseEvents": true, "color": "#75bb00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#75bb00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_fdbf42553b820f9da58a626462cdbbf5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d39d10926194045adbd0ff925c6cf1bf = $(`<div id="html_d39d10926194045adbd0ff925c6cf1bf" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £46.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.33<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_fdbf42553b820f9da58a626462cdbbf5.setContent(html_d39d10926194045adbd0ff925c6cf1bf);
+            
+        
+
+        circle_marker_a64bb867c9633df7ba0776af5d063080.bindPopup(popup_fdbf42553b820f9da58a626462cdbbf5)
+        ;
+
+        
+    
+    
+            var circle_marker_254c1a28d3ae716c41d60887211be324 = L.circleMarker(
+                [52.980532, -1.179321],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_94b77c992acbcfa0aa485d993994560c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3ae0ce045556bcfdd2d17fc1d203c606 = $(`<div id="html_3ae0ce045556bcfdd2d17fc1d203c606" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_94b77c992acbcfa0aa485d993994560c.setContent(html_3ae0ce045556bcfdd2d17fc1d203c606);
+            
+        
+
+        circle_marker_254c1a28d3ae716c41d60887211be324.bindPopup(popup_94b77c992acbcfa0aa485d993994560c)
+        ;
+
+        
+    
+    
+            var circle_marker_d3efe7e885788dfc75a2c7bca831f034 = L.circleMarker(
+                [52.970564, -1.219671],
+                {"bubblingMouseEvents": true, "color": "#99cd00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#99cd00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_2181e9ec05d53b31a91d586373dbe32c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4ac56b57615428e0a82f4df22c0269cb = $(`<div id="html_4ac56b57615428e0a82f4df22c0269cb" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £60.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_2181e9ec05d53b31a91d586373dbe32c.setContent(html_4ac56b57615428e0a82f4df22c0269cb);
+            
+        
+
+        circle_marker_d3efe7e885788dfc75a2c7bca831f034.bindPopup(popup_2181e9ec05d53b31a91d586373dbe32c)
+        ;
+
+        
+    
+    
+            var circle_marker_3feb30b324206e8c07159edc6fb9d25b = L.circleMarker(
+                [52.938823, -1.179604],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_d1063afa365ffcb3fd1a89db6e25a1f5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_12aa4367e47af062827d9edeee3ccc3b = $(`<div id="html_12aa4367e47af062827d9edeee3ccc3b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_d1063afa365ffcb3fd1a89db6e25a1f5.setContent(html_12aa4367e47af062827d9edeee3ccc3b);
+            
+        
+
+        circle_marker_3feb30b324206e8c07159edc6fb9d25b.bindPopup(popup_d1063afa365ffcb3fd1a89db6e25a1f5)
+        ;
+
+        
+    
+    
+            var circle_marker_f234ad4cc02ba7a01947ac31ded0dd32 = L.circleMarker(
+                [52.998288, -1.135252],
+                {"bubblingMouseEvents": true, "color": "#4fa800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4fa800ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_493273747b393ef874ea42e1a36af8b3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_239495556383b96858ea04f70d3a5e79 = $(`<div id="html_239495556383b96858ea04f70d3a5e79" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £31.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_493273747b393ef874ea42e1a36af8b3.setContent(html_239495556383b96858ea04f70d3a5e79);
+            
+        
+
+        circle_marker_f234ad4cc02ba7a01947ac31ded0dd32.bindPopup(popup_493273747b393ef874ea42e1a36af8b3)
+        ;
+
+        
+    
+    
+            var circle_marker_fd7c98af0adb2da9d78cee5052e8766a = L.circleMarker(
+                [52.956046, -1.141665],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_82f9d0d9a87e52222dad69e6a5a5f748 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3fc6dacb7638d9d73a73e2431c3c8652 = $(`<div id="html_3fc6dacb7638d9d73a73e2431c3c8652" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_82f9d0d9a87e52222dad69e6a5a5f748.setContent(html_3fc6dacb7638d9d73a73e2431c3c8652);
+            
+        
+
+        circle_marker_fd7c98af0adb2da9d78cee5052e8766a.bindPopup(popup_82f9d0d9a87e52222dad69e6a5a5f748)
+        ;
+
+        
+    
+    
+            var circle_marker_e1718bca914595afbf3ecd47024ef7e2 = L.circleMarker(
+                [52.968191, -1.114652],
+                {"bubblingMouseEvents": true, "color": "#2b9600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2b9600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_b786832edd1704df71b30555b18ce624 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5f80a2e5e88c33d4eabbacdd1f604557 = $(`<div id="html_5f80a2e5e88c33d4eabbacdd1f604557" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £17.00<br>                  Number of Donations: 1<br>                  Average Donation: £17.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_b786832edd1704df71b30555b18ce624.setContent(html_5f80a2e5e88c33d4eabbacdd1f604557);
+            
+        
+
+        circle_marker_e1718bca914595afbf3ecd47024ef7e2.bindPopup(popup_b786832edd1704df71b30555b18ce624)
+        ;
+
+        
+    
+    
+            var circle_marker_9183f07775b23445d04ddfd1f48e574d = L.circleMarker(
+                [52.957127, -1.163377],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_4a691623540089b93b485a4cd1b70b3c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3d48983a0b95ff35a6d822268f134d54 = $(`<div id="html_3d48983a0b95ff35a6d822268f134d54" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_4a691623540089b93b485a4cd1b70b3c.setContent(html_3d48983a0b95ff35a6d822268f134d54);
+            
+        
+
+        circle_marker_9183f07775b23445d04ddfd1f48e574d.bindPopup(popup_4a691623540089b93b485a4cd1b70b3c)
+        ;
+
+        
+    
+    
+            var circle_marker_eedba9280173c2a92388d6e6be68abe9 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#85c200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#85c200ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_acaba3faeae30eaa3bb1637e21a4fda8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_072d1aa537b91905dd735f8da95ebac7 = $(`<div id="html_072d1aa537b91905dd735f8da95ebac7" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £52.00<br>                  Number of Donations: 2<br>                  Average Donation: £26.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_acaba3faeae30eaa3bb1637e21a4fda8.setContent(html_072d1aa537b91905dd735f8da95ebac7);
+            
+        
+
+        circle_marker_eedba9280173c2a92388d6e6be68abe9.bindPopup(popup_acaba3faeae30eaa3bb1637e21a4fda8)
+        ;
+
+        
+    
+    
+            var circle_marker_e84a8aa7db907fe37db5d4e0b7f2a473 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_e74ba705ba22c74a0ee576e3e6bf4361 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_9e3a89fe457c1ff47f18b4199782755e = $(`<div id="html_9e3a89fe457c1ff47f18b4199782755e" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_e74ba705ba22c74a0ee576e3e6bf4361.setContent(html_9e3a89fe457c1ff47f18b4199782755e);
+            
+        
+
+        circle_marker_e84a8aa7db907fe37db5d4e0b7f2a473.bindPopup(popup_e74ba705ba22c74a0ee576e3e6bf4361)
+        ;
+
+        
+    
+    
+            var circle_marker_4457e6a404a53744f589184328df74cb = L.circleMarker(
+                [52.978179, -1.133125],
+                {"bubblingMouseEvents": true, "color": "#9cce00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9cce00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_41baaf71c99e5572291e9d38c32f0a28 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_eb3d4fa89c8d2066b668b42a515977d9 = $(`<div id="html_eb3d4fa89c8d2066b668b42a515977d9" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £61.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.25<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_41baaf71c99e5572291e9d38c32f0a28.setContent(html_eb3d4fa89c8d2066b668b42a515977d9);
+            
+        
+
+        circle_marker_4457e6a404a53744f589184328df74cb.bindPopup(popup_41baaf71c99e5572291e9d38c32f0a28)
+        ;
+
+        
+    
+    
+            var circle_marker_04700af2ec9c9c20b7449bf324f26fb6 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_dbd1bf3a7957b905718af14efa31256f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_33fdaa8bcb380c518c24b545dae2fd9d = $(`<div id="html_33fdaa8bcb380c518c24b545dae2fd9d" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_dbd1bf3a7957b905718af14efa31256f.setContent(html_33fdaa8bcb380c518c24b545dae2fd9d);
+            
+        
+
+        circle_marker_04700af2ec9c9c20b7449bf324f26fb6.bindPopup(popup_dbd1bf3a7957b905718af14efa31256f)
+        ;
+
+        
+    
+    
+            var circle_marker_19f1aab71505ae86e69b346a96fe8fb0 = L.circleMarker(
+                [52.9207, -1.20101],
+                {"bubblingMouseEvents": true, "color": "#5cae00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#5cae00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_6e3b237bf2380c7ed90d2dfa03368d37 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_069a8fc81ccc6f67833810e5d77ab2cc = $(`<div id="html_069a8fc81ccc6f67833810e5d77ab2cc" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £36.00<br>                  Number of Donations: 1<br>                  Average Donation: £36.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_6e3b237bf2380c7ed90d2dfa03368d37.setContent(html_069a8fc81ccc6f67833810e5d77ab2cc);
+            
+        
+
+        circle_marker_19f1aab71505ae86e69b346a96fe8fb0.bindPopup(popup_6e3b237bf2380c7ed90d2dfa03368d37)
+        ;
+
+        
+    
+    
+            var circle_marker_af4c8f326679dacc85d584b2826adcb3 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#7fc000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7fc000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_2b30398900647c15491c5846198135e9 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_dafcf046d56fecd75e061a16e7f1f1e0 = $(`<div id="html_dafcf046d56fecd75e061a16e7f1f1e0" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £50.00<br>                  Number of Donations: 3<br>                  Average Donation: £16.67<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_2b30398900647c15491c5846198135e9.setContent(html_dafcf046d56fecd75e061a16e7f1f1e0);
+            
+        
+
+        circle_marker_af4c8f326679dacc85d584b2826adcb3.bindPopup(popup_2b30398900647c15491c5846198135e9)
+        ;
+
+        
+    
+    
+            var circle_marker_2b4d570d013bc1beafe5ae40f36990b3 = L.circleMarker(
+                [52.958671, -1.1035],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_41ae5da738cc60cf0434377173a8a67c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c852c192349c1725d2277ad11dd4009a = $(`<div id="html_c852c192349c1725d2277ad11dd4009a" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_41ae5da738cc60cf0434377173a8a67c.setContent(html_c852c192349c1725d2277ad11dd4009a);
+            
+        
+
+        circle_marker_2b4d570d013bc1beafe5ae40f36990b3.bindPopup(popup_41ae5da738cc60cf0434377173a8a67c)
+        ;
+
+        
+    
+    
+            var circle_marker_2d4e70764f043a963aad2ec795bc4b37 = L.circleMarker(
+                [52.951125, -1.172781],
+                {"bubblingMouseEvents": true, "color": "#a1d000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#a1d000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_397c61b7739614c9ddbac24c427e76ea = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_eba88f7febce7bcde177d909eab1b1df = $(`<div id="html_eba88f7febce7bcde177d909eab1b1df" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £63.00<br>                  Number of Donations: 4<br>                  Average Donation: £15.75<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_397c61b7739614c9ddbac24c427e76ea.setContent(html_eba88f7febce7bcde177d909eab1b1df);
+            
+        
+
+        circle_marker_2d4e70764f043a963aad2ec795bc4b37.bindPopup(popup_397c61b7739614c9ddbac24c427e76ea)
+        ;
+
+        
+    
+    
+            var circle_marker_db9af89fa26dea431e3f4ebe798ef656 = L.circleMarker(
+                [52.989208, -1.144136],
+                {"bubblingMouseEvents": true, "color": "#ebf500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ebf500ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_9c275377fca97ae26d279120b525b273 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ed83b2d961edaf7e9113f7cd58ec31e1 = $(`<div id="html_ed83b2d961edaf7e9113f7cd58ec31e1" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £92.00<br>                  Number of Donations: 6<br>                  Average Donation: £15.33<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_9c275377fca97ae26d279120b525b273.setContent(html_ed83b2d961edaf7e9113f7cd58ec31e1);
+            
+        
+
+        circle_marker_db9af89fa26dea431e3f4ebe798ef656.bindPopup(popup_9c275377fca97ae26d279120b525b273)
+        ;
+
+        
+    
+    
+            var circle_marker_5e842a83c909e5c130dfb49b0e273adb = L.circleMarker(
+                [52.959299, -1.169335],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_9e02c63b107a542f5b952a6d33b5b6d3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_796843301da31e58e440a02269e0bdcb = $(`<div id="html_796843301da31e58e440a02269e0bdcb" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_9e02c63b107a542f5b952a6d33b5b6d3.setContent(html_796843301da31e58e440a02269e0bdcb);
+            
+        
+
+        circle_marker_5e842a83c909e5c130dfb49b0e273adb.bindPopup(popup_9e02c63b107a542f5b952a6d33b5b6d3)
+        ;
+
+        
+    
+    
+            var circle_marker_12499d5ec80f030c15fe2257825f1503 = L.circleMarker(
+                [52.992397, -1.188437],
+                {"bubblingMouseEvents": true, "color": "#e8f400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e8f400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7c51a86316c9b4e61d3aadfe6c6d95ed = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d1884afc5161feac1a5bd6412ecef721 = $(`<div id="html_d1884afc5161feac1a5bd6412ecef721" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £91.00<br>                  Number of Donations: 1<br>                  Average Donation: £91.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_7c51a86316c9b4e61d3aadfe6c6d95ed.setContent(html_d1884afc5161feac1a5bd6412ecef721);
+            
+        
+
+        circle_marker_12499d5ec80f030c15fe2257825f1503.bindPopup(popup_7c51a86316c9b4e61d3aadfe6c6d95ed)
+        ;
+
+        
+    
+    
+            var circle_marker_cf2252e7d1ed01b1e8e22b1800cfd17e = L.circleMarker(
+                [52.969504, -1.102788],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_1558a1d762c4d706ee61a89b6eebc012 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_31b603fee2d2888c054e8a7edec20411 = $(`<div id="html_31b603fee2d2888c054e8a7edec20411" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_1558a1d762c4d706ee61a89b6eebc012.setContent(html_31b603fee2d2888c054e8a7edec20411);
+            
+        
+
+        circle_marker_cf2252e7d1ed01b1e8e22b1800cfd17e.bindPopup(popup_1558a1d762c4d706ee61a89b6eebc012)
+        ;
+
+        
+    
+    
+            var circle_marker_28e0192f63c2ce690597a6d528675a5e = L.circleMarker(
+                [52.998223, -1.202069],
+                {"bubblingMouseEvents": true, "color": "#51a900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#51a900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_8e9cf8f6986f3cc0d3e178cb471dc608 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f2d7894c412b5ee03497460ec90537dd = $(`<div id="html_f2d7894c412b5ee03497460ec90537dd" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £32.00<br>                  Number of Donations: 2<br>                  Average Donation: £16.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_8e9cf8f6986f3cc0d3e178cb471dc608.setContent(html_f2d7894c412b5ee03497460ec90537dd);
+            
+        
+
+        circle_marker_28e0192f63c2ce690597a6d528675a5e.bindPopup(popup_8e9cf8f6986f3cc0d3e178cb471dc608)
+        ;
+
+        
+    
+    
+            var circle_marker_5badd6f1552582be96d65198d9484a20 = L.circleMarker(
+                [52.977857, -1.238111],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_2e3de37bf14565ae08c7e7b0035516e9 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_13ba71c7449b5114029b540707a3ea2f = $(`<div id="html_13ba71c7449b5114029b540707a3ea2f" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_2e3de37bf14565ae08c7e7b0035516e9.setContent(html_13ba71c7449b5114029b540707a3ea2f);
+            
+        
+
+        circle_marker_5badd6f1552582be96d65198d9484a20.bindPopup(popup_2e3de37bf14565ae08c7e7b0035516e9)
+        ;
+
+        
+    
+    
+            var circle_marker_b929ec033821bdb75fe82a165fb070eb = L.circleMarker(
+                [52.997481, -1.188002],
+                {"bubblingMouseEvents": true, "color": "#289400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#289400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_10eec6768476bb1dad3f68a59d59642a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1c2417660958eb81256731e4cf8d329d = $(`<div id="html_1c2417660958eb81256731e4cf8d329d" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £16.00<br>                  Number of Donations: 1<br>                  Average Donation: £16.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_10eec6768476bb1dad3f68a59d59642a.setContent(html_1c2417660958eb81256731e4cf8d329d);
+            
+        
+
+        circle_marker_b929ec033821bdb75fe82a165fb070eb.bindPopup(popup_10eec6768476bb1dad3f68a59d59642a)
+        ;
+
+        
+    
+    
+            var circle_marker_794d447b2e7c80384a09151337dd92ad = L.circleMarker(
+                [52.931344, -1.211838],
+                {"bubblingMouseEvents": true, "color": "#f8fc00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f8fc00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_8acd0e6cb09ba4bd4020f5c29ba252fa = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7beea7c6cb75d2f72b7bc319586a936b = $(`<div id="html_7beea7c6cb75d2f72b7bc319586a936b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £97.00<br>                  Number of Donations: 6<br>                  Average Donation: £16.17<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_8acd0e6cb09ba4bd4020f5c29ba252fa.setContent(html_7beea7c6cb75d2f72b7bc319586a936b);
+            
+        
+
+        circle_marker_794d447b2e7c80384a09151337dd92ad.bindPopup(popup_8acd0e6cb09ba4bd4020f5c29ba252fa)
+        ;
+
+        
+    
+    
+            var circle_marker_39f465b4c88f992608102c70e6af89b1 = L.circleMarker(
+                [52.922035, -1.164809],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_dc27a886876d83b9d90c2ca1ba849072 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_639e122ce995d2e99960468926d77e4f = $(`<div id="html_639e122ce995d2e99960468926d77e4f" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_dc27a886876d83b9d90c2ca1ba849072.setContent(html_639e122ce995d2e99960468926d77e4f);
+            
+        
+
+        circle_marker_39f465b4c88f992608102c70e6af89b1.bindPopup(popup_dc27a886876d83b9d90c2ca1ba849072)
+        ;
+
+        
+    
+    
+            var circle_marker_9f48026dae671778ce86836ac4588d40 = L.circleMarker(
+                [52.99495, -1.099996],
+                {"bubblingMouseEvents": true, "color": "#bfe000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bfe000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_1d57551775d5f456868b48facde4b9f0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bf21bfcc58540c4a90bdd0dc2f8a7539 = $(`<div id="html_bf21bfcc58540c4a90bdd0dc2f8a7539" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £75.00<br>                  Number of Donations: 5<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_1d57551775d5f456868b48facde4b9f0.setContent(html_bf21bfcc58540c4a90bdd0dc2f8a7539);
+            
+        
+
+        circle_marker_9f48026dae671778ce86836ac4588d40.bindPopup(popup_1d57551775d5f456868b48facde4b9f0)
+        ;
+
+        
+    
+    
+            var circle_marker_611818c7e7be7a7f12e8466d39919497 = L.circleMarker(
+                [52.955735, -1.150526],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_6fbf8aee4c6bc1f3be7955c33af9f4b3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a25487f49078b7e06e608173923a782e = $(`<div id="html_a25487f49078b7e06e608173923a782e" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_6fbf8aee4c6bc1f3be7955c33af9f4b3.setContent(html_a25487f49078b7e06e608173923a782e);
+            
+        
+
+        circle_marker_611818c7e7be7a7f12e8466d39919497.bindPopup(popup_6fbf8aee4c6bc1f3be7955c33af9f4b3)
+        ;
+
+        
+    
+    
+            var circle_marker_cb4f2d1ea96439b394755bf578550259 = L.circleMarker(
+                [52.978026, -1.195739],
+                {"bubblingMouseEvents": true, "color": "#7dbe00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7dbe00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_4c5502d29da3c8e056458463ad493591 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4a2cdf433ecf30e5fdcc5e0b3119af4c = $(`<div id="html_4a2cdf433ecf30e5fdcc5e0b3119af4c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £49.00<br>                  Number of Donations: 2<br>                  Average Donation: £24.50<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_4c5502d29da3c8e056458463ad493591.setContent(html_4a2cdf433ecf30e5fdcc5e0b3119af4c);
+            
+        
+
+        circle_marker_cb4f2d1ea96439b394755bf578550259.bindPopup(popup_4c5502d29da3c8e056458463ad493591)
+        ;
+
+        
+    
+    
+            var circle_marker_db1695eb7b238afdd9ea0b2f4a3bc8d7 = L.circleMarker(
+                [52.940895, -1.15625],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_fe5b78f4e39e6c3bdef2b23f571fc6dc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5b8b0f120e72c10d83ae8a984a9c60cb = $(`<div id="html_5b8b0f120e72c10d83ae8a984a9c60cb" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_fe5b78f4e39e6c3bdef2b23f571fc6dc.setContent(html_5b8b0f120e72c10d83ae8a984a9c60cb);
+            
+        
+
+        circle_marker_db1695eb7b238afdd9ea0b2f4a3bc8d7.bindPopup(popup_fe5b78f4e39e6c3bdef2b23f571fc6dc)
+        ;
+
+        
+    
+    
+            var circle_marker_348af9dc47ef6d62fb42ad5e39ddbd8d = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#289400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#289400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_b998969a263def80bb49cd24f10d5f08 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_da3f0c23d46b1e7baaf266b59087545f = $(`<div id="html_da3f0c23d46b1e7baaf266b59087545f" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £16.00<br>                  Number of Donations: 1<br>                  Average Donation: £16.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_b998969a263def80bb49cd24f10d5f08.setContent(html_da3f0c23d46b1e7baaf266b59087545f);
+            
+        
+
+        circle_marker_348af9dc47ef6d62fb42ad5e39ddbd8d.bindPopup(popup_b998969a263def80bb49cd24f10d5f08)
+        ;
+
+        
+    
+    
+            var circle_marker_6a121b80269beeeb0001640062b41d56 = L.circleMarker(
+                [52.991382, -1.148935],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_ac041df0c1adcae787a434eb6145c6f2 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c9d815321d53e8be4749daef9b482f39 = $(`<div id="html_c9d815321d53e8be4749daef9b482f39" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_ac041df0c1adcae787a434eb6145c6f2.setContent(html_c9d815321d53e8be4749daef9b482f39);
+            
+        
+
+        circle_marker_6a121b80269beeeb0001640062b41d56.bindPopup(popup_ac041df0c1adcae787a434eb6145c6f2)
+        ;
+
+        
+    
+    
+            var circle_marker_ed026b445d464f934096e3edb65992c3 = L.circleMarker(
+                [52.955008, -1.141045],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_15badafafd55a51ee3ff6a14b82afbb3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d32e260ac1fe94c22b2976135ce8f6ce = $(`<div id="html_d32e260ac1fe94c22b2976135ce8f6ce" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_15badafafd55a51ee3ff6a14b82afbb3.setContent(html_d32e260ac1fe94c22b2976135ce8f6ce);
+            
+        
+
+        circle_marker_ed026b445d464f934096e3edb65992c3.bindPopup(popup_15badafafd55a51ee3ff6a14b82afbb3)
+        ;
+
+        
+    
+    
+            var circle_marker_ab23b7cf0cb3caa5e961a19f766aa6e9 = L.circleMarker(
+                [52.967246, -1.16644],
+                {"bubblingMouseEvents": true, "color": "#54aa00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#54aa00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_dba764c8cace14fc1aa81b32f1eea423 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bfbfbd451f0dc94dd69321e99078c902 = $(`<div id="html_bfbfbd451f0dc94dd69321e99078c902" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £33.00<br>                  Number of Donations: 2<br>                  Average Donation: £16.50<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_dba764c8cace14fc1aa81b32f1eea423.setContent(html_bfbfbd451f0dc94dd69321e99078c902);
+            
+        
+
+        circle_marker_ab23b7cf0cb3caa5e961a19f766aa6e9.bindPopup(popup_dba764c8cace14fc1aa81b32f1eea423)
+        ;
+
+        
+    
+    
+            var circle_marker_f48498caa412afdfae8739f0878592a6 = L.circleMarker(
+                [52.979984, -1.174297],
+                {"bubblingMouseEvents": true, "color": "#3fa000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3fa000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_3483ebc65c2fe033f67050ad0754c64b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_58ecbcabd03d5b5d4b48b1f9c1be7445 = $(`<div id="html_58ecbcabd03d5b5d4b48b1f9c1be7445" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £25.00<br>                  Number of Donations: 1<br>                  Average Donation: £25.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_3483ebc65c2fe033f67050ad0754c64b.setContent(html_58ecbcabd03d5b5d4b48b1f9c1be7445);
+            
+        
+
+        circle_marker_f48498caa412afdfae8739f0878592a6.bindPopup(popup_3483ebc65c2fe033f67050ad0754c64b)
+        ;
+
+        
+    
+    
+            var circle_marker_a9acba19a0af5d8640bf577480c1941f = L.circleMarker(
+                [52.956008, -1.171405],
+                {"bubblingMouseEvents": true, "color": "#82c100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#82c100ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_d2d10e2393d5514427cda36e1fd6271f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bba00505f19af2d62475c1a5a9e1d803 = $(`<div id="html_bba00505f19af2d62475c1a5a9e1d803" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £51.00<br>                  Number of Donations: 1<br>                  Average Donation: £51.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_d2d10e2393d5514427cda36e1fd6271f.setContent(html_bba00505f19af2d62475c1a5a9e1d803);
+            
+        
+
+        circle_marker_a9acba19a0af5d8640bf577480c1941f.bindPopup(popup_d2d10e2393d5514427cda36e1fd6271f)
+        ;
+
+        
+    
+    
+            var circle_marker_a9bfc361fa8923e69e47591ba840df53 = L.circleMarker(
+                [52.954279, -1.140866],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_11fc7612ad95889e268515ceb5f5887c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d22cd08d7562fea6ba74f2507658d5cd = $(`<div id="html_d22cd08d7562fea6ba74f2507658d5cd" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_11fc7612ad95889e268515ceb5f5887c.setContent(html_d22cd08d7562fea6ba74f2507658d5cd);
+            
+        
+
+        circle_marker_a9bfc361fa8923e69e47591ba840df53.bindPopup(popup_11fc7612ad95889e268515ceb5f5887c)
+        ;
+
+        
+    
+    
+            var circle_marker_e319fe79b7936d4f11b34213baabb214 = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_e49b13f24d76e2215281c649ee523f4a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c4dfc3b713965542e46702539214234d = $(`<div id="html_c4dfc3b713965542e46702539214234d" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 1<br>                  Average Donation: £45.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_e49b13f24d76e2215281c649ee523f4a.setContent(html_c4dfc3b713965542e46702539214234d);
+            
+        
+
+        circle_marker_e319fe79b7936d4f11b34213baabb214.bindPopup(popup_e49b13f24d76e2215281c649ee523f4a)
+        ;
+
+        
+    
+    
+            var circle_marker_93181a9c39ca885a8d7618bc88b8ce32 = L.circleMarker(
+                [52.952059, -1.170039],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7c0e0370e8f220eb7c6dd9f9538f8ccc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bc9a2f8dc7b0935e31ba81c82d1f3f24 = $(`<div id="html_bc9a2f8dc7b0935e31ba81c82d1f3f24" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_7c0e0370e8f220eb7c6dd9f9538f8ccc.setContent(html_bc9a2f8dc7b0935e31ba81c82d1f3f24);
+            
+        
+
+        circle_marker_93181a9c39ca885a8d7618bc88b8ce32.bindPopup(popup_7c0e0370e8f220eb7c6dd9f9538f8ccc)
+        ;
+
+        
+    
+    
+            var circle_marker_8bd804421455d1acab63028ea4681867 = L.circleMarker(
+                [52.963411, -1.178963],
+                {"bubblingMouseEvents": true, "color": "#7fc000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7fc000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_69e2cbf944da7f6f8fed54128c01f181 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_82cc39dadb9efd855a8f71ea9cd0f68c = $(`<div id="html_82cc39dadb9efd855a8f71ea9cd0f68c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £50.00<br>                  Number of Donations: 3<br>                  Average Donation: £16.67<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_69e2cbf944da7f6f8fed54128c01f181.setContent(html_82cc39dadb9efd855a8f71ea9cd0f68c);
+            
+        
+
+        circle_marker_8bd804421455d1acab63028ea4681867.bindPopup(popup_69e2cbf944da7f6f8fed54128c01f181)
+        ;
+
+        
+    
+    
+            var circle_marker_cb15b6d5cee84cf864fdf8fadb84e4ed = L.circleMarker(
+                [52.977344, -1.118501],
+                {"bubblingMouseEvents": true, "color": "#e8f400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e8f400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_2b71b4ab591a956c593aa0595937ff45 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f461175891f576e3b5cef68dcc50031d = $(`<div id="html_f461175891f576e3b5cef68dcc50031d" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £91.00<br>                  Number of Donations: 6<br>                  Average Donation: £15.17<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_2b71b4ab591a956c593aa0595937ff45.setContent(html_f461175891f576e3b5cef68dcc50031d);
+            
+        
+
+        circle_marker_cb15b6d5cee84cf864fdf8fadb84e4ed.bindPopup(popup_2b71b4ab591a956c593aa0595937ff45)
+        ;
+
+        
+    
+    
+            var circle_marker_2d51f9d0cbcf2878ac63f4b400c6a6f1 = L.circleMarker(
+                [52.959917, -1.222127],
+                {"bubblingMouseEvents": true, "color": "#289400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#289400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_9443069138e1f2ec52c6519a39cf72c8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7470e5ad07de11371a5283afaffb6389 = $(`<div id="html_7470e5ad07de11371a5283afaffb6389" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £16.00<br>                  Number of Donations: 1<br>                  Average Donation: £16.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_9443069138e1f2ec52c6519a39cf72c8.setContent(html_7470e5ad07de11371a5283afaffb6389);
+            
+        
+
+        circle_marker_2d51f9d0cbcf2878ac63f4b400c6a6f1.bindPopup(popup_9443069138e1f2ec52c6519a39cf72c8)
+        ;
+
+        
+    
+    
+            var circle_marker_1837aa5c282888bafd6a2c9b1a40128b = L.circleMarker(
+                [52.978617, -1.170498],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_af1479c2da29192ad65c94f11ab07143 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e11d4a40151936fdacdbbdbbc7772e1a = $(`<div id="html_e11d4a40151936fdacdbbdbbc7772e1a" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_af1479c2da29192ad65c94f11ab07143.setContent(html_e11d4a40151936fdacdbbdbbc7772e1a);
+            
+        
+
+        circle_marker_1837aa5c282888bafd6a2c9b1a40128b.bindPopup(popup_af1479c2da29192ad65c94f11ab07143)
+        ;
+
+        
+    
+    
+            var circle_marker_893f7b6c4037e563d5005fecea425755 = L.circleMarker(
+                [52.971888, -1.208063],
+                {"bubblingMouseEvents": true, "color": "#b8dc00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b8dc00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_7dc3b27096b7961cc3b13a69003091a4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8a318d5c7882c3ad9c884f8cf4d0985f = $(`<div id="html_8a318d5c7882c3ad9c884f8cf4d0985f" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £72.00<br>                  Number of Donations: 2<br>                  Average Donation: £36.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_7dc3b27096b7961cc3b13a69003091a4.setContent(html_8a318d5c7882c3ad9c884f8cf4d0985f);
+            
+        
+
+        circle_marker_893f7b6c4037e563d5005fecea425755.bindPopup(popup_7dc3b27096b7961cc3b13a69003091a4)
+        ;
+
+        
+    
+    
+            var circle_marker_e5fd2ecd26f81837c6ba13c2d208648e = L.circleMarker(
+                [52.930121, -1.198353],
+                {"bubblingMouseEvents": true, "color": "#4fa800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4fa800ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_4757d0239092d0becd3c9c4f71348f81 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f6fd0dedb6dec25cf2243f35ef2e0373 = $(`<div id="html_f6fd0dedb6dec25cf2243f35ef2e0373" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £31.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_4757d0239092d0becd3c9c4f71348f81.setContent(html_f6fd0dedb6dec25cf2243f35ef2e0373);
+            
+        
+
+        circle_marker_e5fd2ecd26f81837c6ba13c2d208648e.bindPopup(popup_4757d0239092d0becd3c9c4f71348f81)
+        ;
+
+        
+    
+    
+            var circle_marker_3f6386a86e4765d051f933af1b30601e = L.circleMarker(
+                [52.992002, -1.180879],
+                {"bubblingMouseEvents": true, "color": "#7fc000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7fc000ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_8c8629989c386179a459db490814616b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5a55afef22c65c57e086f1a620f32c08 = $(`<div id="html_5a55afef22c65c57e086f1a620f32c08" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £50.00<br>                  Number of Donations: 3<br>                  Average Donation: £16.67<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_8c8629989c386179a459db490814616b.setContent(html_5a55afef22c65c57e086f1a620f32c08);
+            
+        
+
+        circle_marker_3f6386a86e4765d051f933af1b30601e.bindPopup(popup_8c8629989c386179a459db490814616b)
+        ;
+
+        
+    
+    
+            var circle_marker_2f2a92c23d4589b8aaca766dfd633377 = L.circleMarker(
+                [52.947093, -1.166649],
+                {"bubblingMouseEvents": true, "color": "#4ca600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#4ca600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_77a7995c5d15c01746d1c9be191955bd = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e0ab7948df5f92bbc1d2deca12fc004c = $(`<div id="html_e0ab7948df5f92bbc1d2deca12fc004c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £30.00<br>                  Number of Donations: 2<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_77a7995c5d15c01746d1c9be191955bd.setContent(html_e0ab7948df5f92bbc1d2deca12fc004c);
+            
+        
+
+        circle_marker_2f2a92c23d4589b8aaca766dfd633377.bindPopup(popup_77a7995c5d15c01746d1c9be191955bd)
+        ;
+
+        
+    
+    
+            var circle_marker_b762c2a6bdbfb41d96b1cff60738bcb1 = L.circleMarker(
+                [52.952828, -1.14536],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_9ece5a572352f065ff2b9f45ba7130c3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_70e9830eb66a871365aa6435c7b3e963 = $(`<div id="html_70e9830eb66a871365aa6435c7b3e963" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_9ece5a572352f065ff2b9f45ba7130c3.setContent(html_70e9830eb66a871365aa6435c7b3e963);
+            
+        
+
+        circle_marker_b762c2a6bdbfb41d96b1cff60738bcb1.bindPopup(popup_9ece5a572352f065ff2b9f45ba7130c3)
+        ;
+
+        
+    
+    
+            var circle_marker_d26c99540d05a6e035e6e1462d9e2469 = L.circleMarker(
+                [52.942257, -1.225569],
+                {"bubblingMouseEvents": true, "color": "#339a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#339a00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_00cfca5a77c7da011cd15627dca41b53 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2ba576ac33aba5d127eb893f8d6709e1 = $(`<div id="html_2ba576ac33aba5d127eb893f8d6709e1" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £20.00<br>                  Number of Donations: 1<br>                  Average Donation: £20.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_00cfca5a77c7da011cd15627dca41b53.setContent(html_2ba576ac33aba5d127eb893f8d6709e1);
+            
+        
+
+        circle_marker_d26c99540d05a6e035e6e1462d9e2469.bindPopup(popup_00cfca5a77c7da011cd15627dca41b53)
+        ;
+
+        
+    
+    
+            var circle_marker_907d30772d5f95dcdd48f31cfa3f948d = L.circleMarker(
+                [52.945107, -1.135586],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_51cd429d79e2fe3b4b39ae4458b318d8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d8f6fdf4c81a38569681f7e6b3e1b790 = $(`<div id="html_d8f6fdf4c81a38569681f7e6b3e1b790" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_51cd429d79e2fe3b4b39ae4458b318d8.setContent(html_d8f6fdf4c81a38569681f7e6b3e1b790);
+            
+        
+
+        circle_marker_907d30772d5f95dcdd48f31cfa3f948d.bindPopup(popup_51cd429d79e2fe3b4b39ae4458b318d8)
+        ;
+
+        
+    
+    
+            var circle_marker_4b48651d47c9a7d0ad6699ef0bded4ee = L.circleMarker(
+                [52.930121, -1.198353],
+                {"bubblingMouseEvents": true, "color": "#269300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#269300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_793f1928fbc8e0a49caa63c029280209 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d2cc72c10f5135875e00427f2263234b = $(`<div id="html_d2cc72c10f5135875e00427f2263234b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £15.00<br>                  Number of Donations: 1<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_793f1928fbc8e0a49caa63c029280209.setContent(html_d2cc72c10f5135875e00427f2263234b);
+            
+        
+
+        circle_marker_4b48651d47c9a7d0ad6699ef0bded4ee.bindPopup(popup_793f1928fbc8e0a49caa63c029280209)
+        ;
+
+        
+    
+    
+            var circle_marker_60395ad65556b2e62c7d740068e33ad7 = L.circleMarker(
+                [52.959917, -1.222127],
+                {"bubblingMouseEvents": true, "color": "#73b900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#73b900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_48cb52272f9f459a35995ed55ba045c5);
+        
+    
+        var popup_69ab597ee74839059f50c00933c2a63f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1e8e6dd3e46d3b326c00021dcc0fe1d2 = $(`<div id="html_1e8e6dd3e46d3b326c00021dcc0fe1d2" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £45.00<br>                  Number of Donations: 3<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_69ab597ee74839059f50c00933c2a63f.setContent(html_1e8e6dd3e46d3b326c00021dcc0fe1d2);
+            
+        
+
+        circle_marker_60395ad65556b2e62c7d740068e33ad7.bindPopup(popup_69ab597ee74839059f50c00933c2a63f)
+        ;
+
+        
+    
+    
+            feature_group_48cb52272f9f459a35995ed55ba045c5.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_1b6d739338dd586b0384168791ded7bb = L.featureGroup(
+                {}
+            );
+        
+    
+            var circle_marker_ca5206ddd5ff3accb446f6cd430bd0c5 = L.circleMarker(
+                [52.957021, -1.148493],
+                {"bubblingMouseEvents": true, "color": "#ffbb00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffbb00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_80e0387c5bd347620f495167de09b2af = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_42eac6f5529f29f0e6aa1c9dd3fa4e5b = $(`<div id="html_42eac6f5529f29f0e6aa1c9dd3fa4e5b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £213.00<br>                  Number of Donations: 14<br>                  Average Donation: £15.21<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_80e0387c5bd347620f495167de09b2af.setContent(html_42eac6f5529f29f0e6aa1c9dd3fa4e5b);
+            
+        
+
+        circle_marker_ca5206ddd5ff3accb446f6cd430bd0c5.bindPopup(popup_80e0387c5bd347620f495167de09b2af)
+        ;
+
+        
+    
+    
+            var circle_marker_bc822a5c27c2a2e33d8b9f783fce6a9d = L.circleMarker(
+                [52.9347, -1.120052],
+                {"bubblingMouseEvents": true, "color": "#fffc00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fffc00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_40cb7dafebb3adab64c60a6f8f719bf4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4f361aee8a82bbe720ea89eeaa6e0ddd = $(`<div id="html_4f361aee8a82bbe720ea89eeaa6e0ddd" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £105.00<br>                  Number of Donations: 7<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_40cb7dafebb3adab64c60a6f8f719bf4.setContent(html_4f361aee8a82bbe720ea89eeaa6e0ddd);
+            
+        
+
+        circle_marker_bc822a5c27c2a2e33d8b9f783fce6a9d.bindPopup(popup_40cb7dafebb3adab64c60a6f8f719bf4)
+        ;
+
+        
+    
+    
+            var circle_marker_7417559c167103b0352a3141aeecc0d3 = L.circleMarker(
+                [52.978695, -1.152327],
+                {"bubblingMouseEvents": true, "color": "#fffb00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fffb00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_dfe293e61267eb485834ca0893e6306d = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_914c44d37b2d05016a16da8dc14f9059 = $(`<div id="html_914c44d37b2d05016a16da8dc14f9059" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £108.00<br>                  Number of Donations: 7<br>                  Average Donation: £15.43<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_dfe293e61267eb485834ca0893e6306d.setContent(html_914c44d37b2d05016a16da8dc14f9059);
+            
+        
+
+        circle_marker_7417559c167103b0352a3141aeecc0d3.bindPopup(popup_dfe293e61267eb485834ca0893e6306d)
+        ;
+
+        
+    
+    
+            var circle_marker_cbc121b1ba932a4b53144509a6e7bd91 = L.circleMarker(
+                [52.984927, -1.153888],
+                {"bubblingMouseEvents": true, "color": "#ffcc00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffcc00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_908ca2bf42c7846b5c1da8caf0a5a18b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_cc43efbe9626c5f10bcc5c6065aa5376 = $(`<div id="html_cc43efbe9626c5f10bcc5c6065aa5376" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £186.00<br>                  Number of Donations: 12<br>                  Average Donation: £15.50<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_908ca2bf42c7846b5c1da8caf0a5a18b.setContent(html_cc43efbe9626c5f10bcc5c6065aa5376);
+            
+        
+
+        circle_marker_cbc121b1ba932a4b53144509a6e7bd91.bindPopup(popup_908ca2bf42c7846b5c1da8caf0a5a18b)
+        ;
+
+        
+    
+    
+            var circle_marker_b4ee0c929c61657dde7cbf6469647ad8 = L.circleMarker(
+                [52.921852, -1.199933],
+                {"bubblingMouseEvents": true, "color": "#ffe900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_14ba1df33b222cf796127674da9e1c60 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3d147cf650f797227e7c9917ec44dba5 = $(`<div id="html_3d147cf650f797227e7c9917ec44dba5" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £137.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.22<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_14ba1df33b222cf796127674da9e1c60.setContent(html_3d147cf650f797227e7c9917ec44dba5);
+            
+        
+
+        circle_marker_b4ee0c929c61657dde7cbf6469647ad8.bindPopup(popup_14ba1df33b222cf796127674da9e1c60)
+        ;
+
+        
+    
+    
+            var circle_marker_8123b383b87bc9b41b38a87efe10e466 = L.circleMarker(
+                [52.953445, -1.144602],
+                {"bubblingMouseEvents": true, "color": "#ffb200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffb200ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_c1f03f6bf86d409f746d02732617fc33 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bf1583e6d8d99dcda89c58b67d5db04b = $(`<div id="html_bf1583e6d8d99dcda89c58b67d5db04b" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £229.00<br>                  Number of Donations: 7<br>                  Average Donation: £32.71<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_c1f03f6bf86d409f746d02732617fc33.setContent(html_bf1583e6d8d99dcda89c58b67d5db04b);
+            
+        
+
+        circle_marker_8123b383b87bc9b41b38a87efe10e466.bindPopup(popup_c1f03f6bf86d409f746d02732617fc33)
+        ;
+
+        
+    
+    
+            var circle_marker_67d7bc9282ee5bd093d227268392f44f = L.circleMarker(
+                [52.959883, -1.222125],
+                {"bubblingMouseEvents": true, "color": "#ffe900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_39e7d0ec035c1143959127bf8acd0465 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_26d1e238e7367951f51fff13ece74e06 = $(`<div id="html_26d1e238e7367951f51fff13ece74e06" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £137.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.22<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_39e7d0ec035c1143959127bf8acd0465.setContent(html_26d1e238e7367951f51fff13ece74e06);
+            
+        
+
+        circle_marker_67d7bc9282ee5bd093d227268392f44f.bindPopup(popup_39e7d0ec035c1143959127bf8acd0465)
+        ;
+
+        
+    
+    
+            var circle_marker_8fad84d761a2e709edec0922e30d74aa = L.circleMarker(
+                [52.925683, -1.106773],
+                {"bubblingMouseEvents": true, "color": "#ffea00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffea00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_713182de11321fc97e4d227da92848c5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5c7ed1f3a517c8ceb22323c88485cc64 = $(`<div id="html_5c7ed1f3a517c8ceb22323c88485cc64" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £136.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.11<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_713182de11321fc97e4d227da92848c5.setContent(html_5c7ed1f3a517c8ceb22323c88485cc64);
+            
+        
+
+        circle_marker_8fad84d761a2e709edec0922e30d74aa.bindPopup(popup_713182de11321fc97e4d227da92848c5)
+        ;
+
+        
+    
+    
+            var circle_marker_382a1c7b3aa644ec9038c8d910505f4e = L.circleMarker(
+                [52.955571, -1.143074],
+                {"bubblingMouseEvents": true, "color": "#ffea00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffea00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_d8b8f7f39852e05a2e08d6495c1e12a0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_94b41867251f37e96cdfe59309d71b96 = $(`<div id="html_94b41867251f37e96cdfe59309d71b96" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £135.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_d8b8f7f39852e05a2e08d6495c1e12a0.setContent(html_94b41867251f37e96cdfe59309d71b96);
+            
+        
+
+        circle_marker_382a1c7b3aa644ec9038c8d910505f4e.bindPopup(popup_d8b8f7f39852e05a2e08d6495c1e12a0)
+        ;
+
+        
+    
+    
+            var circle_marker_31bd4bf0fbf2c3d9f695c480895f93a1 = L.circleMarker(
+                [52.963166, -1.206347],
+                {"bubblingMouseEvents": true, "color": "#ffe600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_efb130c95bdf98c6c29331827f7fc5b8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_f91ab682220bf7f2a47b6067d67386cc = $(`<div id="html_f91ab682220bf7f2a47b6067d67386cc" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £142.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.78<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_efb130c95bdf98c6c29331827f7fc5b8.setContent(html_f91ab682220bf7f2a47b6067d67386cc);
+            
+        
+
+        circle_marker_31bd4bf0fbf2c3d9f695c480895f93a1.bindPopup(popup_efb130c95bdf98c6c29331827f7fc5b8)
+        ;
+
+        
+    
+    
+            var circle_marker_31a5a78aa124749eb469f031cac84964 = L.circleMarker(
+                [52.953415, -1.172409],
+                {"bubblingMouseEvents": true, "color": "#ffea00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffea00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_18fbf2cc451e337f037bcc9df7a62809 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e5bb7dd6c702cce4fcab10a4b4ff01b7 = $(`<div id="html_e5bb7dd6c702cce4fcab10a4b4ff01b7" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £135.00<br>                  Number of Donations: 9<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_18fbf2cc451e337f037bcc9df7a62809.setContent(html_e5bb7dd6c702cce4fcab10a4b4ff01b7);
+            
+        
+
+        circle_marker_31a5a78aa124749eb469f031cac84964.bindPopup(popup_18fbf2cc451e337f037bcc9df7a62809)
+        ;
+
+        
+    
+    
+            var circle_marker_958c7569f692b24661239c2bb988b728 = L.circleMarker(
+                [52.955008, -1.141045],
+                {"bubblingMouseEvents": true, "color": "#ffa600ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa600ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_ee26ce64468933a72da1fd4c1fa33351 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7ba684af6b168fe7c85c05666c548c3c = $(`<div id="html_7ba684af6b168fe7c85c05666c548c3c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £248.00<br>                  Number of Donations: 4<br>                  Average Donation: £62.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_ee26ce64468933a72da1fd4c1fa33351.setContent(html_7ba684af6b168fe7c85c05666c548c3c);
+            
+        
+
+        circle_marker_958c7569f692b24661239c2bb988b728.bindPopup(popup_ee26ce64468933a72da1fd4c1fa33351)
+        ;
+
+        
+    
+    
+            var circle_marker_abb73da4481fa2b1f982c6061fdc2d62 = L.circleMarker(
+                [52.95382, -1.13806],
+                {"bubblingMouseEvents": true, "color": "#ffb700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffb700ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_ce0c21ba528b6fb12cc9f1b2cc8ad06b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e914143982040f234c44d30d289716d6 = $(`<div id="html_e914143982040f234c44d30d289716d6" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £221.00<br>                  Number of Donations: 14<br>                  Average Donation: £15.79<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_ce0c21ba528b6fb12cc9f1b2cc8ad06b.setContent(html_e914143982040f234c44d30d289716d6);
+            
+        
+
+        circle_marker_abb73da4481fa2b1f982c6061fdc2d62.bindPopup(popup_ce0c21ba528b6fb12cc9f1b2cc8ad06b)
+        ;
+
+        
+    
+    
+            var circle_marker_5b28c55deda63a5361d237e21bedeba6 = L.circleMarker(
+                [52.945817, -1.12572],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_af8a246ceaeab96854e596f8fd3cb850 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_60ceb4084fe01914f5d0b6cc7b9c3b1c = $(`<div id="html_60ceb4084fe01914f5d0b6cc7b9c3b1c" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £150.00<br>                  Number of Donations: 10<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_af8a246ceaeab96854e596f8fd3cb850.setContent(html_60ceb4084fe01914f5d0b6cc7b9c3b1c);
+            
+        
+
+        circle_marker_5b28c55deda63a5361d237e21bedeba6.bindPopup(popup_af8a246ceaeab96854e596f8fd3cb850)
+        ;
+
+        
+    
+    
+            var circle_marker_6d365d2c6da95ef2c8978f435b27d320 = L.circleMarker(
+                [52.958858, -1.196705],
+                {"bubblingMouseEvents": true, "color": "#ffd900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffd900ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_1b6d739338dd586b0384168791ded7bb);
+        
+    
+        var popup_d141e3a1be3587ab209d60c8d93b82a0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b19313b14fc4a50dfce094cb13e4c333 = $(`<div id="html_b19313b14fc4a50dfce094cb13e4c333" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £164.00<br>                  Number of Donations: 10<br>                  Average Donation: £16.40<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_d141e3a1be3587ab209d60c8d93b82a0.setContent(html_b19313b14fc4a50dfce094cb13e4c333);
+            
+        
+
+        circle_marker_6d365d2c6da95ef2c8978f435b27d320.bindPopup(popup_d141e3a1be3587ab209d60c8d93b82a0)
+        ;
+
+        
+    
+    
+            feature_group_1b6d739338dd586b0384168791ded7bb.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_4ed771b004ae933bfaff32e8052cc6fb = L.featureGroup(
+                {}
+            );
+        
+    
+            var circle_marker_daf35c140c9a467e9049e577c5459795 = L.circleMarker(
+                [52.916102, -1.14992],
+                {"bubblingMouseEvents": true, "color": "#ff7a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7a00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_4ed771b004ae933bfaff32e8052cc6fb);
+        
+    
+        var popup_0e0f01ce14065676182544a66c45087c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_052613e21835f3eee1920f886259851f = $(`<div id="html_052613e21835f3eee1920f886259851f" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £315.00<br>                  Number of Donations: 21<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_0e0f01ce14065676182544a66c45087c.setContent(html_052613e21835f3eee1920f886259851f);
+            
+        
+
+        circle_marker_daf35c140c9a467e9049e577c5459795.bindPopup(popup_0e0f01ce14065676182544a66c45087c)
+        ;
+
+        
+    
+    
+            var circle_marker_2b60b890a9dfdb3834d5d6ba9584ad82 = L.circleMarker(
+                [52.968773, -1.14378],
+                {"bubblingMouseEvents": true, "color": "#ff4200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff4200ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_4ed771b004ae933bfaff32e8052cc6fb);
+        
+    
+        var popup_1462b0b9ea4724a1a0605e28aa0883ae = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_30cfdaf104c564cdfd84876964f554f7 = $(`<div id="html_30cfdaf104c564cdfd84876964f554f7" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £400.00<br>                  Number of Donations: 12<br>                  Average Donation: £33.33<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_1462b0b9ea4724a1a0605e28aa0883ae.setContent(html_30cfdaf104c564cdfd84876964f554f7);
+            
+        
+
+        circle_marker_2b60b890a9dfdb3834d5d6ba9584ad82.bindPopup(popup_1462b0b9ea4724a1a0605e28aa0883ae)
+        ;
+
+        
+    
+    
+            var circle_marker_dadfb1f92b09cd5457d6098189bc0234 = L.circleMarker(
+                [52.953623, -1.158158],
+                {"bubblingMouseEvents": true, "color": "#ff8400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8400ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_4ed771b004ae933bfaff32e8052cc6fb);
+        
+    
+        var popup_84ef26f8b7d9f733c94c4c8b74b6b389 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b4d3297c781ce49c87f71799772a0365 = $(`<div id="html_b4d3297c781ce49c87f71799772a0365" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £300.00<br>                  Number of Donations: 20<br>                  Average Donation: £15.00<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_84ef26f8b7d9f733c94c4c8b74b6b389.setContent(html_b4d3297c781ce49c87f71799772a0365);
+            
+        
+
+        circle_marker_dadfb1f92b09cd5457d6098189bc0234.bindPopup(popup_84ef26f8b7d9f733c94c4c8b74b6b389)
+        ;
+
+        
+    
+    
+            var circle_marker_cd30b3d3e9d6a710b5178355f822c807 = L.circleMarker(
+                [52.92536, -1.157251],
+                {"bubblingMouseEvents": true, "color": "#ff8300ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8300ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_4ed771b004ae933bfaff32e8052cc6fb);
+        
+    
+        var popup_4068562279bbe1e1e35be3a6d43160e5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a8e252d3be85db6dad25220ec032f893 = $(`<div id="html_a8e252d3be85db6dad25220ec032f893" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £302.00<br>                  Number of Donations: 1<br>                  Average Donation: £302.00<br>                  Subscribed to Newsletter: False                  </div></div>`)[0];
+                popup_4068562279bbe1e1e35be3a6d43160e5.setContent(html_a8e252d3be85db6dad25220ec032f893);
+            
+        
+
+        circle_marker_cd30b3d3e9d6a710b5178355f822c807.bindPopup(popup_4068562279bbe1e1e35be3a6d43160e5)
+        ;
+
+        
+    
+    
+            var circle_marker_9472a414e35fd6789844919f356b50ca = L.circleMarker(
+                [52.958515, -1.144966],
+                {"bubblingMouseEvents": true, "color": "#ff6e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6e00ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_4ed771b004ae933bfaff32e8052cc6fb);
+        
+    
+        var popup_f5ed9f7102fe4689d0c6cd83a22d7f60 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_168cba01a16e7e52b098d91c221c5f26 = $(`<div id="html_168cba01a16e7e52b098d91c221c5f26" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £333.00<br>                  Number of Donations: 22<br>                  Average Donation: £15.14<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_f5ed9f7102fe4689d0c6cd83a22d7f60.setContent(html_168cba01a16e7e52b098d91c221c5f26);
+            
+        
+
+        circle_marker_9472a414e35fd6789844919f356b50ca.bindPopup(popup_f5ed9f7102fe4689d0c6cd83a22d7f60)
+        ;
+
+        
+    
+    
+            feature_group_4ed771b004ae933bfaff32e8052cc6fb.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_ad6fdbc4402aa749f2c3b9f01be31b09 = L.featureGroup(
+                {}
+            );
+        
+    
+            var circle_marker_8f75a0613754a45ef6a61df90894dbdf = L.circleMarker(
+                [52.955053, -1.14103],
+                {"bubblingMouseEvents": true, "color": "#f1000eff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f1000eff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_ad6fdbc4402aa749f2c3b9f01be31b09);
+        
+    
+        var popup_f46b63f81974707983fce8d152acb9a9 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_102c6eda2908e99c269adb90aa173bad = $(`<div id="html_102c6eda2908e99c269adb90aa173bad" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £557.00<br>                  Number of Donations: 37<br>                  Average Donation: £15.05<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_f46b63f81974707983fce8d152acb9a9.setContent(html_102c6eda2908e99c269adb90aa173bad);
+            
+        
+
+        circle_marker_8f75a0613754a45ef6a61df90894dbdf.bindPopup(popup_f46b63f81974707983fce8d152acb9a9)
+        ;
+
+        
+    
+    
+            feature_group_ad6fdbc4402aa749f2c3b9f01be31b09.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_eed0f3bb9c34d415ef359f129d9813c0 = L.featureGroup(
+                {}
+            );
+        
+    
+            feature_group_eed0f3bb9c34d415ef359f129d9813c0.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+            var feature_group_e31d62c407ed900001117b155e6fd16d = L.featureGroup(
+                {}
+            );
+        
+    
+            var circle_marker_db594ff05bf6dfb509697ae0ebe59f6f = L.circleMarker(
+                [52.959868, -1.149375],
+                {"bubblingMouseEvents": true, "color": "#800080ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#800080ff", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e31d62c407ed900001117b155e6fd16d);
+        
+    
+        var popup_7d0443e923e4fc528604226b3a8040de = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e9bacac4cb74f2a24d3669477795916e = $(`<div id="html_e9bacac4cb74f2a24d3669477795916e" style="width: 100.0%; height: 100.0%;"><div style="width: 175px;">                  Total Donated: £6613.00<br>                  Number of Donations: 8<br>                  Average Donation: £826.62<br>                  Subscribed to Newsletter: True                  </div></div>`)[0];
+                popup_7d0443e923e4fc528604226b3a8040de.setContent(html_e9bacac4cb74f2a24d3669477795916e);
+            
+        
+
+        circle_marker_db594ff05bf6dfb509697ae0ebe59f6f.bindPopup(popup_7d0443e923e4fc528604226b3a8040de)
+        ;
+
+        
+    
+    
+            feature_group_e31d62c407ed900001117b155e6fd16d.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+        
+    
+    var color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a = {};
+
+    
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.color = d3.scale.threshold()
+              .domain([15.0, 17.409026052104142, 19.818052104208288, 22.22707815631243, 24.636104208416576, 27.045130260520715, 29.45415631262486, 31.863182364729006, 34.27220841683315, 36.68123446893729, 39.09026052104143, 41.49928657314558, 43.90831262524972, 46.31733867735386, 48.72636472945801, 51.13539078156215, 53.5444168336663, 55.953442885770436, 58.362468937874574, 60.77149498997873, 63.180521042082866, 65.58954709418701, 67.99857314629116, 70.4075991983953, 72.81662525049944, 75.22565130260358, 77.63467735470772, 80.04370340681187, 82.45272945891602, 84.86175551102015, 87.2707815631243, 89.67980761522844, 92.0888336673326, 94.49785971943673, 96.90688577154087, 99.31591182364502, 101.72493787574915, 104.1339639278533, 106.54298997995745, 108.95201603206158, 111.36104208416573, 113.77006813626988, 116.17909418837402, 118.58812024047816, 120.99714629258231, 123.40617234468645, 125.81519839679059, 128.22422444889474, 130.63325050099888, 133.04227655310302, 135.45130260520716, 137.8603286573113, 140.26935470941544, 142.67838076151958, 145.08740681362374, 147.49643286572788, 149.90545891783205, 152.3144849699362, 154.7235110220403, 157.13253707414444, 159.5415631262486, 161.95058917835274, 164.35961523045688, 166.76864128256105, 169.1776673346652, 171.5866933867693, 173.99571943887346, 176.4047454909776, 178.81377154308174, 181.2227975951859, 183.63182364729005, 186.04084969939416, 188.4498757514983, 190.85890180360246, 193.2679278557066, 195.67695390781074, 198.0859799599149, 200.49500601201905, 202.90403206412316, 205.31305811622732, 207.72208416833146, 210.1311102204356, 212.54013627253977, 214.9491623246439, 217.35818837674805, 219.76721442885218, 222.17624048095632, 224.58526653306046, 226.99429258516463, 229.40331863726877, 231.8123446893729, 234.22137074147705, 236.63039679358118, 239.03942284568532, 241.44844889778946, 243.85747494989363, 246.26650100199777, 248.6755270541019, 251.08455310620604, 253.49357915831018, 255.90260521041432, 258.3116312625185, 260.7206573146226, 263.1296833667268, 265.5387094188309, 267.9477354709351, 270.35676152303915, 272.76578757514335, 275.1748136272475, 277.5838396793516, 279.99286573145577, 282.4018917835599, 284.8109178356641, 287.21994388776824, 289.6289699398724, 292.03799599197646, 294.4470220440806, 296.85604809618474, 299.2650741482889, 301.67410020039307, 304.0831262524972, 306.49215230460135, 308.9011783567055, 311.3102044088096, 313.71923046091376, 316.12825651301796, 318.5372825651221, 320.94630861722624, 323.3553346693304, 325.76436072143446, 328.1733867735386, 330.58241282564273, 332.99143887774693, 335.40046492985107, 337.8094909819552, 340.21851703405935, 342.6275430861635, 345.0365691382676, 347.4455951903718, 349.85462124247596, 352.2636472945801, 354.67267334668423, 357.0816993987883, 359.49072545089246, 361.8997515029966, 364.3087775551008, 366.7178036072049, 369.12682965930907, 371.5358557114132, 373.94488176351734, 376.3539078156215, 378.7629338677257, 381.1719599198298, 383.58098597193396, 385.9900120240381, 388.39903807614223, 390.8080641282463, 393.2170901803505, 395.62611623245465, 398.0351422845588, 400.4441683366629, 402.85319438876706, 405.2622204408712, 407.67124649297534, 410.08027254507954, 412.4892985971837, 414.8983246492878, 417.30735070139195, 419.7163767534961, 422.1254028056002, 424.53442885770437, 426.9434549098085, 429.35248096191265, 431.7615070140168, 434.1705330661209, 436.57955911822506, 438.98858517032926, 441.3976112224334, 443.80663727453754, 446.2156633266417, 448.6246893787458, 451.03371543084995, 453.4427414829541, 455.85176753505823, 458.26079358716237, 460.6698196392665, 463.07884569137065, 465.4878717434748, 467.8968977955789, 470.3059238476831, 472.71494989978726, 475.1239759518914, 477.53300200399553, 479.9420280560997, 482.3510541082038, 484.76008016030795, 487.1691062124121, 489.5781322645162, 491.98715831662037, 494.3961843687245, 496.80521042082864, 499.2142364729328, 501.623262525037, 504.0322885771411, 506.44131462924526, 508.8503406813494, 511.25936673345353, 513.6683927855577, 516.0774188376618, 518.4864448897661, 520.8954709418701, 523.3044969939742, 525.7135230460783, 528.1225490981825, 530.5315751502867, 532.9406012023909, 535.349627254495, 537.7586533065991, 540.1676793587033, 542.5767054108074, 544.9857314629115, 547.3947575150157, 549.8037835671198, 552.212809619224, 554.6218356713282, 557.0308617234323, 559.4398877755365, 561.8489138276406, 564.2579398797448, 566.6669659318488, 569.0759919839529, 571.4850180360571, 573.8940440881612, 576.3030701402654, 578.7120961923695, 581.1211222444737, 583.5301482965777, 585.939174348682, 588.3482004007861, 590.7572264528902, 593.1662525049944, 595.5752785570985, 597.9843046092027, 600.3933306613068, 602.802356713411, 605.2113827655152, 607.6204088176192, 610.0294348697234, 612.4384609218275, 614.8474869739317, 617.2565130260359, 619.66553907814, 622.0745651302442, 624.4835911823483, 626.8926172344525, 629.3016432865566, 631.7106693386608, 634.1196953907648, 636.5287214428689, 638.9377474949731, 641.3467735470772, 643.7557995991814, 646.1648256512855, 648.5738517033897, 650.9828777554939, 653.3919038075979, 655.8009298597021, 658.2099559118062, 660.6189819639104, 663.0280080160146, 665.4370340681187, 667.8460601202229, 670.255086172327, 672.6641122244312, 675.0731382765352, 677.4821643286394, 679.8911903807436, 682.3002164328477, 684.7092424849519, 687.118268537056, 689.5272945891602, 691.9363206412643, 694.3453466933685, 696.7543727454727, 699.1633987975766, 701.5724248496808, 703.9814509017849, 706.3904769538891, 708.7995030059932, 711.2085290580974, 713.6175551102016, 716.0265811623057, 718.4356072144099, 720.8446332665139, 723.2536593186181, 725.6626853707223, 728.0717114228264, 730.4807374749306, 732.8897635270347, 735.2987895791389, 737.707815631243, 740.1168416833472, 742.5258677354514, 744.9348937875554, 747.3439198396596, 749.7529458917637, 752.1619719438679, 754.570997995972, 756.9800240480762, 759.3890501001804, 761.7980761522845, 764.2071022043885, 766.6161282564926, 769.0251543085968, 771.434180360701, 773.8432064128051, 776.2522324649093, 778.6612585170134, 781.0702845691176, 783.4793106212217, 785.8883366733259, 788.29736272543, 790.7063887775341, 793.1154148296383, 795.5244408817424, 797.9334669338466, 800.3424929859507, 802.7515190380549, 805.1605450901591, 807.5695711422632, 809.9785971943674, 812.3876232464714, 814.7966492985756, 817.2056753506798, 819.6147014027839, 822.0237274548881, 824.4327535069922, 826.8417795590964, 829.2508056112003, 831.6598316633045, 834.0688577154087, 836.4778837675128, 838.886909819617, 841.2959358717211, 843.7049619238253, 846.1139879759294, 848.5230140280336, 850.9320400801378, 853.3410661322418, 855.750092184346, 858.1591182364501, 860.5681442885543, 862.9771703406585, 865.3861963927626, 867.7952224448668, 870.2042484969709, 872.6132745490751, 875.0223006011792, 877.4313266532833, 879.8403527053875, 882.2493787574916, 884.6584048095958, 887.0674308616999, 889.4764569138041, 891.8854829659082, 894.2945090180123, 896.7035350701165, 899.1125611222205, 901.5215871743247, 903.9306132264288, 906.339639278533, 908.7486653306371, 911.1576913827413, 913.5667174348455, 915.9757434869496, 918.3847695390538, 920.7937955911578, 923.202821643262, 925.6118476953662, 928.0208737474703, 930.4298997995745, 932.8389258516786, 935.2479519037828, 937.6569779558869, 940.0660040079911, 942.4750300600953, 944.8840561121993, 947.2930821643035, 949.7021082164076, 952.1111342685118, 954.5201603206159, 956.9291863727201, 959.3382124248242, 961.7472384769283, 964.1562645290325, 966.5652905811365, 968.9743166332407, 971.3833426853449, 973.792368737449, 976.2013947895532, 978.6104208416573, 981.0194468937615, 983.4284729458656, 985.8374989979698, 988.246525050074, 990.655551102178, 993.0645771542822, 995.4736032063863, 997.8826292584905, 1000.2916553105946, 1002.7006813626988, 1005.109707414803, 1007.5187334669071, 1009.9277595190113, 1012.3367855711153, 1014.7458116232195, 1017.1548376753236, 1019.5638637274278, 1021.972889779532, 1024.381915831636, 1026.7909418837403, 1029.1999679358441, 1031.6089939879485, 1034.0180200400528, 1036.4270460921566, 1038.836072144261, 1041.245098196365, 1043.6541242484693, 1046.0631503005734, 1048.4721763526775, 1050.8812024047818, 1053.2902284568859, 1055.69925450899, 1058.108280561094, 1060.5173066131981, 1062.9263326653022, 1065.3353587174065, 1067.7443847695106, 1070.153410821615, 1072.562436873719, 1074.971462925823, 1077.3804889779271, 1079.7895150300315, 1082.1985410821355, 1084.6075671342396, 1087.016593186344, 1089.425619238448, 1091.834645290552, 1094.2436713426564, 1096.6526973947605, 1099.0617234468646, 1101.4707494989686, 1103.879775551073, 1106.288801603177, 1108.6978276552811, 1111.1068537073854, 1113.5158797594895, 1115.9249058115936, 1118.3339318636977, 1120.742957915802, 1123.1519839679058, 1125.56101002001, 1127.9700360721142, 1130.3790621242183, 1132.7880881763224, 1135.1971142284265, 1137.6061402805308, 1140.0151663326349, 1142.424192384739, 1144.8332184368433, 1147.2422444889473, 1149.6512705410514, 1152.0602965931555, 1154.4693226452598, 1156.878348697364, 1159.287374749468, 1161.6964008015723, 1164.1054268536764, 1166.5144529057804, 1168.9234789578845, 1171.3325050099888, 1173.741531062093, 1176.150557114197, 1178.5595831663013, 1180.9686092184054, 1183.3776352705095, 1185.7866613226136, 1188.1956873747179, 1190.604713426822, 1193.013739478926, 1195.4227655310303, 1197.8317915831344, 1200.2408176352385, 1202.6498436873428, 1205.058869739447, 1207.467895791551, 1209.876921843655, 1212.2859478957594, 1214.6949739478634, 1217.1039999999675])
+              .range(['#269300ff', '#2c9600ff', '#329900ff', '#389c00ff', '#3f9f00ff', '#45a200ff', '#4ba600ff', '#51a900ff', '#57ac00ff', '#5daf00ff', '#64b200ff', '#6ab500ff', '#70b800ff', '#76bb00ff', '#7cbe00ff', '#82c100ff', '#89c400ff', '#8fc700ff', '#95ca00ff', '#9bcd00ff', '#a1d100ff', '#a7d400ff', '#aed700ff', '#b4da00ff', '#badd00ff', '#c0e000ff', '#c6e300ff', '#cce600ff', '#d3e900ff', '#d9ec00ff', '#dfef00ff', '#e5f200ff', '#ebf500ff', '#f1f800ff', '#f8fc00ff', '#feff00ff', '#fffe00ff', '#fffd00ff', '#fffc00ff', '#fffa00ff', '#fff900ff', '#fff700ff', '#fff600ff', '#fff400ff', '#fff300ff', '#fff100ff', '#fff000ff', '#ffee00ff', '#ffed00ff', '#ffec00ff', '#ffea00ff', '#ffe900ff', '#ffe700ff', '#ffe600ff', '#ffe400ff', '#ffe300ff', '#ffe100ff', '#ffe000ff', '#ffdf00ff', '#ffdd00ff', '#ffdc00ff', '#ffda00ff', '#ffd900ff', '#ffd700ff', '#ffd600ff', '#ffd400ff', '#ffd300ff', '#ffd100ff', '#ffd000ff', '#ffcf00ff', '#ffcd00ff', '#ffcc00ff', '#ffca00ff', '#ffc900ff', '#ffc700ff', '#ffc600ff', '#ffc400ff', '#ffc300ff', '#ffc200ff', '#ffc000ff', '#ffbf00ff', '#ffbd00ff', '#ffbc00ff', '#ffba00ff', '#ffb900ff', '#ffb700ff', '#ffb600ff', '#ffb400ff', '#ffb300ff', '#ffb200ff', '#ffb000ff', '#ffaf00ff', '#ffad00ff', '#ffac00ff', '#ffaa00ff', '#ffa900ff', '#ffa700ff', '#ffa600ff', '#ffa400ff', '#ffa300ff', '#ffa100ff', '#ffa000ff', '#ff9e00ff', '#ff9c00ff', '#ff9b00ff', '#ff9900ff', '#ff9800ff', '#ff9600ff', '#ff9400ff', '#ff9300ff', '#ff9100ff', '#ff9000ff', '#ff8e00ff', '#ff8c00ff', '#ff8b00ff', '#ff8900ff', '#ff8800ff', '#ff8600ff', '#ff8500ff', '#ff8300ff', '#ff8100ff', '#ff8000ff', '#ff7e00ff', '#ff7d00ff', '#ff7b00ff', '#ff7900ff', '#ff7800ff', '#ff7600ff', '#ff7500ff', '#ff7300ff', '#ff7100ff', '#ff7000ff', '#ff6e00ff', '#ff6d00ff', '#ff6b00ff', '#ff6900ff', '#ff6800ff', '#ff6600ff', '#ff6500ff', '#ff6300ff', '#ff6100ff', '#ff6000ff', '#ff5e00ff', '#ff5d00ff', '#ff5b00ff', '#ff5900ff', '#ff5800ff', '#ff5600ff', '#ff5500ff', '#ff5300ff', '#ff5100ff', '#ff5000ff', '#ff4e00ff', '#ff4d00ff', '#ff4b00ff', '#ff4900ff', '#ff4800ff', '#ff4600ff', '#ff4500ff', '#ff4300ff', '#ff4100ff', '#ff4000ff', '#ff3e00ff', '#ff3d00ff', '#ff3b00ff', '#ff3900ff', '#ff3800ff', '#ff3600ff', '#ff3500ff', '#ff3300ff', '#ff3200ff', '#ff3000ff', '#ff2e00ff', '#ff2d00ff', '#ff2b00ff', '#ff2a00ff', '#ff2800ff', '#ff2600ff', '#ff2500ff', '#ff2300ff', '#ff2200ff', '#ff2000ff', '#ff1e00ff', '#ff1d00ff', '#ff1b00ff', '#ff1a00ff', '#ff1800ff', '#ff1600ff', '#ff1500ff', '#ff1300ff', '#ff1200ff', '#ff1000ff', '#ff0e00ff', '#ff0d00ff', '#ff0b00ff', '#ff0a00ff', '#ff0800ff', '#ff0600ff', '#ff0500ff', '#ff0300ff', '#ff0200ff', '#ff0000ff', '#ff0000ff', '#fe0001ff', '#fe0001ff', '#fd0002ff', '#fd0002ff', '#fc0003ff', '#fb0004ff', '#fb0004ff', '#fa0005ff', '#fa0005ff', '#f90006ff', '#f80007ff', '#f80007ff', '#f70008ff', '#f60009ff', '#f60009ff', '#f5000aff', '#f5000aff', '#f4000bff', '#f3000cff', '#f3000cff', '#f2000dff', '#f2000eff', '#f1000eff', '#f0000fff', '#f0000fff', '#ef0010ff', '#ef0011ff', '#ee0011ff', '#ed0012ff', '#ed0012ff', '#ec0013ff', '#eb0014ff', '#eb0014ff', '#ea0015ff', '#ea0016ff', '#e90016ff', '#e80017ff', '#e80017ff', '#e70018ff', '#e70019ff', '#e60019ff', '#e5001aff', '#e5001bff', '#e4001bff', '#e3001cff', '#e3001cff', '#e2001dff', '#e2001eff', '#e1001eff', '#e0001fff', '#e0001fff', '#df0020ff', '#df0021ff', '#de0021ff', '#dd0022ff', '#dd0023ff', '#dc0023ff', '#db0024ff', '#db0024ff', '#da0025ff', '#da0026ff', '#d90026ff', '#d80027ff', '#d80028ff', '#d70028ff', '#d70029ff', '#d60029ff', '#d5002aff', '#d5002bff', '#d4002bff', '#d3002cff', '#d3002cff', '#d2002dff', '#d2002eff', '#d1002eff', '#d0002fff', '#d00030ff', '#cf0030ff', '#cf0031ff', '#ce0031ff', '#cd0032ff', '#cd0033ff', '#cc0033ff', '#cb0034ff', '#cb0035ff', '#ca0035ff', '#ca0036ff', '#c90036ff', '#c80037ff', '#c80038ff', '#c70038ff', '#c70039ff', '#c60039ff', '#c5003aff', '#c5003bff', '#c4003bff', '#c3003cff', '#c3003dff', '#c2003dff', '#c2003eff', '#c1003eff', '#c0003fff', '#c00040ff', '#bf0040ff', '#bf0041ff', '#be0042ff', '#bd0042ff', '#bd0043ff', '#bc0043ff', '#bc0044ff', '#bb0045ff', '#ba0045ff', '#ba0046ff', '#b90046ff', '#b80047ff', '#b80048ff', '#b70048ff', '#b70049ff', '#b6004aff', '#b5004aff', '#b5004bff', '#b4004bff', '#b4004cff', '#b3004dff', '#b2004dff', '#b2004eff', '#b1004fff', '#b0004fff', '#b00050ff', '#af0050ff', '#af0051ff', '#ae0052ff', '#ad0052ff', '#ad0053ff', '#ac0053ff', '#ac0054ff', '#ab0055ff', '#aa0055ff', '#aa0056ff', '#a90057ff', '#a80057ff', '#a80058ff', '#a70058ff', '#a70059ff', '#a6005aff', '#a5005aff', '#a5005bff', '#a4005cff', '#a4005cff', '#a3005dff', '#a2005dff', '#a2005eff', '#a1005fff', '#a0005fff', '#a00060ff', '#9f0061ff', '#9f0061ff', '#9e0062ff', '#9d0062ff', '#9d0063ff', '#9c0064ff', '#9c0064ff', '#9b0065ff', '#9a0065ff', '#9a0066ff', '#990067ff', '#980067ff', '#980068ff', '#970069ff', '#970069ff', '#96006aff', '#95006aff', '#95006bff', '#94006cff', '#94006cff', '#93006dff', '#92006eff', '#92006eff', '#91006fff', '#91006fff', '#900070ff', '#8f0071ff', '#8f0071ff', '#8e0072ff', '#8d0072ff', '#8d0073ff', '#8c0074ff', '#8c0074ff', '#8b0075ff', '#8a0076ff', '#8a0076ff', '#890077ff', '#890077ff', '#880078ff', '#870079ff', '#870079ff', '#86007aff', '#85007bff', '#85007bff', '#84007cff', '#84007cff', '#83007dff', '#82007eff', '#82007eff', '#81007fff', '#81007fff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff', '#800080ff']);
+    
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x = d3.scale.linear()
+              .domain([15.0, 1217.1039999999675])
+              .range([0, 450 - 50]);
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.legend = L.control({position: 'topright'});
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.legend.addTo(map_6942be1d314f6c30d3cecac988560b7d);
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.xAxis = d3.svg.axis()
+        .scale(color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([0, 100, 250, 500, 1000]);
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.g = color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.svg.append("g")
+        .attr("class", "key")
+        .attr("transform", "translate(25,16)");
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.g.selectAll("rect")
+        .data(color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x(color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.color.domain()[i - 1]) : color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x.range()[0],
+            x1: i < color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.color.domain().length ? color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x(color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.color.domain()[i]) : color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.g.call(color_map_f51bfde7bf6e3cd69d6ac4993eb70d5a.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .text("");
+    
+            var layer_control_d54f8a152e637e35c83f25572d105505_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_59674b0023e563d6918dbb3f7cc39d14,
+                },
+                overlays :  {
+                    "Total Donated:  \u00a30-\u00a3100" : feature_group_48cb52272f9f459a35995ed55ba045c5,
+                    "Total Donated:  \u00a3100-\u00a3250" : feature_group_1b6d739338dd586b0384168791ded7bb,
+                    "Total Donated:  \u00a3250-\u00a3500" : feature_group_4ed771b004ae933bfaff32e8052cc6fb,
+                    "Total Donated:  \u00a3500-\u00a3750" : feature_group_ad6fdbc4402aa749f2c3b9f01be31b09,
+                    "Total Donated:  \u00a3750-\u00a31000" : feature_group_eed0f3bb9c34d415ef359f129d9813c0,
+                    "Total Donated:  \u00a31000-\u00a3inf" : feature_group_e31d62c407ed900001117b155e6fd16d,
+                },
+            };
+            let layer_control_d54f8a152e637e35c83f25572d105505 = L.control.layers(
+                layer_control_d54f8a152e637e35c83f25572d105505_layers.base_layers,
+                layer_control_d54f8a152e637e35c83f25572d105505_layers.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_6942be1d314f6c30d3cecac988560b7d);
+
+        
+</script>
+</html>
