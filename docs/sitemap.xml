@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/6 - Folium Maps/index.html</loc>
+    <lastmod>2024-03-17T19:45:47.278Z</lastmod>
+  </url>
+  <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html</loc>
     <lastmod>2024-03-16T17:28:16.076Z</lastmod>
   </url>
@@ -10,7 +14,7 @@
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-01-25T14:32:21.053Z</lastmod>
+    <lastmod>2024-03-17T19:46:38.567Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
@@ -26,14 +30,6 @@
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/5 - Geocoding Postcodes with Python/index.html</loc>
-    <lastmod>2024-03-17T11:59:43.890Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/New folder/Untitled.html</loc>
-    <lastmod>2024-03-17T02:23:44.417Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/New folder/Untitled1.html</loc>
-    <lastmod>2024-03-17T02:23:29.554Z</lastmod>
+    <lastmod>2024-03-17T19:29:24.496Z</lastmod>
   </url>
 </urlset>
