@@ -8,7 +8,7 @@
 
 <meta name="author" content="Daniel Smith">
 <meta name="dcterms.date" content="2024-03-17">
-<meta name="description" content="I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by contrusting interactive leaflet maps in folium with a synthetic dataset.">
+<meta name="description" content="I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by constructing interactive leaflet maps in folium with a synthetic dataset.">
 
 <title>djs - Portfolio - Investigating the Distribution of Charity Donors with Interactive Maps made with Folium</title>
 <style>
@@ -160,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by contrusting interactive leaflet maps in folium with a synthetic dataset.
+    I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by constructing interactive leaflet maps in folium with a synthetic dataset.
   </div>
 </div>
 
@@ -201,6 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Data Imports</h1>
 <p><code>FakeIndividualConstituents.csv</code> is a dataset I constructed consisting of the donation details of 100 fictional donors to a charity in Nottingham.</p>
 <p>Importantly this data is fictional, randomly generated. It is not the details of real donors anonymised. For the full details of how I constructed this data, see the appendix at the end of this post.</p>
+<p>This post is meant to illustrate my method for investigating the distribution of donors to a real charity at which I volunteer - <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a> in Nottingham.</p>
 <p><code>Newsletter</code> is a binary feature labelling if the donor is subscribed to the charity’s newsletter.</p>
 <div id="a64b3af5-141b-4a48-a388-5c02a9ce99c0" class="cell" data-tags="[]" data-execution_count="146">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'FakeIndividualConstituents.csv'</span>)</span>
