@@ -73,5 +73,11 @@
   },
   "posts/7 - Attaching Statistics/AttachingStats.ipynb": {
     "AttachingStats.html": "d0e6bea9"
+  },
+  "posts/Draft - Attaching Statistics/AttachingStats.ipynb": {
+    "AttachingStats.html": "cb3afc41"
+  },
+  "posts/7 - Model Selection and Tuning with Optuna for Loan Charge-Off Prediction/index.ipynb": {
+    "index.html": "321e6680"
   }
 }
