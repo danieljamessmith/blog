@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/5 - Geocoding Postcodes with Python/index.html</loc>
+    <lastmod>2024-03-19T16:35:12.168Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/3 - Log Reg with NN Mindset/index.html</loc>
+    <lastmod>2024-03-19T16:35:10.142Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/1 - Spaceship Titanic with LightGBM/index.html</loc>
+    <lastmod>2024-03-19T16:35:07.274Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
+    <lastmod>2024-03-19T16:35:03.841Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
+    <lastmod>2024-03-19T16:35:05.106Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/2 - Energy Forecasting with XGBoost/index.html</loc>
+    <lastmod>2024-03-19T16:35:09.140Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html</loc>
+    <lastmod>2024-03-19T16:35:11.527Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/6 - Folium Maps/index.html</loc>
+    <lastmod>2024-03-19T16:35:13.720Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/7 - Model Selection and Tuning with Optuna for Loan Charge-Off Prediction/index.html</loc>
+    <lastmod>2024-03-19T16:35:16.189Z</lastmod>
+  </url>
+</urlset>
