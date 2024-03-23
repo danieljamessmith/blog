@@ -2,14 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/8 - Model Selection and Tuning with Optuna for Loan Charge-Off Prediction/index.html",
-      "/posts/7 - Folium Maps/index.html",
-      "/posts/6 - Geocoding Postcodes with Python/index.html",
-      "/posts/5 - Boltzmann Transport Eqn (.md)/index.html",
-      "/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html",
-      "/posts/3 - Log Reg with NN Mindset/index.html",
-      "/posts/2 - Energy Forecasting with XGBoost/index.html",
-      "/posts/1 - Spaceship Titanic with LightGBM/index.html"
+      "/posts/SELECTION_TUNING_OPTUNA/index.html",
+      "/posts/FOLIUM_EH/index.html",
+      "/posts/GEOCODE_PCDS/index.html",
+      "/posts/BTE1/index.html",
+      "/posts/SA_NLTK_HF/index.html",
+      "/posts/LR_NN_MIND/index.html",
+      "/posts/TCF_XGB/index.html",
+      "/posts/ST_LGBM/index.html"
     ]
   }
 ]

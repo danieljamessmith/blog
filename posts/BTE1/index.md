@@ -1,8 +1,8 @@
 ---
 title: "The Boltzmann Transport Equation"
 author: "Daniel Smith"
-date: "2024-02-11"
-categories: [Mathematics, PDEs, Mathematical Physics, Boltzmann Equation]
+date: "2024-01-29"
+categories: [Mathematics, PDEs, Boltzmann Equation]
 title-block-banner: false
 image: 'preview.png'
 draft: false
@@ -10,6 +10,8 @@ description:  "I introduce the rigorous theory of the Boltzmann Transport Equati
 ---
 
 # THE BOLTZMANN EQUATION
+
+---
 
 ## The evolution equations
 
@@ -20,8 +22,7 @@ when all inter-particle interactions are assumed to be elastic binary
 collisions: 
 
 $$\begin{aligned}
- \label{eq:1}
-    \frac{\partial f}{\partial t} + v\cdot \nabla_{x} f = Q(f,f),\quad x\in X,\: v\in \mathbb{R}^d,\: t\geq0.
+\frac{\partial f}{\partial t} + v\cdot \nabla_{x} f = Q(f,f),\quad x\in X,\: v\in \mathbb{R}^d,\: t\geq0.
 \end{aligned}$$
 
 Where $f=f(t,x,v)=f_t(x,v)$ is the particle distribution
@@ -97,7 +98,6 @@ spatial variable $x$ the full Boltzmann equation reduces to the **spatially homo
 equation**
 
 $$\begin{aligned}
- \label{eq:3}
     \frac{\partial f}{\partial t} = Q(f,f).
 \end{aligned}$$
 
@@ -149,7 +149,6 @@ $f$, which physically describes the state of *thermodynamic equilibrium*
 in which the gas is maximally diffused, by 
 
 $$\begin{aligned}
- \label{eq:6}
     M^f(v) = \frac{\rho}{(2\pi T)^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T}|v-u|^2\right].
 \end{aligned}$$
 
@@ -158,6 +157,8 @@ In the theory of the Boltzmann equation the following question is of central imp
 **Under what conditions, and in what sense, do we have
 $f\longrightarrow M^f$ *as* $t \longrightarrow \infty$?**
 
+
+---
 
 ## Boundary conditions
 
@@ -202,8 +203,11 @@ popular and physically relevant choices.
             \rho_-(x) &= \int_{v\cdot n<0}f(x,v)|v\cdot n| \,\text{d}v,\\
             M_w(v) &= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\left[-\frac{|v|^2}{2T_w}\right].
             \end{aligned}$$
-    
 
+
+
+
+---
 
 ## Collision kernels
 
@@ -284,3 +288,163 @@ that the angular collision kernel $b$ is integrable:
 $$\begin{aligned}
 \int_{\mathbb{S}^{d-1}}b(k\cdot\sigma)\,\text{d}\sigma = \left|\mathbb{S}^{d-2}\right|\int_0^{\pi}b(\cos\theta)\sin^{d-2}\theta\,\text{d}\theta<\infty.
 \end{aligned}$$
+
+
+---
+
+## The H theorem
+
+For a probability density $f$ on $X \times \mathbb{R}^d$ define
+Boltzmann's **H functional** by 
+$$\begin{aligned}
+    H(f) 
+= \int_{\mathbb{R}^d\times X}f\log f\,\text{d} x\,\text{d} v.
+\end{aligned}$$
+
+$H(f)$ is well-defined in $\mathbb{R}\cup\{\infty\}$
+provided that $$\int f(x,v)|v|^2\,\text{d} x\,\text{d} v < \infty,$$ i.e. if $f$
+has finite energy. We note that up to a change of sign the $H$
+functional is just the differential entropy of $f$, to be defined in a future post.
+
+Boltzmann's **H theorem** loosely states that $H(f)$ is a quantity
+monotonically decreasing (non-increasing) in time, and is stationary if
+and only if $f$ is a Maxwellian. Making this precise is a task more
+technical that it might first appear. 
+
+
+### Theorem 1
+
+Let $(f_t)_{t\geq0}$ be a well-behaved (smooth) solution of the
+Boltzmann equation (in particular with finite entropy), with either
+periodic, bounce-back or specular boundary conditions. In the latter
+case assume further that $d = 2 \text{ or } 3$ and the spatial domain
+$X$ has no axis of symmetry. Then:
+
+1.  $$\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.$$\
+    Moreover, one can define another functional $D$ on
+    $L^1\left(\mathbb{R}^d\right)$ called the such that
+    $$\frac{\text{d}}{\text{d} t} H(f_t) = -\int_X D(f_t(x,\cdot\,)\,\text{d} x.$$
+
+
+2.  Assume that $B(v-v_*,\sigma)>0$ for a.e.
+    $(v,v_*,\sigma)\in\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}$
+    (this is always true in cases of physical interest).\
+    
+    Let $f(x,v)$ be a probability density on $X\times\mathbb{R}^d$ with
+    finite energy, $\int f(x,v)|v|^2\,\text{d} x\,\text{d} v <\infty.$ Then:
+    
+    $$\int_X D(f(x,\cdot\,)\text{d} x = 0\,\, \Longleftrightarrow\,\, f\; \text{is a local Maxwellian}, \text{ i.e. } f = M_{\mathrm{loc}}^f.$$
+
+
+3.  
+$$\begin{aligned}
+            (f_t)_{t\geq0} \text{ is stationary }\,\,&\Longleftrightarrow\,\, D(f_t(x,\cdot\,) = 0\quad\forall\, t\geq 0\\
+            &\Longleftrightarrow\,\, f_t \text{ is a global Maxwellian, i.e. } f_t(x,v) = M^f(v) \quad\forall\, t\geq 0.
+    \end{aligned}$$
+
+    
+
+
+
+
+---
+
+## Collision invariants and conservation laws
+
+The entropy dissipation functional $D$ introduced in
+Theorem 1 can be
+expressed as 
+
+$$\begin{aligned}
+ \label{eq:10}
+   D(f) = \frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\mathrm{log}\,\frac{f'f'_*}{ff_*}\,\text{d}\sigma\,\text{d} v_*\,\text{d} v.
+\end{aligned}$$
+
+And formally satisfies
+
+$$\frac{\text{d}}{\text{d} t} H(f_t) = - \int D(f_t(x,\cdot\,)\,\text{d} x$$ 
+
+in the spatially inhomogeneous case and
+
+$$\frac{\text{d}}{\text{d} t} H(f_t) = D(f_t),$$ 
+
+in the spatially homogeneous case.
+
+The derivation of the above formula for $D$ relies on the following lemma used
+to symmetrize the Boltzmann operator $Q$:
+
+
+### Lemma 1
+
+The change of variables interchanging the
+primed and unprimed velocities 
+
+$$\begin{aligned}
+    (v,v_*,\sigma) \longmapsto (v',v'_*,k)\\
+    \text{where } k = \frac{v-v_*}{|v-v_*|},\,\,\sigma = \frac{v'-v'_*}{|v'-v'_*|}
+\end{aligned}$$ 
+
+is involutive (self-inverse) and has unit Jacobian
+determinant.
+
+Similarly, the change of variables interchanging the starred and
+unstarred velocities $(v,v_*,v',v'_*)\longmapsto(v_*,v,v'_*,v')$ is also
+involutive with unit Jacobian.
+
+
+
+Morally, this lemma simply states than under an integral sign one can
+interchange primed and unprimed velocities
+$(v,v_*) \longmapsto (v',v'_*)$ and starred and unstarred velocities
+$(v,v_*) \longmapsto (v_*,v)$ at will. Physically, this property relies
+on the time- and space-reversal symmetry of the microscopic dynamics.\
+Repeated application of Lemma 1 to an integral of the form $\int Q(f,f)\phi$ for an
+arbitrary continuous function $\phi$ of velocity gives 
+
+$$\begin{aligned}
+\int_{\mathbb{R}^d} Q(f,f)\phi\,dv &= \int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\phi\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
+&=\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(ff_*)(\phi'-\phi)\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
+&=\frac{1}{2}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(ff_*)(\phi'+\phi'_*-\phi-\phi_*)\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
+&=-\frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)(\phi'+\phi'_*-\phi-\phi_*)\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
+\end{aligned}$$ 
+
+Taking $\phi = \mathrm{log}\,f$ yields the above integral formula for $D$. Moreover,
+we see from the last line of the above that for $\phi$ satisfying the
+functional equation 
+$$\begin{aligned}
+    \phi + \phi_* = \phi' + \phi'_*
+\end{aligned}$$ 
+we have, at least formally, 
+$$\begin{aligned}
+        \frac{\text{d}}{\text{d} t}\int f(t,x,v)\phi(v)\,\text{d} x\,\text{d} v = 0.
+\end{aligned}$$
+
+Such functions $\phi$ are called **collision invariants** as they
+correspond to quantities conserved by the microscopic dynamics.
+
+The functional equation $\phi + \phi_* = \phi' + \phi'_*$ has been solved under progressively weaker and weaker
+assumptions on $\phi$, each time concluding that the most general
+solution is
+
+$$\phi(v) = A + B\cdot v + C|v|^2$$ 
+
+for some $A,\,C\in\mathbb{R}$, $B\in\mathbb{R}^d.$ 
+
+Thus, all collision invariants
+can be written as a linear combination of the so-called **elementary
+collision invariants** 
+
+$$\begin{aligned}
+    \phi(v) = 1, v_1,\dots,v_d,\frac{v^2}{2},
+\end{aligned}$$
+
+which correspond to the conservation of mass, the
+conservation of each of the $d$ components of momentum and the
+conservation of energy respectively.
+
+
+
+# References 
+
+1. Carlo Cercignani et al. *Mathematical methods in kinetic theory*, volume 1. Springer, 1969.
+2. Cédric Villani. *A review of mathematical topics in collisional kinetic theory*. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.
