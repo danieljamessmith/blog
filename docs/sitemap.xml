@@ -1,79 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/6 - Geocoding Postcodes with Python/index.html</loc>
-    <lastmod>2024-03-17T19:29:24.496Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/4 - Sentiment Analysis with VADER and RoBERTa/index.html</loc>
-    <lastmod>2024-03-21T11:24:51.885Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/2 - Energy Forecasting with XGBoost/index.html</loc>
-    <lastmod>2024-03-04T08:08:13.890Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-03-23T01:44:02.997Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
-    <lastmod>2024-03-22T12:31:37.776Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/1 - Spaceship Titanic with LightGBM/index.html</loc>
-    <lastmod>2024-03-04T08:08:13.873Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/3 - Log Reg with NN Mindset/index.html</loc>
-    <lastmod>2024-03-04T08:08:13.930Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/5 - Boltzmann Transport Eqn (.md)/index.html</loc>
-    <lastmod>2024-03-22T12:25:02.715Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/7 - Folium Maps/index.html</loc>
-    <lastmod>2024-03-18T14:17:39.974Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/8 - Model Selection and Tuning with Optuna for Loan Charge-Off Prediction/index.html</loc>
-    <lastmod>2024-03-22T12:02:03.487Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/ST_LGBM/index.html</loc>
-    <lastmod>2024-03-23T01:02:21.277Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/SA_NLTK_HF/index.html</loc>
-    <lastmod>2024-03-23T01:02:17.499Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/GEOCODE_PCDS/index.html</loc>
-    <lastmod>2024-03-23T01:42:52.819Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/FOLIUM_EH/index.html</loc>
-    <lastmod>2024-03-23T01:02:13.961Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/LR_NN_MIND/index.html</loc>
-    <lastmod>2024-03-23T01:02:16.271Z</lastmod>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/TCF_XGB/index.html</loc>
+    <lastmod>2024-03-24T22:17:30.055Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/SELECTION_TUNING_OPTUNA/index.html</loc>
-    <lastmod>2024-03-23T01:02:19.509Z</lastmod>
+    <lastmod>2024-03-24T22:17:26.413Z</lastmod>
   </url>
   <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/TCF_XGB/index.html</loc>
-    <lastmod>2024-03-23T01:02:23.085Z</lastmod>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/LR_NN_MIND/index.html</loc>
+    <lastmod>2024-03-24T22:17:23.166Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
+    <lastmod>2024-03-24T22:17:13.806Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
+    <lastmod>2024-03-24T22:17:12.038Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/BTE1/index.html</loc>
-    <lastmod>2024-03-23T01:42:10.916Z</lastmod>
+    <lastmod>2024-03-24T22:17:15.230Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/BTE2/index.html</loc>
-    <lastmod>2024-03-23T01:41:56.931Z</lastmod>
+    <lastmod>2024-03-24T22:17:16.273Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/FOLIUM_EH/index.html</loc>
+    <lastmod>2024-03-24T22:17:20.727Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/GEOCODE_PCDS/index.html</loc>
+    <lastmod>2024-03-24T22:17:22.164Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/SA_NLTK_HF/index.html</loc>
+    <lastmod>2024-03-24T22:17:24.425Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/ST_LGBM/index.html</loc>
+    <lastmod>2024-03-24T22:17:28.184Z</lastmod>
   </url>
 </urlset>

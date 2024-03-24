@@ -1,19 +1,20 @@
 ---
-title: "The Boltzmann Transport Equation"
+title: "The Boltzmann Transport Equation - 1. Introduction"
 author: "Daniel Smith"
 date: "2024-01-29"
 categories: [Mathematics, PDEs, Boltzmann Equation]
 title-block-banner: false
 image: 'preview.png'
 draft: false
-description:  "I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue."
+description:  "I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: 'The interplay between Information theory and the long-time behaviour of a dilute gas'."
 ---
 
-# THE BOLTZMANN EQUATION
+
+# 1 - The Boltzmann Equation
 
 ---
 
-## The evolution equations
+## 1.1 - The Evolution Equations
 
 The **Boltzmann equation** (also known as the **Boltzmann transport
 equation**) models the behaviour of a gas comprised of a single particle
@@ -40,7 +41,6 @@ Einstein's summation convention. The operator $Q$ appearing in the above
 is the **Boltzmann collision operator**, defined by the integral
 
 $$\begin{aligned}
- \label{eq:2}
     Q(f,f) = \int_{\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\,\mathrm{d}\sigma\,\mathrm{d}v_*,
 \end{aligned}$$
 
@@ -93,6 +93,10 @@ $$\begin{aligned}
     Q(g,f) = \int_{\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(g'f'_*-gf_*)\,\mathrm{d}\sigma\,\mathrm{d}v_*.
 \end{aligned}$$ 
 
+
+
+
+
 When the distribution function $f$ is independent of the
 spatial variable $x$ the full Boltzmann equation reduces to the **spatially homogeneous Boltzmann
 equation**
@@ -128,39 +132,9 @@ $$\begin{aligned}
 \end{split}
 \end{aligned}$$
 
-For a spatially inhomogeneous, equilibrium solution of the Boltzmann
-equation (i.e. a density $f = f(x,v)$ solving
-$v\cdot \nabla_{x} f = Q(f,f)$) we use these quantities to define the
-**local Maxwellian distribution** $M_{\text{loc}}^f$ associated to $f$
-by
-
-$$\begin{aligned}
-    M_{\mathrm{loc}}^f(x,v) = \frac{\rho(x)}{(2\pi T(x))^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T(x)}|v-u(x)|^2\right].
-\end{aligned}$$ 
-
-For a spatially homogeneous, equilibrium solution of the
-Boltzmann equation (i.e. a density $f = f(v)$ solving $Q(f,f)=0$)
-$\,\rho,\,u$ and $T$ are constant and correspond to the macroscopic
-density, velocity and temperature respectively.
-
-Using these quantities
-we define the (global) **Maxwellian distribution** $M^f$ associated to
-$f$, which physically describes the state of *thermodynamic equilibrium*
-in which the gas is maximally diffused, by 
-
-$$\begin{aligned}
-    M^f(v) = \frac{\rho}{(2\pi T)^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T}|v-u|^2\right].
-\end{aligned}$$
-
-In the theory of the Boltzmann equation the following question is of central importance:
-
-**Under what conditions, and in what sense, do we have
-$f\longrightarrow M^f$ *as* $t \longrightarrow \infty$?**
-
-
 ---
 
-## Boundary conditions
+## 1.2 - Boundary conditions
 
 For there to be any hope of our problem being well-posed we need to
 supplement the Boltzmann equation with boundary conditions, modelling
@@ -174,10 +148,13 @@ popular and physically relevant choices.
 
 -   **Specular reflection:** 
             $$\begin{aligned}
-            f(x,R_xv)& = f(x,v),\quad\quad\quad x\in\partial X,\\
-            R_xv &= v - 2(v\cdot n(x))n(x),
+            f(x,R_xv)& = f(x,v),\quad x\in\partial X,\\
         \end{aligned}$$ 
-    where $n(x)$ denotes the unit normal at
+    where 
+    
+    $$R_xv = v - 2(v\cdot n(x))n(x)$$
+
+    and $n(x)$ denotes the unit normal at
     $x\in\partial X$. 
     Physically, specular reflection corresponds to the
     particles elastically colliding with a static, hard wall. Although
@@ -198,18 +175,22 @@ popular and physically relevant choices.
     momentum to the wall, which is not allowed by specular reflection.
 
 -   **Maxwellian diffusion:** 
-            $$\begin{aligned}
-            f(x,v) &= \rho_-(x)M_w(v), \quad v\cdot n(x)>0,\\
-            \rho_-(x) &= \int_{v\cdot n<0}f(x,v)|v\cdot n| \,\text{d}v,\\
-            M_w(v) &= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\left[-\frac{|v|^2}{2T_w}\right].
-            \end{aligned}$$
-
+        $$\begin{aligned}
+        f(x,v) &= \rho_-(x)M_w(v), \quad v\cdot n(x)>0,\\
+         \rho_-(x) &= \int_{v\cdot n\lt0}f(x,v)|v\cdot n| \,\mathrm{d}v,\\
+        M_w(v) &= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\left(-\frac{|v|^2}{2T_w}\right).
+        \end{aligned}$$
+            
 
 
 
 ---
+    
 
-## Collision kernels
+
+
+
+## 1.3 - Collision kernels
 
 The collision kernel $B$ is related to the physical cross section
 $\Sigma(v-v_*,\sigma)$ by the identity 
@@ -290,15 +271,44 @@ $$\begin{aligned}
 \end{aligned}$$
 
 
+For a spatially inhomogeneous, equilibrium solution of the Boltzmann
+equation (i.e. a density $f = f(x,v)$ solving
+$v\cdot \nabla_{x} f = Q(f,f)$) we use these quantities to define the
+**local Maxwellian distribution** $M_{\text{loc}}^f$ associated to $f$
+by
+
+$$\begin{aligned}
+    M_{\mathrm{loc}}^f(x,v) = \frac{\rho(x)}{(2\pi T(x))^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T(x)}|v-u(x)|^2\right].
+\end{aligned}$$ 
+
+For a spatially homogeneous, equilibrium solution of the
+Boltzmann equation (i.e. a density $f = f(v)$ solving $Q(f,f)=0$)
+$\,\rho,\,u$ and $T$ are constant and correspond to the macroscopic
+density, velocity and temperature respectively.
+
+Using these quantities
+we define the (global) **Maxwellian distribution** $M^f$ associated to
+$f$, which physically describes the state of *thermodynamic equilibrium*
+in which the gas is maximally diffused, by 
+
+$$\begin{aligned}
+    M^f(v) = \frac{\rho}{(2\pi T)^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T}|v-u|^2\right].
+\end{aligned}$$
+
+In the theory of the Boltzmann equation the following question is of central importance:
+
+**Under what conditions, and in what sense, do we have
+$f\longrightarrow M^f$ *as* $t \longrightarrow \infty$?**
+
 ---
 
-## The H theorem
+## 1.4 - The H Theorem
 
 For a probability density $f$ on $X \times \mathbb{R}^d$ define
 Boltzmann's **H functional** by 
 $$\begin{aligned}
     H(f) 
-= \int_{\mathbb{R}^d\times X}f\log f\,\text{d} x\,\text{d} v.
+= \int_{X\times\mathbb{R}^d}f\log f\,\text{d} x\,\text{d} v.
 \end{aligned}$$
 
 $H(f)$ is well-defined in $\mathbb{R}\cup\{\infty\}$
@@ -312,7 +322,9 @@ and only if $f$ is a Maxwellian. Making this precise is a task more
 technical that it might first appear. 
 
 
-### Theorem 1
+---
+
+### Theorem 1.4.1 (Boltzmann's H Theorem)
 
 Let $(f_t)_{t\geq0}$ be a well-behaved (smooth) solution of the
 Boltzmann equation (in particular with finite entropy), with either
@@ -320,7 +332,7 @@ periodic, bounce-back or specular boundary conditions. In the latter
 case assume further that $d = 2 \text{ or } 3$ and the spatial domain
 $X$ has no axis of symmetry. Then:
 
-1.  $$\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.$$\
+1.  $$\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.$$
     Moreover, one can define another functional $D$ on
     $L^1\left(\mathbb{R}^d\right)$ called the such that
     $$\frac{\text{d}}{\text{d} t} H(f_t) = -\int_X D(f_t(x,\cdot\,)\,\text{d} x.$$
@@ -328,7 +340,7 @@ $X$ has no axis of symmetry. Then:
 
 2.  Assume that $B(v-v_*,\sigma)>0$ for a.e.
     $(v,v_*,\sigma)\in\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}$
-    (this is always true in cases of physical interest).\
+    (this is always true in cases of physical interest).
     
     Let $f(x,v)$ be a probability density on $X\times\mathbb{R}^d$ with
     finite energy, $\int f(x,v)|v|^2\,\text{d} x\,\text{d} v <\infty.$ Then:
@@ -342,21 +354,21 @@ $$\begin{aligned}
             &\Longleftrightarrow\,\, f_t \text{ is a global Maxwellian, i.e. } f_t(x,v) = M^f(v) \quad\forall\, t\geq 0.
     \end{aligned}$$
 
-    
 
+*Proof.*
 
+See Theorem 1, section 1.1.2 in Rezakhanlou, Villani & Golse [3.].
 
 
 ---
 
-## Collision invariants and conservation laws
+## 1.5 - Collision Invariants and conservation laws
 
 The entropy dissipation functional $D$ introduced in
 Theorem 1 can be
 expressed as 
 
 $$\begin{aligned}
- \label{eq:10}
    D(f) = \frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\mathrm{log}\,\frac{f'f'_*}{ff_*}\,\text{d}\sigma\,\text{d} v_*\,\text{d} v.
 \end{aligned}$$
 
@@ -373,16 +385,25 @@ in the spatially homogeneous case.
 The derivation of the above formula for $D$ relies on the following lemma used
 to symmetrize the Boltzmann operator $Q$:
 
+---
 
-### Lemma 1
+### Lemma 1.5.1
 
 The change of variables interchanging the
 primed and unprimed velocities 
 
 $$\begin{aligned}
     (v,v_*,\sigma) \longmapsto (v',v'_*,k)\\
-    \text{where } k = \frac{v-v_*}{|v-v_*|},\,\,\sigma = \frac{v'-v'_*}{|v'-v'_*|}
 \end{aligned}$$ 
+
+where 
+
+$$\begin{aligned}
+k &= \frac{v-v_*}{|v-v_*|}\\
+\\
+\sigma &= \frac{v'-v'_*}{|v'-v'_*|} 
+\end{aligned}$$
+
 
 is involutive (self-inverse) and has unit Jacobian
 determinant.
@@ -391,6 +412,7 @@ Similarly, the change of variables interchanging the starred and
 unstarred velocities $(v,v_*,v',v'_*)\longmapsto(v_*,v,v'_*,v')$ is also
 involutive with unit Jacobian.
 
+---
 
 
 Morally, this lemma simply states than under an integral sign one can
@@ -411,10 +433,13 @@ $$\begin{aligned}
 Taking $\phi = \mathrm{log}\,f$ yields the above integral formula for $D$. Moreover,
 we see from the last line of the above that for $\phi$ satisfying the
 functional equation 
+
 $$\begin{aligned}
     \phi + \phi_* = \phi' + \phi'_*
 \end{aligned}$$ 
-we have, at least formally, 
+
+we have, at least formally, the conservation law:
+
 $$\begin{aligned}
         \frac{\text{d}}{\text{d} t}\int f(t,x,v)\phi(v)\,\text{d} x\,\text{d} v = 0.
 \end{aligned}$$
@@ -442,9 +467,13 @@ which correspond to the conservation of mass, the
 conservation of each of the $d$ components of momentum and the
 conservation of energy respectively.
 
+---
 
+# References:
 
-# References 
+- [1.] Carlo Cercignani et al. *Mathematical methods in kinetic theory*, volume 1. Springer, 1969.
+- [2.] Cédric Villani. *A review of mathematical topics in collisional kinetic theory*. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.
+- [3.] Fraydoun Rezakhanlou, Cedric Villani, and Fraņcois Golse. Entropy methods for the Boltzmann
+        equation: lectures from a special semester at the Centre Emile Borel, Institut H. Poincar ́e, Paris,
+        2001. Number 1916. Springer Science & Business Media, 2008.
 
-1. Carlo Cercignani et al. *Mathematical methods in kinetic theory*, volume 1. Springer, 1969.
-2. Cédric Villani. *A review of mathematical topics in collisional kinetic theory*. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.

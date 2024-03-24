@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Daniel Smith">
+<meta name="dcterms.date" content="2024-02-16">
+<meta name="description" content="We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence with a view of applications to kinetic theory.">
 
-<title>djs - Portfolio - About</title>
+<title>djs - Portfolio - The Boltzmann Transport Equation - 3. Information Theory: Entropy, Mutual Information &amp; KL Divergence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -59,8 +63,10 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -70,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">djs - Portfolio</span>
     </a>
   </div>
@@ -81,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -97,36 +103,144 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-jolla">
-  <img src="profile.jpg" class="about-image
-  round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
+<h1 class="title">The Boltzmann Transport Equation - 3. Information Theory: Entropy, Mutual Information &amp; KL Divergence</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Mathematics</div>
+    <div class="quarto-category">Probability Theory</div>
+    <div class="quarto-category">Information Theory</div>
+    <div class="quarto-category">Boltzmann Equation</div>
   </div>
-</header><main class="content" id="quarto-document-content">
-<p>This portfolio is made using Quarto, an open source techinical publishing system that provides functionality to render .ipynb and .md files as blog posts.</p>
-<p>The .ipynb files are written using Python 3 in Jupyter Lab.</p>
-<p>The mathematics posts are typically written in LaTeX using Overleaf and converted to .md using Pandoc.</p>
-<p>I edit the portfolio repo using VSCode with the Quarto extension. I am using GitHub pages to host the site.</p>
+  </div>
+
+<div>
+  <div class="description">
+    We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence with a view of applications to kinetic theory.
+  </div>
+</div>
 
 
-</main> 
-  <hr class="about-sep">
-   <div class="about-links">
-  <a href="https://www.linkedin.com/in/danieljames-smith/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/danieljamessmith" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-</div>
-</div>
- <!-- /main -->
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daniel Smith </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 16, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="information-theory-entropy-mutual-information-kl-divergence" class="level1">
+<h1>3. - Information Theory: Entropy, Mutual Information &amp; KL Divergence</h1>
+<hr>
+</section>
+<section id="differential-entropy" class="level1">
+<h1>3.1 - Differential entropy</h1>
+<p>The physicist’s definition of the entropy <span class="math inline">\(S\)</span> of a system with a continuum of possible states with density <span class="math inline">\(f\)</span> is</p>
+<p><span class="math inline">\(S = -\int f\log f.\)</span></p>
+<p>Note that for a probability density <span class="math inline">\(f\)</span> representing particle distribution in phase space the entropy <span class="math inline">\(S\)</span> coincides with Boltzmann’s H functional <span class="math inline">\(H(f)\)</span> up to a change of sign:</p>
+<p><span class="math inline">\(H(f) = \int f\log f.\)</span></p>
+<p>We can generalise this definition to any probability density <span class="math inline">\(f\)</span> (for which the integral makes sense) and the resulting quantity is called the <strong>differential entropy</strong> of <span class="math inline">\(f\)</span>.</p>
+<p>Intuitively, the entropy measures how localized a probability density is. A density that concentrates most of its mass in a small region will have low entropy, while a density that distributes its mass over a large region will have high entropy. This is simply a more precise statement of the commonly used heuristic that low entropy states are and high entropy states are .</p>
+<p>Throughout we fix a continuous random variable <span class="math inline">\(X\)</span> with density <span class="math inline">\(f\)</span> and denote the support set of <span class="math inline">\(f\)</span> by <span class="math inline">\(S\)</span>. i.e.&nbsp;</p>
+<p><span class="math display">\[\begin{aligned}
+S &amp;= \text{supp}\,(f)\\
+  &amp;= \left\{ x\in\mathbb{R} \,\vert\, f(x)\neq0 \right\}.
+\end{aligned}\]</span></p>
+<hr>
+<section id="definition-3.1.1-differential-entropy" class="level2">
+<h2 class="anchored" data-anchor-id="definition-3.1.1-differential-entropy">Definition 3.1.1 (Differential Entropy)</h2>
+<p>The <strong>differential entropy</strong> of the random variable <span class="math inline">\(X\)</span> is denoted by <span class="math inline">\(h(X)\)</span> or <span class="math inline">\(h(f)\)</span> (as it only depends on the density <span class="math inline">\(f\)</span>) and is defined by</p>
+<p><span class="math display">\[h(f) = -\int_S f(x) \log f(x)\,\text{d} x.\]</span></p>
+<p>If <span class="math inline">\(\log = \ln\)</span> then we say the differential entropy is measured in <strong>nats</strong>.<br>
+If <span class="math inline">\(\log = \log_2\)</span> then we say the differential entropy is measured in <strong>bits</strong>.</p>
+<p>Unless otherwise specified, <span class="math inline">\(\log\)</span> denotes the natural logarithm.</p>
+<hr>
+</section>
+<section id="example-3.1.2-entropy-of-a-univariate-normal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="example-3.1.2-entropy-of-a-univariate-normal-distribution">Example 3.1.2 (Entropy of a univariate normal distribution)</h2>
+<p>Let <span class="math inline">\(X \sim\mathcal{N}(0,\sigma^2)\)</span>. That is, suppose <span class="math inline">\(X\)</span> is a random variable with density</p>
+<p><span class="math display">\[f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}.\]</span></p>
+<p>Then we compute <span class="math display">\[\begin{aligned}
+    h(f) &amp;= -\int f\log f\\
+    &amp;= -\int_{\mathbb{R}}f(x)\left[-\frac{x^2}{2\sigma^2}-\frac{1}{2}\log 2\pi\sigma^2\right]\,\text{d} x\\
+    &amp;= \frac{\mathbb{E}[X^2]}{2\sigma^2}+ \frac{1}{2}\log 2\pi\sigma^2\\
+    &amp;= \frac{1}{2}+\frac{1}{2}\log 2\pi\sigma^2\\
+    &amp;= \frac{1}{2}\log 2\pi e\sigma^2\;\, \text{nats}\\
+     &amp;= \frac{1}{2}\log_2 2\pi e\sigma^2\;\, \text{bits.}\\
+\end{aligned}\]</span></p>
+<hr>
+</section>
+<section id="theorem-3.1.3" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-3.1.3">Theorem 3.1.3</h2>
+<p>For any <span class="math inline">\(c\in\mathbb{R}\)</span> it holds that</p>
+<p><span class="math display">\[h(X+c) = h(X).\]</span></p>
+<p><em>Proof.</em></p>
+<p><span class="math display">\[\begin{aligned}
+    h(X) &amp;= -\int f(x)\log f(x)\,\text{d} x\\
+    &amp;= - \int f(x-c) \log f(x-c)\,\text{d} x\\
+    &amp;= h(X+c)
+\end{aligned}\]</span> ◻</p>
+<hr>
+</section>
+<section id="theorem-3.1.4" class="level2">
+<h2 class="anchored" data-anchor-id="theorem-3.1.4">Theorem 3.1.4</h2>
+<p>For <span class="math inline">\(a\in\mathbb{R}\)</span> it holds that</p>
+<p><span class="math display">\[h(aX) = h(X) + \log|a|.\]</span></p>
+<p><em>Proof.</em></p>
+<p>Define the random variable <span class="math inline">\(Y = aX\)</span> with density</p>
+<p><span class="math display">\[f_Y(y) = \frac{1}{|a|}f_X\left(\frac{y}{a}\right).\]</span></p>
+<p>Then we can directly compute</p>
+<p><span class="math display">\[\begin{aligned}
+    h(aX) &amp;= -\int f_Y(y)\log f_Y(y)\,\text{d} y\\
+    &amp;= -\int \frac{1}{|a|}f_X\left(\frac{y}{a}\right)\log\left[\frac{1}{|a|}f_X\left(\frac{y}{a}\right)\right]\,\text{d} y\\
+    &amp;= -\int f_X(x)\log f_X(x)\,\text{d} x +\log|a|\\
+    &amp;= h(X) +\log|a|.
+\end{aligned}\]</span></p>
+<p>◻</p>
+<hr>
+</section>
+<section id="corollary-3.1.5" class="level2">
+<h2 class="anchored" data-anchor-id="corollary-3.1.5">Corollary 3.1.5</h2>
+<p><span class="math display">\[h(A\mathbf{X}) = h(\mathbf{X})+\log|\det A|\]</span></p>
+<hr>
+</section>
+<section id="definition-3.1.6-joint-conditional-entropy" class="level2">
+<h2 class="anchored" data-anchor-id="definition-3.1.6-joint-conditional-entropy">Definition 3.1.6 (Joint &amp; Conditional Entropy)</h2>
+<p>The <strong>joint differential entropy</strong> of a set <span class="math inline">\(X_1,\dots,X_n\)</span> of (jointly continuous) random variables with joint density <span class="math inline">\(f = f(x_1,\dots,x_n)\)</span> is defined as</p>
+<p><span class="math display">\[h(X_1,\dots,X_n) = -\int f(x_1,\dots,x_n) \log f(x_1,\dots,x_n)\,\text{d}^{n}x.\]</span></p>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have joint density <span class="math inline">\(f_{X,Y}(x,y)\)</span> then we define the <strong>conditional differential entropy</strong> as</p>
+<p><span class="math display">\[h(X|Y) = -\int f_{X,Y}(x,y) \log f_{X|Y}(x|y)\,\text{d} x\,\text{d} y.\]</span></p>
+<p>Since in general <span class="math inline">\(f_{X|Y}(x|y) = f_{X,Y}(x,y)/f_Y(y)\)</span> we immediately obtain the <strong>chain rule</strong>:</p>
+<p><span class="math display">\[h(X|Y) = h(X,Y) - h(Y),\]</span></p>
+<p>which may fail to hold if any of the concerned entropies are infinite or do not exist.</p>
+<hr>
+</section>
+<section id="example-3.1.7-entropy-of-a-multivariate-normal-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="example-3.1.7-entropy-of-a-multivariate-normal-distribution">Example 3.1.7 (Entropy of a multivariate normal distribution)</h2>
+<p>Let <span class="math inline">\(X_1,\dots,X_n\)</span> have a multivariate Gaussian distribution with mean <span class="math inline">\(\mu\)</span> and covariance matrix <span class="math inline">\(K\)</span>. Then</p>
+<p><span class="math display">\[h(X_1,\dots, X_n) = \frac{1}{2}\log\left[(2\pi e)^n\det K\right].\]</span></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -147,6 +261,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     

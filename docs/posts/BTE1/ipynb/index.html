@@ -8,9 +8,9 @@
 
 <meta name="author" content="Daniel Smith">
 <meta name="dcterms.date" content="2024-01-29">
-<meta name="description" content="I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue.">
+<meta name="description" content="I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: ‘The interplay between Information theory and the long-time behaviour of a dilute gas’.">
 
-<title>djs - Portfolio - The Boltzmann Transport Equation</title>
+<title>djs - Portfolio - The Boltzmann Transport Equation - 1. Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Boltzmann Transport Equation</h1>
+<h1 class="title">The Boltzmann Transport Equation - 1. Introduction</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Mathematics</div>
     <div class="quarto-category">PDEs</div>
@@ -117,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue.
+    I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: ‘The interplay between Information theory and the long-time behaviour of a dilute gas’.
   </div>
 </div>
 
@@ -145,10 +145,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <section id="the-boltzmann-equation" class="level1">
-<h1>THE BOLTZMANN EQUATION</h1>
+<h1>1 - The Boltzmann Equation</h1>
 <hr>
 <section id="the-evolution-equations" class="level2">
-<h2 class="anchored" data-anchor-id="the-evolution-equations">The evolution equations</h2>
+<h2 class="anchored" data-anchor-id="the-evolution-equations">1.1 - The Evolution Equations</h2>
 <p>The <strong>Boltzmann equation</strong> (also known as the <strong>Boltzmann transport equation</strong>) models the behaviour of a gas comprised of a single particle species, sufficiently dilute so that quantum effects are negligible and when all inter-particle interactions are assumed to be elastic binary collisions:</p>
 <p><span class="math display">\[\begin{aligned}
 \frac{\partial f}{\partial t} + v\cdot \nabla_{x} f = Q(f,f),\quad x\in X,\: v\in \mathbb{R}^d,\: t\geq0.
@@ -159,7 +159,6 @@ ul.task-list li input[type="checkbox"] {
 \end{aligned}\]</span></p>
 <p>where summation over the term <span class="math inline">\(v_j\frac{\partial f}{\partial x_j}\)</span> is left implicit following Einstein’s summation convention. The operator <span class="math inline">\(Q\)</span> appearing in the above is the <strong>Boltzmann collision operator</strong>, defined by the integral</p>
 <p><span class="math display">\[\begin{aligned}
-\label{eq:2}
     Q(f,f) = \int_{\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\,\mathrm{d}\sigma\,\mathrm{d}v_*,
 \end{aligned}\]</span></p>
 <p>where the function <span class="math inline">\(B\)</span> is the so-called <strong>collision kernel</strong>, whose precise form depends on the nature of the inter-particle interactions being considered, and we have used the standard abbreviations <span class="math inline">\(f'=f(t,x,v')\)</span>, <span class="math inline">\(f_*=f(t,x,v_*)\)</span> and <span class="math inline">\(f'_*=f(t,x,v'_*)\)</span>.</p>
@@ -205,54 +204,31 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
     T &amp;= \frac{1}{\rho d}\int_{\mathbb{R}^d}f(t,x,v)|v-u|^2\,\text{d}v.
 \end{split}
 \end{aligned}\]</span></p>
-<p>For a spatially inhomogeneous, equilibrium solution of the Boltzmann equation (i.e.&nbsp;a density <span class="math inline">\(f = f(x,v)\)</span> solving <span class="math inline">\(v\cdot \nabla_{x} f = Q(f,f)\)</span>) we use these quantities to define the <strong>local Maxwellian distribution</strong> <span class="math inline">\(M_{\text{loc}}^f\)</span> associated to <span class="math inline">\(f\)</span> by</p>
-<p><span class="math display">\[\begin{aligned}
-    M_{\mathrm{loc}}^f(x,v) = \frac{\rho(x)}{(2\pi T(x))^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T(x)}|v-u(x)|^2\right].
-\end{aligned}\]</span></p>
-<p>For a spatially homogeneous, equilibrium solution of the Boltzmann equation (i.e.&nbsp;a density <span class="math inline">\(f = f(v)\)</span> solving <span class="math inline">\(Q(f,f)=0\)</span>) <span class="math inline">\(\,\rho,\,u\)</span> and <span class="math inline">\(T\)</span> are constant and correspond to the macroscopic density, velocity and temperature respectively.</p>
-<p>Using these quantities we define the (global) <strong>Maxwellian distribution</strong> <span class="math inline">\(M^f\)</span> associated to <span class="math inline">\(f\)</span>, which physically describes the state of <em>thermodynamic equilibrium</em> in which the gas is maximally diffused, by</p>
-<p><span class="math display">\[\begin{aligned}
-    M^f(v) = \frac{\rho}{(2\pi T)^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T}|v-u|^2\right].
-\end{aligned}\]</span></p>
-<p>In the theory of the Boltzmann equation the following question is of central importance:</p>
-<p><strong>Under what conditions, and in what sense, do we have <span class="math inline">\(f\longrightarrow M^f\)</span> <em>as</em> <span class="math inline">\(t \longrightarrow \infty\)</span>?</strong></p>
-<table class="table">
-<colgroup>
-<col style="width: 5%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td>## Boundary conditions</td>
-</tr>
-<tr class="even">
-<td>For there to be any hope of our problem being well-posed we need to supplement the Boltzmann equation with boundary conditions, modelling the interactions between the particles and the boundary <span class="math inline">\(\partial X\)</span> of the spatial domain <span class="math inline">\(X\)</span>.</td>
-</tr>
-<tr class="odd">
-<td>Of course, the only thing restricting the choice of such boundary conditions is our imagination. We briefly discuss some of the most popular and physically relevant choices.</td>
-</tr>
-<tr class="even">
-<td>- <strong>Specular reflection:</strong> <span class="math display">\[\begin{aligned}
-f(x,R_xv)&amp; = f(x,v),\quad\quad\quad x\in\partial X,\\
-R_xv &amp;= v - 2(v\cdot n(x))n(x),
-\end{aligned}\]</span> where <span class="math inline">\(n(x)\)</span> denotes the unit normal at <span class="math inline">\(x\in\partial X\)</span>. Physically, specular reflection corresponds to the particles elastically colliding with a static, hard wall. Although not particularly accurate, specular reflection is a natural first guess at a boundary condition as it avoids the complex question of modelling the interactions of the particles with the fine microscopic structure of the wall.</td>
-</tr>
-<tr class="odd">
-<td>- <strong>Bounce-back:</strong> <span class="math display">\[\begin{aligned}
-f(x,v) = f(x,-v),\quad x\in\partial X.
-\end{aligned}\]</span> Physically, this condition simply states that particles reflect from the boundary with a velocity opposite to their incident velocity. Although clearly not particularly realistic, it occasionally leads to more physical results than specular reflection as it allows for the transfer of some tangential momentum to the wall, which is not allowed by specular reflection.</td>
-</tr>
-<tr class="even">
-<td>- <strong>Maxwellian diffusion:</strong> <span class="math display">\[\begin{aligned}
-f(x,v) &amp;= \rho_-(x)M_w(v), \quad v\cdot n(x)&gt;0,\\
-\rho_-(x) &amp;= \int_{v\cdot n&lt;0}f(x,v)|v\cdot n| \,\text{d}v,\\
-M_w(v) &amp;= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\left[-\frac{|v|^2}{2T_w}\right].
-\end{aligned}\]</span></td>
-</tr>
-</tbody>
-</table>
+<hr>
+</section>
+<section id="boundary-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="boundary-conditions">1.2 - Boundary conditions</h2>
+<p>For there to be any hope of our problem being well-posed we need to supplement the Boltzmann equation with boundary conditions, modelling the interactions between the particles and the boundary <span class="math inline">\(\partial X\)</span> of the spatial domain <span class="math inline">\(X\)</span>.</p>
+<p>Of course, the only thing restricting the choice of such boundary conditions is our imagination. We briefly discuss some of the most popular and physically relevant choices.</p>
+<ul>
+<li><p><strong>Specular reflection:</strong> <span class="math display">\[\begin{aligned}
+        f(x,R_xv)&amp; = f(x,v),\quad x\in\partial X,\\
+    \end{aligned}\]</span> where</p>
+<p><span class="math display">\[R_xv = v - 2(v\cdot n(x))n(x)\]</span></p>
+<p>and <span class="math inline">\(n(x)\)</span> denotes the unit normal at <span class="math inline">\(x\in\partial X\)</span>. Physically, specular reflection corresponds to the particles elastically colliding with a static, hard wall. Although not particularly accurate, specular reflection is a natural first guess at a boundary condition as it avoids the complex question of modelling the interactions of the particles with the fine microscopic structure of the wall.</p></li>
+<li><p><strong>Bounce-back:</strong> <span class="math display">\[\begin{aligned}
+        f(x,v) = f(x,-v),\quad x\in\partial X.
+        \end{aligned}\]</span> Physically, this condition simply states that particles reflect from the boundary with a velocity opposite to their incident velocity. Although clearly not particularly realistic, it occasionally leads to more physical results than specular reflection as it allows for the transfer of some tangential momentum to the wall, which is not allowed by specular reflection.</p></li>
+<li><p><strong>Maxwellian diffusion:</strong> <span class="math display">\[\begin{aligned}
+    f(x,v) &amp;= \rho_-(x)M_w(v), \quad v\cdot n(x)&gt;0,\\
+     \rho_-(x) &amp;= \int_{v\cdot n\lt0}f(x,v)|v\cdot n| \,\mathrm{d}v,\\
+    M_w(v) &amp;= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\left(-\frac{|v|^2}{2T_w}\right).
+    \end{aligned}\]</span></p></li>
+</ul>
+<hr>
 </section>
 <section id="collision-kernels" class="level2">
-<h2 class="anchored" data-anchor-id="collision-kernels">Collision kernels</h2>
+<h2 class="anchored" data-anchor-id="collision-kernels">1.3 - Collision kernels</h2>
 <p>The collision kernel <span class="math inline">\(B\)</span> is related to the physical cross section <span class="math inline">\(\Sigma(v-v_*,\sigma)\)</span> by the identity</p>
 <p><span class="math display">\[\begin{aligned}
     B = |v-v_*|\Sigma
@@ -289,24 +265,34 @@ M_w(v) &amp;= \frac{1}{(2\pi)^{\frac{d-1}{2}}T_w^{\frac{d+1}{2}}}\,\mathrm{exp}\
 <p><span class="math display">\[\begin{aligned}
 \int_{\mathbb{S}^{d-1}}b(k\cdot\sigma)\,\text{d}\sigma = \left|\mathbb{S}^{d-2}\right|\int_0^{\pi}b(\cos\theta)\sin^{d-2}\theta\,\text{d}\theta&lt;\infty.
 \end{aligned}\]</span></p>
+<p>For a spatially inhomogeneous, equilibrium solution of the Boltzmann equation (i.e.&nbsp;a density <span class="math inline">\(f = f(x,v)\)</span> solving <span class="math inline">\(v\cdot \nabla_{x} f = Q(f,f)\)</span>) we use these quantities to define the <strong>local Maxwellian distribution</strong> <span class="math inline">\(M_{\text{loc}}^f\)</span> associated to <span class="math inline">\(f\)</span> by</p>
+<p><span class="math display">\[\begin{aligned}
+    M_{\mathrm{loc}}^f(x,v) = \frac{\rho(x)}{(2\pi T(x))^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T(x)}|v-u(x)|^2\right].
+\end{aligned}\]</span></p>
+<p>For a spatially homogeneous, equilibrium solution of the Boltzmann equation (i.e.&nbsp;a density <span class="math inline">\(f = f(v)\)</span> solving <span class="math inline">\(Q(f,f)=0\)</span>) <span class="math inline">\(\,\rho,\,u\)</span> and <span class="math inline">\(T\)</span> are constant and correspond to the macroscopic density, velocity and temperature respectively.</p>
+<p>Using these quantities we define the (global) <strong>Maxwellian distribution</strong> <span class="math inline">\(M^f\)</span> associated to <span class="math inline">\(f\)</span>, which physically describes the state of <em>thermodynamic equilibrium</em> in which the gas is maximally diffused, by</p>
+<p><span class="math display">\[\begin{aligned}
+    M^f(v) = \frac{\rho}{(2\pi T)^{d/2}}\,\mathrm{exp}\left[-\frac{1}{2T}|v-u|^2\right].
+\end{aligned}\]</span></p>
+<p>In the theory of the Boltzmann equation the following question is of central importance:</p>
+<p><strong>Under what conditions, and in what sense, do we have <span class="math inline">\(f\longrightarrow M^f\)</span> <em>as</em> <span class="math inline">\(t \longrightarrow \infty\)</span>?</strong></p>
 <hr>
 </section>
 <section id="the-h-theorem" class="level2">
-<h2 class="anchored" data-anchor-id="the-h-theorem">The H theorem</h2>
+<h2 class="anchored" data-anchor-id="the-h-theorem">1.4 - The H Theorem</h2>
 <p>For a probability density <span class="math inline">\(f\)</span> on <span class="math inline">\(X \times \mathbb{R}^d\)</span> define Boltzmann’s <strong>H functional</strong> by <span class="math display">\[\begin{aligned}
     H(f)
-= \int_{\mathbb{R}^d\times X}f\log f\,\text{d} x\,\text{d} v.
+= \int_{X\times\mathbb{R}^d}f\log f\,\text{d} x\,\text{d} v.
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(H(f)\)</span> is well-defined in <span class="math inline">\(\mathbb{R}\cup\{\infty\}\)</span> provided that <span class="math display">\[\int f(x,v)|v|^2\,\text{d} x\,\text{d} v &lt; \infty,\]</span> i.e.&nbsp;if <span class="math inline">\(f\)</span> has finite energy. We note that up to a change of sign the <span class="math inline">\(H\)</span> functional is just the differential entropy of <span class="math inline">\(f\)</span>, to be defined in a future post.</p>
 <p>Boltzmann’s <strong>H theorem</strong> loosely states that <span class="math inline">\(H(f)\)</span> is a quantity monotonically decreasing (non-increasing) in time, and is stationary if and only if <span class="math inline">\(f\)</span> is a Maxwellian. Making this precise is a task more technical that it might first appear.</p>
-<section id="theorem-1" class="level3">
-<h3 class="anchored" data-anchor-id="theorem-1">Theorem 1</h3>
+<hr>
+<section id="theorem-1.4.1-boltzmanns-h-theorem" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-1.4.1-boltzmanns-h-theorem">Theorem 1.4.1 (Boltzmann’s H Theorem)</h3>
 <p>Let <span class="math inline">\((f_t)_{t\geq0}\)</span> be a well-behaved (smooth) solution of the Boltzmann equation (in particular with finite entropy), with either periodic, bounce-back or specular boundary conditions. In the latter case assume further that <span class="math inline">\(d = 2 \text{ or } 3\)</span> and the spatial domain <span class="math inline">\(X\)</span> has no axis of symmetry. Then:</p>
 <ol type="1">
-<li><p><span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.\]</span><br>
-Moreover, one can define another functional <span class="math inline">\(D\)</span> on <span class="math inline">\(L^1\left(\mathbb{R}^d\right)\)</span> called the such that <span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) = -\int_X D(f_t(x,\cdot\,)\,\text{d} x.\]</span></p></li>
-<li><p>Assume that <span class="math inline">\(B(v-v_*,\sigma)&gt;0\)</span> for a.e. <span class="math inline">\((v,v_*,\sigma)\in\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}\)</span> (this is always true in cases of physical interest).<br>
-</p>
+<li><p><span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.\]</span> Moreover, one can define another functional <span class="math inline">\(D\)</span> on <span class="math inline">\(L^1\left(\mathbb{R}^d\right)\)</span> called the such that <span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) = -\int_X D(f_t(x,\cdot\,)\,\text{d} x.\]</span></p></li>
+<li><p>Assume that <span class="math inline">\(B(v-v_*,\sigma)&gt;0\)</span> for a.e. <span class="math inline">\((v,v_*,\sigma)\in\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}\)</span> (this is always true in cases of physical interest).</p>
 <p>Let <span class="math inline">\(f(x,v)\)</span> be a probability density on <span class="math inline">\(X\times\mathbb{R}^d\)</span> with finite energy, <span class="math inline">\(\int f(x,v)|v|^2\,\text{d} x\,\text{d} v &lt;\infty.\)</span> Then:</p>
 <p><span class="math display">\[\int_X D(f(x,\cdot\,)\text{d} x = 0\,\, \Longleftrightarrow\,\, f\; \text{is a local Maxwellian}, \text{ i.e. } f = M_{\mathrm{loc}}^f.\]</span></p></li>
 <li><p><span class="math display">\[\begin{aligned}
@@ -314,14 +300,15 @@ Moreover, one can define another functional <span class="math inline">\(D\)</spa
         &amp;\Longleftrightarrow\,\, f_t \text{ is a global Maxwellian, i.e. } f_t(x,v) = M^f(v) \quad\forall\, t\geq 0.
 \end{aligned}\]</span></p></li>
 </ol>
-<p>–</p>
+<p><em>Proof.</em></p>
+<p>See Theorem 1, section 1.1.2 in Rezakhanlou, Villani &amp; Golse [3.].</p>
+<hr>
 </section>
 </section>
 <section id="collision-invariants-and-conservation-laws" class="level2">
-<h2 class="anchored" data-anchor-id="collision-invariants-and-conservation-laws">Collision invariants and conservation laws</h2>
+<h2 class="anchored" data-anchor-id="collision-invariants-and-conservation-laws">1.5 - Collision Invariants and conservation laws</h2>
 <p>The entropy dissipation functional <span class="math inline">\(D\)</span> introduced in Theorem 1 can be expressed as</p>
 <p><span class="math display">\[\begin{aligned}
-\label{eq:10}
    D(f) = \frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\mathrm{log}\,\frac{f'f'_*}{ff_*}\,\text{d}\sigma\,\text{d} v_*\,\text{d} v.
 \end{aligned}\]</span></p>
 <p>And formally satisfies</p>
@@ -330,15 +317,22 @@ Moreover, one can define another functional <span class="math inline">\(D\)</spa
 <p><span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) = D(f_t),\]</span></p>
 <p>in the spatially homogeneous case.</p>
 <p>The derivation of the above formula for <span class="math inline">\(D\)</span> relies on the following lemma used to symmetrize the Boltzmann operator <span class="math inline">\(Q\)</span>:</p>
-<section id="lemma-1" class="level3">
-<h3 class="anchored" data-anchor-id="lemma-1">Lemma 1</h3>
+<hr>
+<section id="lemma-1.5.1" class="level3">
+<h3 class="anchored" data-anchor-id="lemma-1.5.1">Lemma 1.5.1</h3>
 <p>The change of variables interchanging the primed and unprimed velocities</p>
 <p><span class="math display">\[\begin{aligned}
     (v,v_*,\sigma) \longmapsto (v',v'_*,k)\\
-    \text{where } k = \frac{v-v_*}{|v-v_*|},\,\,\sigma = \frac{v'-v'_*}{|v'-v'_*|}
+\end{aligned}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\begin{aligned}
+k &amp;= \frac{v-v_*}{|v-v_*|}\\
+\\
+\sigma &amp;= \frac{v'-v'_*}{|v'-v'_*|}
 \end{aligned}\]</span></p>
 <p>is involutive (self-inverse) and has unit Jacobian determinant.</p>
 <p>Similarly, the change of variables interchanging the starred and unstarred velocities <span class="math inline">\((v,v_*,v',v'_*)\longmapsto(v_*,v,v'_*,v')\)</span> is also involutive with unit Jacobian.</p>
+<hr>
 <p>Morally, this lemma simply states than under an integral sign one can interchange primed and unprimed velocities <span class="math inline">\((v,v_*) \longmapsto (v',v'_*)\)</span> and starred and unstarred velocities <span class="math inline">\((v,v_*) \longmapsto (v_*,v)\)</span> at will. Physically, this property relies on the time- and space-reversal symmetry of the microscopic dynamics.<br>
 Repeated application of Lemma 1 to an integral of the form <span class="math inline">\(\int Q(f,f)\phi\)</span> for an arbitrary continuous function <span class="math inline">\(\phi\)</span> of velocity gives</p>
 <p><span class="math display">\[\begin{aligned}
@@ -347,9 +341,12 @@ Repeated application of Lemma 1 to an integral of the form <span class="math inl
 &amp;=\frac{1}{2}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(ff_*)(\phi'+\phi'_*-\phi-\phi_*)\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
 &amp;=-\frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)(\phi'+\phi'_*-\phi-\phi_*)\;\text{d}\sigma\,\text{d}v_*\text{d}v\\
 \end{aligned}\]</span></p>
-<p>Taking <span class="math inline">\(\phi = \mathrm{log}\,f\)</span> yields the above integral formula for <span class="math inline">\(D\)</span>. Moreover, we see from the last line of the above that for <span class="math inline">\(\phi\)</span> satisfying the functional equation <span class="math display">\[\begin{aligned}
+<p>Taking <span class="math inline">\(\phi = \mathrm{log}\,f\)</span> yields the above integral formula for <span class="math inline">\(D\)</span>. Moreover, we see from the last line of the above that for <span class="math inline">\(\phi\)</span> satisfying the functional equation</p>
+<p><span class="math display">\[\begin{aligned}
     \phi + \phi_* = \phi' + \phi'_*
-\end{aligned}\]</span> we have, at least formally, <span class="math display">\[\begin{aligned}
+\end{aligned}\]</span></p>
+<p>we have, at least formally, the conservation law:</p>
+<p><span class="math display">\[\begin{aligned}
         \frac{\text{d}}{\text{d} t}\int f(t,x,v)\phi(v)\,\text{d} x\,\text{d} v = 0.
 \end{aligned}\]</span></p>
 <p>Such functions <span class="math inline">\(\phi\)</span> are called <strong>collision invariants</strong> as they correspond to quantities conserved by the microscopic dynamics.</p>
@@ -361,15 +358,17 @@ Repeated application of Lemma 1 to an integral of the form <span class="math inl
     \phi(v) = 1, v_1,\dots,v_d,\frac{v^2}{2},
 \end{aligned}\]</span></p>
 <p>which correspond to the conservation of mass, the conservation of each of the <span class="math inline">\(d\)</span> components of momentum and the conservation of energy respectively.</p>
+<hr>
 </section>
 </section>
 </section>
 <section id="references" class="level1">
-<h1>References</h1>
-<ol type="1">
-<li>Carlo Cercignani et al.&nbsp;<em>Mathematical methods in kinetic theory</em>, volume 1. Springer, 1969.</li>
-<li>Cédric Villani. <em>A review of mathematical topics in collisional kinetic theory</em>. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.</li>
-</ol>
+<h1>References:</h1>
+<ul>
+<li>[1.] Carlo Cercignani et al.&nbsp;<em>Mathematical methods in kinetic theory</em>, volume 1. Springer, 1969.</li>
+<li>[2.] Cédric Villani. <em>A review of mathematical topics in collisional kinetic theory</em>. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.</li>
+<li>[3.] Fraydoun Rezakhanlou, Cedric Villani, and Fraņcois Golse. Entropy methods for the Boltzmann equation: lectures from a special semester at the Centre Emile Borel, Institut H. Poincar ́e, Paris, 2001. Number 1916. Springer Science &amp; Business Media, 2008.</li>
+</ul>
 
 
 </section>
