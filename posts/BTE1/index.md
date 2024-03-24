@@ -1,5 +1,5 @@
 ---
-title: "The Boltzmann Transport Equation - 1. Introduction"
+title: "The Boltzmann Equation - 1. Introduction"
 author: "Daniel Smith"
 date: "2024-01-29"
 categories: [Mathematics, PDEs, Boltzmann Equation]

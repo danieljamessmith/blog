@@ -1,5 +1,5 @@
 ---
-title: "The Boltzmann Transport Equation - 2. Probabilistic Preliminaries"
+title: "The Boltzmann Equation - 2. Probabilistic Preliminaries"
 author: "Daniel Smith"
 date: "2024-02-13"
 categories: [Mathematics, Probability Theory, Boltzmann Equation]
@@ -26,7 +26,7 @@ $$\mathbb{P}(\Omega)=1.$$
 
 ---
 
-## Definition 2.1.1
+### Definition 2.1.1
 
 A **random variable** $X$ is a measurable function
 $X:\Omega\longrightarrow\mathbb{R}$.
@@ -40,7 +40,7 @@ countable, and the index $t$ is often interpreted as time.
 
 ---
 
-## Definition 2.1.2
+### Definition 2.1.2
 
 $X$ is said to be a **continuous** random variable if its law
 $\,\mathbb{P}_X = \mathbb{P}\circ X^{-1}$ is absolutely continuous with
@@ -65,7 +65,7 @@ and is unique up to equality almost everywhere.
 Unless otherwise stated we now assume that a random variable $X$ is
 continuous and has density $f$.
 
-## Definition 2.1.3
+### Definition 2.1.3
 
 A **random vector** $\mathbf{X}$ is an n-tuple of random
 variables
@@ -119,7 +119,7 @@ Analagously, $X_1,\dots,X_n$ are jointly continuous if their joint
 
 ## 2.2 - Expectation, Moments and Independence
 
-## Definition 2.2.1
+### Definition 2.2.1
 
 The **expectation** $\mathbb{E}[X]$ of a random variable $X$ is simply
 its Lebesgue integral with respect to $\mathbb{P}$ 
@@ -154,7 +154,7 @@ polynomial in $x$.
 
 ---
 
-## Definition 2.2.2
+### Definition 2.2.2
 
 Given continuous random variables $X$ and $Y$ with $f_Y(y)>0$ we define:
 
@@ -174,7 +174,7 @@ Given continuous random variables $X$ and $Y$ with $f_Y(y)>0$ we define:
 ---
 
 
-## Definition 2.2.3
+### Definition 2.2.3
 
 Random variables $X$ and $Y$ are said to be **independent** if their
 joint CDF $F_{X,Y}$ factorises into the tensor product of the
@@ -194,7 +194,7 @@ Where for $f,g:E\longrightarrow \mathbb{R}$ the **tensor product**
 
 ---
 
-## Remark 2.2.4
+### Remark 2.2.4
 
  This is not the most compact and elegant way of defining independence of random variables through the independence of the $\sigma$-algebras they generate. However this definition is equivalent, more intuitive and will suffice for our purposes. 
  
