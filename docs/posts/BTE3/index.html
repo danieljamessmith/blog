@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Daniel Smith">
-<meta name="dcterms.date" content="2024-02-13">
-<meta name="description" content="Before we can discuss Information Theory and it’s consequences for the Boltzmann equation we first need to make some definitions from probability theory.">
+<meta name="dcterms.date" content="2024-03-23">
+<meta name="description" content="We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence and prove the information inequality.">
 
-<title>djs - Portfolio - The Boltzmann Equation - 2. Probabilistic Preliminaries</title>
+<title>djs - Portfolio - The Boltzmann Equation - 3. Information Theory</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,17 +107,18 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Boltzmann Equation - 2. Probabilistic Preliminaries</h1>
+<h1 class="title">The Boltzmann Equation - 3. Information Theory</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Mathematics</div>
     <div class="quarto-category">Probability Theory</div>
+    <div class="quarto-category">Information Theory</div>
     <div class="quarto-category">Boltzmann Equation</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Before we can discuss Information Theory and it’s consequences for the Boltzmann equation we first need to make some definitions from probability theory.
+    We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence and prove the information inequality.
   </div>
 </div>
 
@@ -134,7 +135,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 13, 2024</p>
+      <p class="date">March 23, 2024</p>
     </div>
   </div>
   
@@ -144,109 +145,167 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="probability-theory" class="level1">
-<h1>2 - Probability Theory</h1>
-<hr>
-<section id="random-variables-and-random-vectors" class="level2">
-<h2 class="anchored" data-anchor-id="random-variables-and-random-vectors">2.1 - Random Variables and Random Vectors</h2>
-<p>Throughout we fix a probability space <span class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span> and consider <span class="math inline">\(\mathbb{R}\)</span> equipped with Lebesgue measure <span class="math inline">\(\lambda\)</span> on the Borel <span class="math inline">\(\sigma\)</span>-algebra <span class="math inline">\(\mathcal{B}(\mathbb{R}).\)</span> The reader is assumed to have taken a first course on measure theory.</p>
-<p>Note that a probability space <span class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span> is a measure space with unit total mass</p>
-<p><span class="math display">\[\mathbb{P}(\Omega)=1.\]</span></p>
-<hr>
-<section id="definition-2.1.1" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.1">Definition 2.1.1</h3>
-<p>A <strong>random variable</strong> <span class="math inline">\(X\)</span> is a measurable function <span class="math inline">\(X:\Omega\longrightarrow\mathbb{R}\)</span>.</p>
-<p>The cumulative distribution function (CDF) <span class="math inline">\(F_X\)</span> of a random variable <span class="math inline">\(X\)</span> is defined by <span class="math inline">\(F_X(x) = \mathbb{P}(X\leq x).\)</span></p>
-<p>A <strong>stochastic process</strong> is an indexed family of random variables <span class="math inline">\({\{X_t\}_{t\in T}}\)</span>, where the indexing set <span class="math inline">\(T\)</span> is not necessarily countable, and the index <span class="math inline">\(t\)</span> is often interpreted as time.</p>
+<section id="information-theory-entropy-mutual-information-kl-divergence" class="level1">
+<h1>3. - Information Theory: Entropy, Mutual Information &amp; KL Divergence</h1>
 <hr>
 </section>
-<section id="definition-2.1.2" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.2">Definition 2.1.2</h3>
-<p><span class="math inline">\(X\)</span> is said to be a <strong>continuous</strong> random variable if its law <span class="math inline">\(\,\mathbb{P}_X = \mathbb{P}\circ X^{-1}\)</span> is absolutely continuous with respect to the Lebesgue measure <span class="math inline">\(\lambda\)</span> as a measure on <span class="math inline">\(\mathbb{R}\)</span>. That is, if</p>
-<p><span class="math display">\[\forall \, N \in \mathcal{B}(\mathbb{R}):\]</span> <span class="math display">\[\lambda(N) = 0 \Rightarrow \mathbb{P}(X \in N) = 0.\]</span></p>
-<p>By the Radon-Nikodym theorem, a random variable <span class="math inline">\(X\)</span> is continuous if (and only if) there exists a measurable function <span class="math inline">\(f_X : \mathbb{R} \longrightarrow [0,\infty)\)</span> such that for all <span class="math inline">\(\, B \in \mathcal{B}(\mathbb{R})\)</span>,</p>
-<p><span class="math display">\[\mathbb{P}(X\in B) = \int_B f_X\,\text{d}\lambda.\]</span></p>
-<p>The function <span class="math inline">\(f\)</span> is called the probability density function (PDF) of <span class="math inline">\(X\)</span> and is unique up to equality almost everywhere.</p>
-<hr>
-<p>Unless otherwise stated we now assume that a random variable <span class="math inline">\(X\)</span> is continuous and has density <span class="math inline">\(f\)</span>.</p>
-</section>
-<section id="definition-2.1.3" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.3">Definition 2.1.3</h3>
-<p>A <strong>random vector</strong> <span class="math inline">\(\mathbf{X}\)</span> is an n-tuple of random variables</p>
-<p><span class="math display">\[\mathbf{X}=(X_1,\ldots,X_n) : \Omega \longrightarrow \mathbb{R}^n.\]</span></p>
-<p>The joint CDF <span class="math inline">\(F_{X,Y}\)</span> of a pair of random variables <span class="math inline">\(X,\,Y\)</span> is defined as</p>
-<p><span class="math display">\[F_{X,Y}(x,y) = \mathbb{P}(X\leq x, Y\leq y).\]</span></p>
-<p>From the joint CDF <span class="math inline">\(F_{X,Y}\)</span> we can recover the marginal CDFs <span class="math inline">\(F_X\)</span>, <span class="math inline">\(F_Y\)</span> by sending the other variable to infinity:</p>
+<section id="differential-entropy" class="level1">
+<h1>3.1 - Differential entropy</h1>
+<p>The physicist’s definition of the entropy <span class="math inline">\(S\)</span> of a system with a continuum of possible states with density <span class="math inline">\(f\)</span> is</p>
+<p><span class="math inline">\(S = -\int f\log f.\)</span></p>
+<p>Note that for a probability density <span class="math inline">\(f\)</span> representing particle distribution in phase space the entropy <span class="math inline">\(S\)</span> coincides with Boltzmann’s H functional <span class="math inline">\(H(f)\)</span> up to a change of sign:</p>
+<p><span class="math inline">\(H(f) = \int f\log f.\)</span></p>
+<p>We can generalise this definition to any probability density <span class="math inline">\(f\)</span> (for which the integral makes sense) and the resulting quantity is called the <strong>differential entropy</strong> of <span class="math inline">\(f\)</span>.</p>
+<p>Intuitively, the entropy measures how localized a probability density is. A density that concentrates most of its mass in a small region will have low entropy, while a density that distributes its mass over a large region will have high entropy. This is simply a more precise statement of the commonly used heuristic that low entropy states are and high entropy states are .</p>
+<p>Throughout we fix a continuous random variable <span class="math inline">\(X\)</span> with density <span class="math inline">\(f\)</span> and denote the support set of <span class="math inline">\(f\)</span> by <span class="math inline">\(S\)</span>. i.e.&nbsp;</p>
 <p><span class="math display">\[\begin{aligned}
-F_X(x) &amp;= \lim_{y\to\infty}F_{X,Y}(x,y),\\
-\\
-F_Y(y) &amp;= \lim_{x\to\infty}F_{X,Y}(x,y).
+S &amp;= \text{supp}\,(f)\\
+  &amp;= \left\{ x\in\mathbb{R} \,\vert\, f(x)\neq0 \right\}.
 \end{aligned}\]</span></p>
-<p>X and Y are <strong>jointly continuous</strong> if their joint law is absolutely continuous with respect to the two-dimensional Lebesgue measure <span class="math inline">\(\lambda_2\)</span> on <span class="math inline">\((\mathbb{R}^2,\mathcal{B}(\mathbb{R}^2)).\)</span> By the Radon-Nikodym theorem, X and Y are jointly continuous if (and only if) there exists a measurable function <span class="math inline">\(f_{X,Y} : \mathbb{R}^2 \longrightarrow [0,\infty)\)</span> such that for all <span class="math inline">\(\, B \in \mathcal{B}(\mathbb{R}^2)\)</span>,</p>
-<p><span class="math display">\[\mathbb{P}((X,Y)\in B) = \int_B f_{X,Y}\,\text{d}\lambda_2,\]</span></p>
-<p>where <span class="math inline">\(f_{X,Y}\)</span> is called the <strong>joint PDF</strong> of X and Y. The marginal PDFs <span class="math inline">\(f_X\)</span>, <span class="math inline">\(f_Y\)</span> can be obtained from <span class="math inline">\(f_{X,Y}\)</span> by integrating out the other variable:</p>
+<hr>
+<section id="definition-3.1.1-differential-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="definition-3.1.1-differential-entropy">Definition 3.1.1 (Differential Entropy)</h3>
+<p>The <strong>differential entropy</strong> of the random variable <span class="math inline">\(X\)</span> is denoted by <span class="math inline">\(h(X)\)</span> or <span class="math inline">\(h(f)\)</span> (as it only depends on the density <span class="math inline">\(f\)</span>) and is defined by</p>
+<p><span class="math display">\[h(f) = -\int_S f(x) \log f(x)\,\text{d} x.\]</span></p>
+<p>If <span class="math inline">\(\log = \ln\)</span> then we say the differential entropy is measured in <strong>nats</strong>.<br>
+If <span class="math inline">\(\log = \log_2\)</span> then we say the differential entropy is measured in <strong>bits</strong>.</p>
+<p>Unless otherwise specified, <span class="math inline">\(\log\)</span> denotes the natural logarithm.</p>
+<hr>
+</section>
+<section id="example-3.1.2-entropy-of-a-univariate-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="example-3.1.2-entropy-of-a-univariate-normal-distribution">Example 3.1.2 (Entropy of a univariate normal distribution)</h3>
+<p>Let <span class="math inline">\(X \sim\mathcal{N}(0,\sigma^2)\)</span>. That is, suppose <span class="math inline">\(X\)</span> is a random variable with density</p>
+<p><span class="math display">\[f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}.\]</span></p>
+<p>Then we compute <span class="math display">\[\begin{aligned}
+    h(f) &amp;= -\int f\log f\\
+    &amp;= -\int_{\mathbb{R}}f(x)\left[-\frac{x^2}{2\sigma^2}-\frac{1}{2}\log 2\pi\sigma^2\right]\,\text{d} x\\
+    &amp;= \frac{\mathbb{E}[X^2]}{2\sigma^2}+ \frac{1}{2}\log 2\pi\sigma^2\\
+    &amp;= \frac{1}{2}+\frac{1}{2}\log 2\pi\sigma^2\\
+    &amp;= \frac{1}{2}\log 2\pi e\sigma^2\;\, \text{nats}\\
+     &amp;= \frac{1}{2}\log_2 2\pi e\sigma^2\;\, \text{bits.}\\
+\end{aligned}\]</span></p>
+<hr>
+</section>
+<section id="theorem-3.1.3" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-3.1.3">Theorem 3.1.3</h3>
+<p>For any <span class="math inline">\(c\in\mathbb{R}\)</span> it holds that</p>
+<p><span class="math display">\[h(X+c) = h(X).\]</span></p>
+<p><em>Proof.</em></p>
 <p><span class="math display">\[\begin{aligned}
-f_X(x) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} y\\
-\\
-f_Y(y) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} x.
-\end{aligned}\]</span></p>
-<p>In particular, jointly continuous random variables are automatically marginally continuous, although the converse is not true in general.</p>
-<p>Analagously, <span class="math inline">\(X_1,\dots,X_n\)</span> are jointly continuous if their joint law is absolutely continuous with respect to n-dimensional Lebesgue measure <span class="math inline">\(\lambda_n\)</span>, or equivalently if there exists a joint PDF for the random vector <span class="math inline">\((X_1,\dots,X_n)\)</span>.</p>
+    h(X) &amp;= -\int f(x)\log f(x)\,\text{d} x\\
+    &amp;= - \int f(x-c) \log f(x-c)\,\text{d} x\\
+    &amp;= h(X+c)
+\end{aligned}\]</span> ◻</p>
 <hr>
 </section>
-</section>
-<section id="expectation-moments-and-independence" class="level2">
-<h2 class="anchored" data-anchor-id="expectation-moments-and-independence">2.2 - Expectation, Moments and Independence</h2>
-<section id="definition-2.2.1" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.1">Definition 2.2.1</h3>
-<p>The <strong>expectation</strong> <span class="math inline">\(\mathbb{E}[X]\)</span> of a random variable <span class="math inline">\(X\)</span> is simply its Lebesgue integral with respect to <span class="math inline">\(\mathbb{P}\)</span></p>
+<section id="theorem-3.1.4" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-3.1.4">Theorem 3.1.4</h3>
+<p>For <span class="math inline">\(a\in\mathbb{R}\)</span> it holds that</p>
+<p><span class="math display">\[h(aX) = h(X) + \log|a|.\]</span></p>
+<p><em>Proof.</em></p>
+<p>Define the random variable <span class="math inline">\(Y = aX\)</span> with density</p>
+<p><span class="math display">\[f_Y(y) = \frac{1}{|a|}f_X\left(\frac{y}{a}\right).\]</span></p>
+<p>Then we can directly compute</p>
 <p><span class="math display">\[\begin{aligned}
-    \mathbb{E}[X] &amp;= \int_\Omega X \, \text{d}\mathbb{P}\\
-    &amp;= \int_\mathbb{R} xf(x) \,\text{d} x.
+    h(aX) &amp;= -\int f_Y(y)\log f_Y(y)\,\text{d} y\\
+    &amp;= -\int \frac{1}{|a|}f_X\left(\frac{y}{a}\right)\log\left[\frac{1}{|a|}f_X\left(\frac{y}{a}\right)\right]\,\text{d} y\\
+    &amp;= -\int f_X(x)\log f_X(x)\,\text{d} x +\log|a|\\
+    &amp;= h(X) +\log|a|.
 \end{aligned}\]</span></p>
-<p>The <span class="math inline">\(k^{th}\)</span> moment of <span class="math inline">\(f\)</span> around the non-random value <span class="math inline">\(c\in\mathbb{R}\)</span> is</p>
-<p><span class="math display">\[\mathbb{E}\left[(X-c)^k\right] = \int_{-\infty}^{\infty} (x-c)^kf(x)\,\text{d} x.\]</span></p>
-<p>The <span class="math inline">\(k^{th}\)</span> raw moment is the <span class="math inline">\(k^{th}\)</span> moment around the origin, <span class="math inline">\(c=0\)</span>, <span class="math display">\[\mathbb{E}[X^k] = \int_{-\infty}^{\infty} x^kf(x)\,\text{d} x.\]</span></p>
-<p>For example, the <span class="math inline">\(1^{st}\)</span> raw moment is the distribution’s mean, <span class="math inline">\(\mu = \mathbb{E}[X]\)</span>.</p>
-<p>The <span class="math inline">\(k^{th}\)</span> central moment is the <span class="math inline">\(k^{th}\)</span> moment around the mean, <span class="math inline">\(c = \mu = \mathbb{E}[X]\)</span>,</p>
-<p><span class="math display">\[\mathbb{E}[(X-\mu)^k] = \int_{-\infty}^{\infty} (x-\mu)^kf(x)\,\text{d} x.\]</span></p>
-<p>For example, the <span class="math inline">\(2^{nd}\)</span> central moment is the distribution’s variance, <span class="math inline">\(\sigma^2 = \mathbb{E}\left[(X-\mu)^2\right]\)</span>.</p>
-<p>By abuse of language, it is common to refer to integrals of the form <span class="math inline">\(\int r(x)f(x)\,\text{d} x\)</span> as ‘moments’ even when the function <span class="math inline">\(r\)</span> is not a polynomial in <span class="math inline">\(x\)</span>.</p>
+<p>◻</p>
 <hr>
 </section>
-<section id="definition-2.2.2" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.2">Definition 2.2.2</h3>
-<p>Given continuous random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with <span class="math inline">\(f_Y(y)&gt;0\)</span> we define:</p>
-<ol type="1">
-<li><p>The conditional CDF <span class="math inline">\(F_{X|Y}\)</span> of <span class="math inline">\(X\)</span> given Y by</p>
-<p><span class="math display">\[F_{X|Y}(x|y) = \frac{\int_{-\infty}^{x}f_{X,Y}(u,y)\,\text{d} u}{f_Y(y)}.\]</span></p></li>
-<li><p>The conditional PDF <span class="math inline">\(f_{X|Y}\)</span> of <span class="math inline">\(X\)</span> given <span class="math inline">\(Y\)</span> by</p>
-<p><span class="math display">\[f_{X|Y}(x|y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}.\]</span></p></li>
-<li><p>The conditional probability of the event <span class="math inline">\(\{ X\in A\}\)</span>, <span class="math inline">\(A\in\mathcal{B}(\mathbb{R)}\)</span>, given that <span class="math inline">\(Y = y\)</span> by</p>
-<p><span class="math display">\[\mathbb{P}(X\in A|Y = y) = \int_A f_{X|Y}(x|y)\,\text{d} x.\]</span></p></li>
-</ol>
+<section id="corollary-3.1.5" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-3.1.5">Corollary 3.1.5</h3>
+<p><span class="math display">\[h(A\mathbf{X}) = h(\mathbf{X})+\log|\det A|\]</span></p>
 <hr>
 </section>
-<section id="definition-2.2.3" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.3">Definition 2.2.3</h3>
-<p>Random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are said to be <strong>independent</strong> if their joint CDF <span class="math inline">\(F_{X,Y}\)</span> factorises into the tensor product of the marginals:</p>
-<p><span class="math display">\[F_{X,Y}(x,y) = F_X(x)F_Y(y).\]</span></p>
-<p>Equivalently, if X and Y are jointly continuous then we say they are independent if their joint PDF <span class="math inline">\(f_{X,Y}\)</span> factorises into the tensor product of the marginals:</p>
-<p><span class="math display">\[f_{X,Y}(x,y) = f_X(x)f_Y(y)\quad\text{a.e.}\]</span></p>
-<p>Where for <span class="math inline">\(f,g:E\longrightarrow \mathbb{R}\)</span> the <strong>tensor product</strong> <span class="math inline">\(f\otimes g : E^2\longrightarrow \mathbb{R}\)</span> is defined by <span class="math inline">\(f\otimes g(x,y) = f(x)g(y).\)</span></p>
+<section id="definition-3.1.6-joint-conditional-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="definition-3.1.6-joint-conditional-entropy">Definition 3.1.6 (Joint &amp; Conditional Entropy)</h3>
+<p>The <strong>joint differential entropy</strong> of a set <span class="math inline">\(X_1,\dots,X_n\)</span> of (jointly continuous) random variables with joint density <span class="math inline">\(f = f(x_1,\dots,x_n)\)</span> is defined as</p>
+<p><span class="math display">\[h(X_1,\dots,X_n) = -\int f(x_1,\dots,x_n) \log f(x_1,\dots,x_n)\,\text{d}^{n}x.\]</span></p>
+<p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have joint density <span class="math inline">\(f_{X,Y}(x,y)\)</span> then we define the <strong>conditional differential entropy</strong> as</p>
+<p><span class="math display">\[h(X|Y) = -\int f_{X,Y}(x,y) \log f_{X|Y}(x|y)\,\text{d} x\,\text{d} y.\]</span></p>
+<p>Since in general <span class="math inline">\(f_{X|Y}(x|y) = f_{X,Y}(x,y)/f_Y(y)\)</span> we immediately obtain the <strong>chain rule</strong>:</p>
+<p><span class="math display">\[h(X|Y) = h(X,Y) - h(Y),\]</span></p>
+<p>which may fail to hold if any of the concerned entropies are infinite or do not exist.</p>
 <hr>
 </section>
-<section id="remark-2.2.4" class="level3">
-<h3 class="anchored" data-anchor-id="remark-2.2.4">Remark 2.2.4</h3>
-<p>This is not the most compact and elegant way of defining independence of random variables through the independence of the <span class="math inline">\(\sigma\)</span>-algebras they generate. However this definition is equivalent, more intuitive and will suffice for our purposes.</p>
+<section id="example-3.1.7-entropy-of-a-multivariate-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="example-3.1.7-entropy-of-a-multivariate-normal-distribution">Example 3.1.7 (Entropy of a multivariate normal distribution)</h3>
+<p>Let <span class="math inline">\(X_1,\dots,X_n\)</span> have a multivariate Gaussian distribution with mean <span class="math inline">\(\mu\)</span> and covariance matrix <span class="math inline">\(K\)</span>. Then</p>
+<p><span class="math display">\[h(X_1,\dots, X_n) = \frac{1}{2}\log\left[(2\pi e)^n\det K\right].\]</span></p>
+</section>
+<section id="relative-entropy-mutual-information" class="level2">
+<h2 class="anchored" data-anchor-id="relative-entropy-mutual-information">3.2 - Relative Entropy &amp; Mutual Information</h2>
+<section id="definition-3.2.1-kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="definition-3.2.1-kl-divergence">Definition 3.2.1 (KL divergence)</h3>
+<p>The <strong>relative entropy</strong> (also known as the <strong>Kullback-Liebler divergence</strong>) <span class="math inline">\(D(f\,||\,g)\)</span> between two densities <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> is defined as</p>
+<p><span class="math display">\[D(f\,||\,g) = \int f(x)\log\frac{f(x)}{g(x)}\,\text{d}x.\]</span></p>
+<hr>
+<p><em>Note:</em> <span class="math display">\[D(f\,||\,g) &lt; \infty \Longleftrightarrow \text{supp}\,f\subseteq\text{supp}\,g.\]</span></p>
+</section>
+<section id="definition-3.2.2-mutual-information" class="level3">
+<h3 class="anchored" data-anchor-id="definition-3.2.2-mutual-information">Definition 3.2.2 (Mutual information)</h3>
+<p>Given two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with joint density <span class="math inline">\(f_{X,Y}\)</span> define the <strong>mutual information</strong> <span class="math inline">\(I(X;Y)\)</span> between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> by</p>
+<p><span class="math display">\[I(X;Y) = \int f_{X,Y}(x,y)\log\left[\frac{f_{X,Y}(x,y)}{f_X(x)f_Y(y)}\right]\,\text{d}x\,\text{d}y.\]</span></p>
+<hr>
+<p>From the definition it is clear that we have the formulas</p>
+<p><span class="math display">\[\begin{aligned}
+    I(X;Y) &amp;= h(X) - h(X|Y)\\
+    &amp;= h(Y) - h(Y|X)\\
+    &amp;= h(X) + h(Y) - h(X,Y).
+\end{aligned}\]</span></p>
+<p>Along with</p>
+<p><span class="math display">\[I(X;Y) = D(f_{X,Y}\,||\,f_X\otimes f_Y).\]</span></p>
+<p>Note the special cases</p>
+<p><span class="math display">\[\begin{aligned}
+I(X;Y) &amp;= I(Y;X),\\
+I(X;X) &amp;= h(X).
+\end{aligned}\]</span></p>
+</section>
+<section id="theorem-3.2.3-information-inequality" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-3.2.3-information-inequality">Theorem 3.2.3 (Information inequality)</h3>
+<p>For any pair of densities <span class="math inline">\(f,\,g\)</span>:</p>
+<p><span class="math display">\[D(f\,||\,g) \geq 0,\]</span></p>
+<p>with equality if and only if <span class="math inline">\(f = g\)</span> a.e.</p>
+<p><em>Proof.</em></p>
+<p>Without loss of generality assume <span class="math inline">\(f/g\geq1\)</span>. Use the fact that <span class="math inline">\(\int f = \int g = 1\)</span> to rewrite</p>
+<p><span class="math display">\[\begin{aligned}
+    D(f\,||\,g) &amp;= \int f\log\frac{f}{g}\\
+    &amp;= \int f\left(\frac{g}{f}-1-\log\frac{g}{f}\right).
+\end{aligned}\]</span></p>
+<p>Now note that for <span class="math inline">\(t\geq1\)</span> we have the inequality:</p>
+<p><span class="math display">\[t - 1 -\log t \geq 0,\]</span></p>
+<p>in which equality holds iff <span class="math inline">\(t=1.\)</span> This can be easily established graphically or by means of elementary calculus. Applying this inequality to <span class="math inline">\(f/g\)</span> and integrating yields</p>
+<p><span class="math display">\[\int \frac{g}{f}-1-\log\frac{g}{f}\;\geq\; 0\]</span></p>
+<p>with equality iff <span class="math inline">\(f = g\)</span> a.e. ◻</p>
+<hr>
+</section>
+<section id="corollary-3.2.4" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-3.2.4">Corollary 3.2.4</h3>
+<p>For any pair of random variables <span class="math inline">\(X,\,Y\)</span>: <span class="math display">\[I(X;Y)\geq 0,\]</span> with equality if and only if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
+<p><em>Proof.</em></p>
+<p><span class="math display">\[I(X;Y) = D(f_{X,Y}\,||\,f_X\otimes f_Y) \geq 0\]</span></p>
+<p>with equality iff <span class="math inline">\(f_{X,Y} = f_X\otimes f_Y\)</span> a.e. i.e.&nbsp;iff <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent. ◻</p>
+<hr>
+</section>
+<section id="corollary-3.2.5" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-3.2.5">Corollary 3.2.5</h3>
+<p>For any pair of random variables <span class="math inline">\(X,\,Y\)</span>:</p>
+<p><span class="math display">\[h(X|Y) \leq h(X),\]</span></p>
+<p>with equality if and only if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
+<p><em>Proof.</em></p>
+<p><span class="math display">\[h(X) - h(X|Y) = I(X;Y)\,\geq\,0,\]</span></p>
+<p>with equality iff <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent by Corollary 3.2.4. ◻</p>
+<hr>
 </section>
 </section>
 </section>
 <section id="references" class="level1">
 <h1>References:</h1>
 <ul>
-<li>[1.] Josephine Evans. <em>MA359 Measure Theory</em>, 2022. Warwick Mathematics Institute, University of Warwick.</li>
-<li>[2.] Paul Chleboun. <em>ST318 Probability Theory</em>, 2022. Department of Statistics, University of Warwick.</li>
+<li>[1] Thomas M Cover. Elements of information theory. John Wiley &amp; Sons, 1999</li>
 </ul>
 
 

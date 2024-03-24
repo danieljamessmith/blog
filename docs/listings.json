@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/BTE3/index.html",
       "/posts/SELECTION_TUNING_OPTUNA/index.html",
       "/posts/FOLIUM_EH/index.html",
       "/posts/GEOCODE_PCDS/index.html",
