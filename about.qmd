@@ -13,7 +13,7 @@ about:
 
 ---
 
-This portfolio is made using Quarto, an open source techinical publishing system that provides functionality to render .ipynb and .md files as blog posts. 
+This portfolio is made using Quarto, an open source technical publishing system that provides the functionality to render .ipynb and .md files as blog posts. 
 
 The .ipynb files are written using Python 3 in Jupyter Lab.
 
