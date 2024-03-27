@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Daniel Smith">
+<meta name="dcterms.date" content="2024-03-24">
+<meta name="description" content="We state and prove the maximum entropy theorem following Cover, and remark on its physical interpretation.">
 
-<title>djs - Portfolio - About</title>
+<title>djs - Portfolio - The Boltzmann Equation - 4. Maximum Entropy</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -59,8 +63,10 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -70,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../../index.html">
     <span class="navbar-title">djs - Portfolio</span>
     </a>
   </div>
@@ -81,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -97,36 +103,86 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-jolla">
-  <img src="profile.jpg" class="about-image
-  round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
-</div>
-<div class="quarto-title-meta">
+<h1 class="title">The Boltzmann Equation - 4. Maximum Entropy</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Mathematics</div>
+    <div class="quarto-category">Probability Theory</div>
+    <div class="quarto-category">Information Theory</div>
+    <div class="quarto-category">Boltzmann Equation</div>
   </div>
-</header><main class="content" id="quarto-document-content">
-<p>This portfolio is made using Quarto, an open source technical publishing system that provides the functionality to render .ipynb and .md files as blog posts.</p>
-<p>The .ipynb files are written in Python 3 using Jupyter Lab.</p>
-<p>The mathematics posts are typically written in LaTeX and converted to .md using Pandoc.</p>
-<p>I am using GitHub pages to host the site.</p>
+  </div>
+
+<div>
+  <div class="description">
+    We state and prove the maximum entropy theorem following Cover, and remark on its physical interpretation.
+  </div>
+</div>
 
 
-</main> 
-  <hr class="about-sep">
-   <div class="about-links">
-  <a href="https://www.linkedin.com/in/danieljames-smith/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/danieljamessmith" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-</div>
-</div>
- <!-- /main -->
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daniel Smith </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="maximum-entropy" class="level1">
+<h1>4 - Maximum Entropy</h1>
+<section id="exponential-functions-maximise-entropy" class="level2">
+<h2 class="anchored" data-anchor-id="exponential-functions-maximise-entropy">4.1 - Exponential Functions Maximise Entropy</h2>
+<p>Consider the following problem as posed by Cover:</p>
+<p>Maximise the entropy <span class="math inline">\(h(f)\)</span> over all densities <span class="math inline">\(f\)</span> satisfying</p>
+<ol type="1">
+<li><p><span class="math inline">\(f(x)\geq0\)</span> with equality outside of a given set <span class="math inline">\(S\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_Sf(x)\,\text{d}x = 1\)</span></p></li>
+<li><p><span class="math inline">\(\int_S f(x)r_i(x)\,\text{d}x = \alpha_i\)</span> for given functions <span class="math inline">\(r_i\)</span>, <span class="math inline">\(i = 1,\dots,m.\)</span></p></li>
+</ol>
+<p>That is, we wish to maximise the entropy over all probability distributions supported on the set <span class="math inline">\(S\)</span> satisfying the <span class="math inline">\(m\)</span> given moment constraints <span class="math inline">\(\mathbb{E}[r_i(X)] = \alpha_i\)</span>.</p>
+<p>Motivated by a variational calculus calculation (and our physical intuition) it is natural to conjecture that the solution to this optimization problem takes the form of an exponential function. Indeed, we prove this in the following theorem by using the information inequality:</p>
+<section id="theorem-4.1.1" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-4.1.1">Theorem 4.1.1</h3>
+<p>For <span class="math inline">\(x\in S\)</span> define</p>
+<p><span class="math display">\[f^*(x) = \exp{\left[\lambda_0 + \sum_{i=0}^m \lambda_i r_i(x)\right]}\]</span></p>
+<p>where <span class="math inline">\(\lambda_0, \lambda_1,\dots,\lambda_m\)</span> are chosen such that</p>
+<p><span class="math display">\[\int_Sf^*=1,\quad\int_Sf^*r_i=\alpha_i.\]</span></p>
+<p>Then <span class="math inline">\(f^*\)</span> uniquely (up to equality almost everywhere) maximises the entropy <span class="math inline">\(h(f)\)</span> over all densities <span class="math inline">\(f\)</span> satisfying conditions 1, 2 and 3 as stated above.</p>
+<p><em>Proof.</em> Let <span class="math inline">\(g\)</span> satisfy conditions 1, 2 and 3. Then: <span class="math display">\[\begin{aligned}
+h(g) &amp;= -\int g\log g\\
+&amp;= -\int g\log\frac{g}{f^*}f^*\\
+&amp;= -D(g\,||\,f^*) -\int g\log f^*\\
+&amp;\leq -\int g\log f^*\\
+&amp;= -\int g\left(\lambda_0 + \sum_{i=1}^m\lambda_ir_i\right)\\
+&amp;= -\int f^*\left(\lambda_0 + \sum_{i=1}^m\lambda_ir_i\right)\\
+&amp;= -\int f^* \log f^*\\
+&amp;= h(f^*)
+\end{aligned}\]</span> in which we have equality iff we have equality in the information equality. i.e.&nbsp;iff <span class="math inline">\(g = f^*\)</span> a.e. ◻</p>
+<hr>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -147,6 +203,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
