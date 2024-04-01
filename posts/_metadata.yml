@@ -10,6 +10,6 @@ title-block-banner: false
 format:
   html:
     grid: 
-        body-width: 1000px
+        body-width: 1500px
         sidebar-width: 200px
         margin-width: 200px
