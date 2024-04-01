@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
-    <lastmod>2024-03-27T00:40:51.485Z</lastmod>
+    <lastmod>2024-03-31T22:45:47.456Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-03-27T00:40:56.914Z</lastmod>
+    <lastmod>2024-04-01T00:34:50.501Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/SELECTION_TUNING_OPTUNA/index.html</loc>
@@ -15,5 +15,41 @@
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/BTE3/index.html</loc>
     <lastmod>2024-03-27T00:41:06.295Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/yt1/index.html</loc>
+    <lastmod>2024-03-31T22:45:42.625Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/k2/index.html</loc>
+    <lastmod>2024-03-31T22:45:38.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh1/index.html</loc>
+    <lastmod>2024-03-31T22:45:32.815Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh2/index.html</loc>
+    <lastmod>2024-03-31T22:45:34.223Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/k1/index.html</loc>
+    <lastmod>2024-03-31T22:45:36.669Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/ng1/index.html</loc>
+    <lastmod>2024-03-31T22:45:40.535Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/yt2/index.html</loc>
+    <lastmod>2024-03-31T22:45:44.042Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/bte3/index.html</loc>
+    <lastmod>2024-03-31T22:45:54.510Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh3/index.html</loc>
+    <lastmod>2024-04-01T00:34:48.900Z</lastmod>
   </url>
 </urlset>

@@ -2,16 +2,17 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/BTE3/index.html",
-      "/posts/SELECTION_TUNING_OPTUNA/index.html",
-      "/posts/FOLIUM_EH/index.html",
-      "/posts/GEOCODE_PCDS/index.html",
-      "/posts/BTE2/index.html",
-      "/posts/BTE1/index.html",
-      "/posts/SA_NLTK_HF/index.html",
-      "/posts/LR_NN_MIND/index.html",
-      "/posts/TCF_XGB/index.html",
-      "/posts/ST_LGBM/index.html"
+      "/posts/eh3/index.html",
+      "/posts/bte3/index.html",
+      "/posts/k2/index.html",
+      "/posts/eh2/index.html",
+      "/posts/eh1/index.html",
+      "/posts/bte2/index.html",
+      "/posts/bte1/index.html",
+      "/posts/yt2/index.html",
+      "/posts/ng1/index.html",
+      "/posts/yt1/index.html",
+      "/posts/k1/index.html"
     ]
   }
 ]
