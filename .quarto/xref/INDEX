@@ -190,5 +190,26 @@
   },
   "posts/eh3/index.ipynb": {
     "index.html": "94788474"
+  },
+  "posts/bte1/index.md": {
+    "index.html": "3c0ddf3f"
+  },
+  "posts/bte1/ipynb/index.ipynb": {
+    "index.html": "7acfd6ad"
+  },
+  "posts/bte2/index.md": {
+    "index.html": "f3d32ede"
+  },
+  "posts/bte2/ipynb/index.ipynb": {
+    "index.html": "b8ce2f75"
+  },
+  "posts/bte3/ipynb/index.ipynb": {
+    "index.html": "50bbcf51"
+  },
+  "posts/drafts/DRAFT_ATTACHING_STATS/AttachingStats.ipynb": {
+    "AttachingStats.html": "48eb6ba3"
+  },
+  "posts/drafts/DRAFT_BTE4/ipynb/index.ipynb": {
+    "index.html": "b026117a"
   }
 }
