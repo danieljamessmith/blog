@@ -5,7 +5,7 @@ date: "2024-01-29"
 categories: [Mathematics, PDEs, Boltzmann Equation]
 title-block-banner: false
 image: 'preview.png'
-draft: false
+draft: true
 description:  "I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: 'The interplay between Information theory and the long-time behaviour of a dilute gas'."
 ---
 

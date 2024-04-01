@@ -5,7 +5,7 @@ date: "2024-03-23"
 categories: [Mathematics, Probability Theory, Information Theory, Boltzmann Equation]
 title-block-banner: false
 image: 'preview.png'
-draft: false
+draft: true
 description:  "We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence and prove the information inequality."
 ---
 

@@ -211,5 +211,23 @@
   },
   "posts/drafts/DRAFT_BTE4/ipynb/index.ipynb": {
     "index.html": "b026117a"
+  },
+  "posts/bte1/index.ipynb": {
+    "index.html": "430ff489"
+  },
+  "posts/bte1/ipynb/index.md": {
+    "index.html": "a4b3fc06"
+  },
+  "posts/bte2/index.ipynb": {
+    "index.html": "8f948b5c"
+  },
+  "posts/bte2/ipynb/index.md": {
+    "index.html": "db773d8b"
+  },
+  "posts/bte3/index.ipynb": {
+    "index.html": "0ec1c576"
+  },
+  "posts/bte3/ipynb/index.md": {
+    "index.html": "b4bbaa40"
   }
 }

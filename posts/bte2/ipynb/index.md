@@ -5,7 +5,7 @@ date: "2024-02-13"
 categories: [Mathematics, Probability Theory, Boltzmann Equation]
 title-block-banner: false
 image: 'preview.png'
-draft: false
+draft: true
 description:  "Before we can discuss Information Theory and it's consequences for the Boltzmann equation we first need to make some definitions from probability theory."
 ---
 

@@ -1,63 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
-    <lastmod>2024-04-01T00:45:19.587Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
-    <lastmod>2024-04-01T00:50:54.953Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/SELECTION_TUNING_OPTUNA/index.html</loc>
-    <lastmod>2024-03-27T00:41:03.382Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/BTE3/index.html</loc>
-    <lastmod>2024-03-27T00:41:06.295Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/yt1/index.html</loc>
-    <lastmod>2024-04-01T00:50:51.960Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/k2/index.html</loc>
-    <lastmod>2024-04-01T00:50:49.032Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/eh1/index.html</loc>
-    <lastmod>2024-04-01T00:48:49.143Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/eh2/index.html</loc>
-    <lastmod>2024-04-01T00:48:50.476Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/k1/index.html</loc>
-    <lastmod>2024-04-01T00:50:46.950Z</lastmod>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/yt2/index.html</loc>
+    <lastmod>2024-04-01T00:57:14.597Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/ng1/index.html</loc>
-    <lastmod>2024-04-01T00:50:50.068Z</lastmod>
+    <lastmod>2024-04-01T00:57:11.523Z</lastmod>
   </url>
   <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/yt2/index.html</loc>
-    <lastmod>2024-04-01T00:50:53.247Z</lastmod>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/k1/index.html</loc>
+    <lastmod>2024-04-01T00:57:08.541Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh1/index.html</loc>
+    <lastmod>2024-04-01T00:57:03.086Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/bte3/index.html</loc>
-    <lastmod>2024-04-01T00:48:46.080Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/eh3/index.html</loc>
-    <lastmod>2024-04-01T00:48:52.870Z</lastmod>
-  </url>
-  <url>
-    <loc>https://danieljamessmith.github.io/portfolio/posts/bte1/index.html</loc>
-    <lastmod>2024-04-01T00:48:44.005Z</lastmod>
+    <lastmod>2024-04-01T00:56:59.909Z</lastmod>
   </url>
   <url>
     <loc>https://danieljamessmith.github.io/portfolio/posts/bte2/index.html</loc>
-    <lastmod>2024-04-01T00:48:45.068Z</lastmod>
+    <lastmod>2024-04-01T00:56:58.989Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/bte1/index.html</loc>
+    <lastmod>2024-04-01T00:56:57.921Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/about.html</loc>
+    <lastmod>2024-04-01T00:56:54.987Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/index.html</loc>
+    <lastmod>2024-04-01T00:56:56.849Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh2/index.html</loc>
+    <lastmod>2024-04-01T00:57:04.381Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/eh3/index.html</loc>
+    <lastmod>2024-04-01T00:57:06.738Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/k2/index.html</loc>
+    <lastmod>2024-04-01T00:57:10.512Z</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljamessmith.github.io/portfolio/posts/yt1/index.html</loc>
+    <lastmod>2024-04-01T00:57:13.361Z</lastmod>
   </url>
 </urlset>
