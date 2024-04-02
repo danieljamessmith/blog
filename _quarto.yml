@@ -13,6 +13,10 @@ format:
   html:
     theme: Lux
     css: styles.css
+    grid: 
+      body-width: 1000px
+      sidebar-width: 200px
+      margin-width: 200px
 
 
 
