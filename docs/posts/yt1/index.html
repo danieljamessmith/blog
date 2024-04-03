@@ -204,8 +204,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Python 3.11.4</code></pre>
 </div>
 </div>
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Data</a><br>
+2. <a href="#toc2_">Periodic Trends</a><br>
+3. <a href="#toc3_">Outlier Analysis and Removal</a><br>
+4. <a href="#toc4_">Feature Creation</a><br>
+5. <a href="#toc5_">Lag Features</a><br>
+6. <a href="#toc6_">Visualising Feature/Target Relationships</a><br>
+7. <a href="#toc7_">Train/Test Split</a><br>
+8. <a href="#toc8_"><strong>Aside</strong> - Time Series Cross Validation</a><br>
+8.1. <a href="#toc8_1_">Training using Cross-Validation</a><br>
+9. <a href="#toc9_">Predicting on Test Set</a><br>
+9.1. <a href="#toc9_1_">Fitting an <code>XGBRegressor</code></a><br>
+9.2. <a href="#toc9_2_">Feature Importances</a><br>
+9.3. <a href="#toc9_3_">Predictions</a><br>
+10. <a href="#toc10_">Forecasting the Future</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="data" class="level1">
-<h1>Data</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Data</a></h1>
 <p>The data can be downloaded <a href="https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption">here</a>. According to the Kaggle page:</p>
 <blockquote class="blockquote">
 <p>PJM Interconnection LLC (PJM) is a regional transmission organization (RTO) in the United States. It is part of the Eastern Interconnection grid operating an electric transmission system serving all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia. The hourly power consumption data comes from PJM’s website and are in megawatts (MW).</p>
@@ -387,7 +410,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="10">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df.plot(style<span class="op">=</span><span class="st">'.'</span>,</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>        figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">5</span>),</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>color_pal[<span class="dv">0</span>],</span>
@@ -402,7 +425,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="periodic-trends" class="level1">
-<h1>Periodic Trends</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">Periodic Trends</a></h1>
 <div class="cell" data-tags="[]" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>week <span class="op">=</span> df.loc[(df.index <span class="op">&gt;</span><span class="st">'01-01-2010'</span>) <span class="op">&amp;</span> (df.index <span class="op">&lt;</span> <span class="st">'01-08-2010'</span>)]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -486,7 +509,7 @@ memory usage: 2.2 MB</code></pre>
 <p>Unsuprisingly, the time of year seems to have a significant impact on daily energy consumption patterns.</p>
 <p>The very general trend of less energy consumption at night compared with in the day seems however to persist across the year.</p>
 <p>Creating another 2x2 grid, this time plotting the energy consumption across random weeks in 2005-2010:</p>
-<div class="cell" data-tags="[]" data-execution_count="15">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> <span class="st">'01-01-2005'</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> <span class="st">'12-31-2010'</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -524,7 +547,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="outlier-analysis-and-removal" class="level1">
-<h1>Outlier Analysis and Removal</h1>
+<h1>3. <a id="toc3_"></a><a href="#toc0_">Outlier Analysis and Removal</a></h1>
 <div class="cell" data-tags="[]" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'PJME_MW'</span>].plot(kind<span class="op">=</span><span class="st">'hist'</span>,</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                   bins<span class="op">=</span><span class="dv">500</span>,</span>
@@ -565,7 +588,7 @@ memory usage: 2.2 MB</code></pre>
 <div class="cell" data-tags="[]" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.query(<span class="st">'PJME_MW &gt;= 19_000'</span>).copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="20">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(df.query(<span class="st">'PJME_MW &lt; 19_000'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>0</code></pre>
@@ -573,7 +596,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="feature-creation" class="level1">
-<h1>Feature Creation</h1>
+<h1>4. <a id="toc4_"></a><a href="#toc0_">Feature Creation</a></h1>
 <div class="cell" data-tags="[]" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_features(df):</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -591,7 +614,7 @@ memory usage: 2.2 MB</code></pre>
 <div class="cell" data-tags="[]" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> create_features(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="23">
+<div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <div>
@@ -740,7 +763,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="lag-features" class="level1">
-<h1>Lag Features</h1>
+<h1>5. <a id="toc5_"></a><a href="#toc0_">Lag Features</a></h1>
 <div class="cell" data-tags="[]" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_lags(df):</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    target_map <span class="op">=</span> df[<span class="st">'PJME_MW'</span>].to_dict()</span>
@@ -752,7 +775,7 @@ memory usage: 2.2 MB</code></pre>
 <div class="cell" data-tags="[]" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> add_lags(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="26">
+<div class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div>
@@ -940,7 +963,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="visualising-featuretarget-relationships" class="level1">
-<h1>Visualising Feature/Target Relationships</h1>
+<h1>6. <a id="toc6_"></a><a href="#toc0_">Visualising Feature/Target Relationships</a></h1>
 <div class="cell" data-tags="[]" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'PJME_MW'</span>, palette<span class="op">=</span><span class="st">'magma'</span>)</span>
@@ -950,7 +973,7 @@ memory usage: 2.2 MB</code></pre>
 <p><img src="index_files/figure-html/cell-28-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="28">
+<div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'month'</span>, y<span class="op">=</span><span class="st">'PJME_MW'</span>, palette<span class="op">=</span><span class="st">'coolwarm'</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Energy Consumption (MW) by Month'</span>)</span>
@@ -961,9 +984,9 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="traintest-split" class="level1">
-<h1>Train/Test Split</h1>
+<h1>7. <a id="toc7_"></a><a href="#toc0_">Train/Test Split</a></h1>
 <p>We reserve the data from 2015 and beyond as a test set, and use the data before 2015 as a training set. The following code produces an illustration to help explain this.</p>
-<div class="cell" data-tags="[]" data-execution_count="29">
+<div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> df.loc[df.index <span class="op">&lt;</span> <span class="st">'01-01-2015'</span>][<span class="st">'PJME_MW'</span>]</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> df.loc[df.index <span class="op">&gt;=</span> <span class="st">'01-01-2015'</span>][<span class="st">'PJME_MW'</span>]</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -990,14 +1013,14 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </section>
 <section id="aside---time-series-cross-validation" class="level1">
-<h1><strong>Aside</strong> - Time Series Cross Validation</h1>
+<h1>8. <a id="toc8_"></a><a href="#toc0_"><strong>Aside</strong> - Time Series Cross Validation</a></h1>
 <p>To implement cross-validation while training a model on time series data, one can use <code>TimeSeriesSplit</code> from sklearn.</p>
 <div class="cell" data-tags="[]" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tss <span class="op">=</span> TimeSeriesSplit(n_splits<span class="op">=</span><span class="dv">5</span>, test_size<span class="op">=</span><span class="dv">24</span><span class="op">*</span><span class="dv">365</span><span class="op">*</span><span class="dv">1</span>, gap<span class="op">=</span><span class="dv">24</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The following code produces a visualisation to illustrate how the data is structured into a training set and a test set during 5-fold time series cross-validation.</p>
-<div class="cell" data-tags="[]" data-execution_count="31">
+<div class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">15</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>fold <span class="op">=</span> <span class="dv">0</span></span>
@@ -1018,7 +1041,7 @@ memory usage: 2.2 MB</code></pre>
 </div>
 </div>
 <section id="training-using-cross-validation" class="level2">
-<h2 class="anchored" data-anchor-id="training-using-cross-validation">Training using Cross-Validation</h2>
+<h2 class="anchored" data-anchor-id="training-using-cross-validation">8.1. <a id="toc8_1_"></a><a href="#toc0_">Training using Cross-Validation</a></h2>
 <p>The following code trains an <code>XGBRegressor</code> on each of the above 5 folds, saving the score (RMSE) in a list <code>scores</code>.</p>
 <div class="cell" data-tags="[]" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fold <span class="op">=</span> <span class="dv">0</span></span>
@@ -1109,7 +1132,7 @@ memory usage: 2.2 MB</code></pre>
  3996.298054855067]</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="34">
+<div class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Mean score across folds: </span><span class="sc">{</span>np<span class="sc">.</span>mean(scores)<span class="sc">:0.4f}</span><span class="ss">'</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Fold scores:</span><span class="ch">\n</span><span class="sc">{</span>scores<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1121,9 +1144,9 @@ Fold scores:
 </section>
 </section>
 <section id="predicting-on-test-set" class="level1">
-<h1>Predicting on Test Set</h1>
+<h1>9. <a id="toc9_"></a><a href="#toc0_">Predicting on Test Set</a></h1>
 <section id="fitting-an-xgbregressor" class="level2">
-<h2 class="anchored" data-anchor-id="fitting-an-xgbregressor">Fitting an <code>XGBRegressor</code></h2>
+<h2 class="anchored" data-anchor-id="fitting-an-xgbregressor">9.1. <a id="toc9_1_"></a><a href="#toc0_">Fitting an <code>XGBRegressor</code></a></h2>
 <div class="cell" data-tags="[]" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> xgb.XGBRegressor(base_score<span class="op">=</span><span class="fl">0.5</span>, </span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                         booster<span class="op">=</span><span class="st">'gbtree'</span>,    </span>
@@ -1133,7 +1156,7 @@ Fold scores:
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>                         max_depth<span class="op">=</span><span class="dv">3</span>,</span>
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                         learning_rate<span class="op">=</span><span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="36">
+<div class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>          y_train, </span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>          eval_set<span class="op">=</span>[(X_train,y_train),(X_test,y_test)],</span>
@@ -1172,13 +1195,13 @@ Fold scores:
 </div>
 </section>
 <section id="feature-importances" class="level2">
-<h2 class="anchored" data-anchor-id="feature-importances">Feature Importances</h2>
+<h2 class="anchored" data-anchor-id="feature-importances">9.2. <a id="toc9_2_"></a><a href="#toc0_">Feature Importances</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fi <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>model.feature_importances_,</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                  index<span class="op">=</span>model.feature_names_in_,</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                  columns<span class="op">=</span>[<span class="st">'Importance'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="38">
+<div class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>fi.sort_values(<span class="st">'Importance'</span>).plot(kind<span class="op">=</span><span class="st">'barh'</span>,title<span class="op">=</span><span class="st">'Feature Importance'</span>,color<span class="op">=</span><span class="st">'blue'</span>,legend<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>&lt;Axes: title={'center': 'Feature Importance'}&gt;</code></pre>
@@ -1189,7 +1212,7 @@ Fold scores:
 </div>
 </section>
 <section id="predictions" class="level2">
-<h2 class="anchored" data-anchor-id="predictions">Predictions</h2>
+<h2 class="anchored" data-anchor-id="predictions">9.3. <a id="toc9_3_"></a><a href="#toc0_">Predictions</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
@@ -1599,7 +1622,7 @@ Name: prediction, dtype: float64</code></pre>
 </div>
 </div>
 <p>We can visualise the predicted energy consumption for a particular week:</p>
-<div class="cell" data-tags="[]" data-execution_count="44">
+<div class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="op">=</span> <span class="st">'04-01-2018'</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="op">=</span> <span class="st">'04-08-2018'</span></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df.loc[(df.index <span class="op">&gt;</span> start_date) <span class="op">&amp;</span> (df.index <span class="op">&lt;</span> end_date)]</span>
@@ -1618,7 +1641,7 @@ Name: prediction, dtype: float64</code></pre>
 </section>
 </section>
 <section id="forecasting-the-future" class="level1">
-<h1>Forecasting the Future</h1>
+<h1>10. <a id="toc10_"></a><a href="#toc0_">Forecasting the Future</a></h1>
 <div class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>FEATURES <span class="op">=</span> [<span class="st">'dayofyear'</span>, <span class="st">'hour'</span>, <span class="st">'dayofweek'</span>, <span class="st">'quarter'</span>, <span class="st">'month'</span>, <span class="st">'year'</span>,</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">'lag1'</span>,<span class="st">'lag2'</span>,<span class="st">'lag3'</span>]</span>

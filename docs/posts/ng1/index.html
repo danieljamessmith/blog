@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-01-16">
 <meta name="description" content="Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Overfitting to the training data is counteracted by including a regularization term in the cost function. The regularization parameter is tuned to improve accuracy on the validation data.">
 
-<title>djs - Portfolio - Logistic Regression with a Neural Network Mindset</title>
+<title>djs - Portfolio - Logistic Regression with Gradient Descent and L2-Regularization</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Logistic Regression with a Neural Network Mindset</h1>
+<h1 class="title">Logistic Regression with Gradient Descent and L2-Regularization</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Python</div>
     <div class="quarto-category">ML</div>
@@ -200,78 +200,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Python 3.11.4</code></pre>
 </div>
 </div>
-<h1>
-Table of Contents<span class="tocSkip"></span>
-</h1>
-<div class="toc">
-<ul class="toc-item">
-<li>
-<ul class="toc-item">
-<li>
-<span><a href="#Table-of-Contents" data-toc-modified-id="Table-of-Contents-0.1"><span class="toc-item-num">0.1&nbsp;&nbsp;</span>Table of Contents</a></span>
-</li>
-</ul>
-</li>
-<li>
-<span><a href="#DATA" data-toc-modified-id="DATA-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>DATA</a></span>
-</li>
-<li>
-<span><a href="#THE-SIGMOID" data-toc-modified-id="THE-SIGMOID-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>THE SIGMOID</a></span>
-</li>
-<li>
-<span><a href="#LOGISTIC-REGRESSION-AND-GRADIENT-DESCENT" data-toc-modified-id="LOGISTIC-REGRESSION-AND-GRADIENT-DESCENT-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>LOGISTIC REGRESSION AND GRADIENT DESCENT</a></span>
-<ul class="toc-item">
-<li>
-<span><a href="#Mathematical-expression-of-the-algorithm" data-toc-modified-id="Mathematical-expression-of-the-algorithm-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Mathematical expression of the algorithm</a></span>
-</li>
-<li>
-<span><a href="#Vectorization" data-toc-modified-id="Vectorization-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>Vectorization</a></span>
-</li>
-<li>
-<span><a href="#Gradient-Descent" data-toc-modified-id="Gradient-Descent-3.3"><span class="toc-item-num">3.3&nbsp;&nbsp;</span>Gradient Descent</a></span>
-</li>
-</ul>
-</li>
-<li>
-<span><a href="#THE-UNREGULARIZED-MODEL" data-toc-modified-id="THE-UNREGULARIZED-MODEL-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>THE UNREGULARIZED MODEL</a></span>
-<ul class="toc-item">
-<li>
-<span><a href="#Helper-Functions" data-toc-modified-id="Helper-Functions-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>Helper Functions</a></span>
-</li>
-<li>
-<span><a href="#Combining-into-logistic-regression" data-toc-modified-id="Combining-into-logistic-regression-4.2"><span class="toc-item-num">4.2&nbsp;&nbsp;</span>Combining into logistic regression</a></span>
-</li>
-<li>
-<span><a href="#Errors-and-learning-curves" data-toc-modified-id="Errors-and-learning-curves-4.3"><span class="toc-item-num">4.3&nbsp;&nbsp;</span>Errors and learning curves</a></span>
-</li>
-<li>
-<span><a href="#Animal-Testing" data-toc-modified-id="Animal-Testing-4.4"><span class="toc-item-num">4.4&nbsp;&nbsp;</span>Animal Testing</a></span>
-</li>
-</ul>
-</li>
-<li>
-<span><a href="#THE-L2-REGULARIZED-MODEL" data-toc-modified-id="THE-L2-REGULARIZED-MODEL-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>THE L2-REGULARIZED MODEL</a></span>
-<ul class="toc-item">
-<li>
-<span><a href="#Regularizing-the-helper-functions" data-toc-modified-id="Regularizing-the-helper-functions-5.1"><span class="toc-item-num">5.1&nbsp;&nbsp;</span>Regularizing the helper functions</a></span>
-</li>
-<li>
-<span><a href="#Combining-into-regularized-logistic-regression" data-toc-modified-id="Combining-into-regularized-logistic-regression-5.2"><span class="toc-item-num">5.2&nbsp;&nbsp;</span>Combining into regularized logistic regression</a></span>
-</li>
-<li>
-<span><a href="#Tuning-the-regularization-parameter" data-toc-modified-id="Tuning-the-regularization-parameter-5.3"><span class="toc-item-num">5.3&nbsp;&nbsp;</span>Tuning the regularization parameter</a></span>
-</li>
-<li>
-<span><a href="#More-animal-testing" data-toc-modified-id="More-animal-testing-5.4"><span class="toc-item-num">5.4&nbsp;&nbsp;</span>More animal testing</a></span>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">DATA</a><br>
+1.1.1. <a href="#toc1_1_1_">IMPORTANT REMARK</a><br>
+2. <a href="#toc2_">THE SIGMOID</a><br>
+3. <a href="#toc3_">LOGISTIC REGRESSION AND GRADIENT DESCENT</a><br>
+3.1. <a href="#toc3_1_">Mathematical expression of the algorithm</a><br>
+3.2. <a href="#toc3_2_">Vectorization</a><br>
+3.3. <a href="#toc3_3_">Gradient Descent</a><br>
+4. <a href="#toc4_">THE UNREGULARIZED MODEL</a><br>
+4.1. <a href="#toc4_1_">Helper Functions</a><br>
+4.2. <a href="#toc4_2_">Combining into logistic regression</a><br>
+4.3. <a href="#toc4_3_">Errors and learning curves</a><br>
+4.4. <a href="#toc4_4_">Animal Testing</a><br>
+5. <a href="#toc5_">THE L2-REGULARIZED MODEL</a><br>
+5.1. <a href="#toc5_1_">Regularizing the helper functions</a><br>
+5.2. <a href="#toc5_2_">Combining into regularized logistic regression</a><br>
+5.3. <a href="#toc5_3_">Tuning the regularization parameter</a><br>
+5.4. <a href="#toc5_4_">More animal testing</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>The data and basic architecture of this post is taken from an exercise in the first course of Andrew Ng’s Deep Learning Specialization:</p>
 <p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
 <section id="data" class="level1">
-<h1>DATA</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">DATA</a></h1>
 <p>The data comprises of training and test sets of 64x64 images, some of cats and some of non-cats. Each image is encoded as a NumPy array of shape (64,64,3), where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
 <p>The problem is then to contruct and train a model that can accurately classify an unseen image as either a cat (<span class="math inline">\(y=1\)</span>) or a non-cat (<span class="math inline">\(y=0\)</span>).</p>
 <div class="cell" data-tags="[]" data-execution_count="2">
@@ -302,7 +260,7 @@ Table of Contents<span class="tocSkip"></span>
 </div>
 <p>And our test set comprises of another 50 images</p>
 <section id="important-remark" class="level3">
-<h3 class="anchored" data-anchor-id="important-remark">IMPORTANT REMARK</h3>
+<h3 class="anchored" data-anchor-id="important-remark">1.1.1. <a id="toc1_1_1_"></a><a href="#toc0_">IMPORTANT REMARK</a></h3>
 <p>The arrays <code>test_set_x_orig</code> and <code>test_set_y</code> and their flattened/normalized/etc counterparts are referred to as the <strong>test</strong> set both in code and in text.</p>
 <p>In practice this data forms more of a <strong>validation/development</strong> set, as I use classification accuracy on this set to tune the regularization hyperparameter and evaluate the model based upon its performance on unseen images from my camera roll which form the true <em>test</em> set.</p>
 <p>Strictly speaking this is an abuse of language (albeit a common one) and poor practice. Both the test and validation sets should be of comparable size. Both sets should also be drawn from the same probability distribution.</p>
@@ -383,7 +341,7 @@ test_set_x_flatten shape: (12288, 50)
 test_set_y shape: (1, 50)</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="11">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardizing the feature data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>train_set_x <span class="op">=</span> train_set_x_flatten <span class="op">/</span> <span class="fl">255.</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>test_set_x <span class="op">=</span> test_set_x_flatten <span class="op">/</span> <span class="fl">255.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -391,7 +349,7 @@ test_set_y shape: (1, 50)</code></pre>
 </section>
 </section>
 <section id="the-sigmoid" class="level1">
-<h1>THE SIGMOID</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">THE SIGMOID</a></h1>
 <p>The <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> <span class="math inline">\(\sigma\)</span> is defined as</p>
 <p><span class="math display">\[\sigma: \mathbb{R} \to \left(0,1\right)\]</span></p>
 <p><span class="math display">\[\begin{align*}
@@ -434,11 +392,11 @@ test_set_y shape: (1, 50)</code></pre>
 <p><em>Proof</em>:</p>
 </section>
 <section id="logistic-regression-and-gradient-descent" class="level1">
-<h1>LOGISTIC REGRESSION AND GRADIENT DESCENT</h1>
+<h1>3. <a id="toc3_"></a><a href="#toc0_">LOGISTIC REGRESSION AND GRADIENT DESCENT</a></h1>
 <p>The following image illustrates how <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as a <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a> with sigmoid activation.</p>
 <p><img src="percep.png" style="width:650px;height:400px;"></p>
 <section id="mathematical-expression-of-the-algorithm" class="level2">
-<h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">Mathematical expression of the algorithm</h2>
+<h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">3.1. <a id="toc3_1_"></a><a href="#toc0_">Mathematical expression of the algorithm</a></h2>
 <p>For one training example <span class="math inline">\(\left(x^{(i)},y^{(i)}\right)\in \mathbb{R}^n \times \{0,1\}\)</span> in the training set <span class="math inline">\(\left\{ \left(x^{(i)} , y^{(i)} \right) \right\} _{i=1}^{m}\)</span> and a choice of parameters <span class="math inline">\(w\in\mathbb{R}^{n}\,\)</span>, <span class="math inline">\(b\in\mathbb{R}\)</span>, <strong>forward propagation</strong> consists of computing the <strong>prediction</strong> <span class="math inline">\(\hat y^{(i)}\in(0,1)\)</span> of the model as <span class="math inline">\(x \mapsto \left(w\cdot x + b\right) \mapsto \sigma\left( w\cdot x + b \right)\)</span>. That is,</p>
 <p><span class="math display">\[z^{(i)} = w \cdot x^{(i)} + b\]</span></p>
 <p><span class="math display">\[\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right)\]</span></p>
@@ -484,7 +442,7 @@ J(w,b) &amp;= \frac{1}{m} \sum_{i=1}^{m} \mathcal{L}\left(a^{(i)}, y^{(i)}\right
 \end{align*}\]</span></p>
 </section>
 <section id="vectorization" class="level2">
-<h2 class="anchored" data-anchor-id="vectorization">Vectorization</h2>
+<h2 class="anchored" data-anchor-id="vectorization">3.2. <a id="toc3_2_"></a><a href="#toc0_">Vectorization</a></h2>
 <p>Looping over all the <span class="math inline">\(m\)</span> training examples <span class="math inline">\(\left (x^{(i)},y^{(i)} \right)\)</span> in turn to calculate <span class="math inline">\(\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right) = \sigma\left( w \cdot x^{(i)} + b\right)\)</span> and <span class="math inline">\(\mathcal{L}\left(a^{(i)}, y^{(i)}\right)\)</span> is computationally inefficient if <span class="math inline">\(m\)</span> is large <span class="math inline">\(\left(\text{e.g.}\,\, m\sim10^6\right)\)</span> as is common in modern industry applications.</p>
 <p>By turning to a so called <em>vectorized</em> implementation we can take advantage of NumPy’s powerful numerical linear algebra capabilities to implement forward propagation more efficiently.</p>
 <p>Define vectors <span class="math inline">\(Z = \left( z^{(1)}, z^{(2)}, \dots, z^{(m)} \right) \in \mathbb{R}^m\)</span> and <span class="math inline">\(A = \left( a^{(1)}, a^{(2)}, \dots, a^{(m)} \right) \in \mathbb{R}^m\)</span>. Define the <span class="math inline">\(n\,\times\,m\)</span> matrix <span class="math inline">\(X\)</span> with <span class="math inline">\(i^{\text{th}}\)</span> column <span class="math inline">\(x^{(i)}\)</span>. That is,</p>
@@ -506,7 +464,7 @@ w^T X + \left(b,b,\dots,b\right) &amp;= \left( w^T x^{(1)}+b, \,w^T x^{(2)}+b, \
 <p><code>A = sigmoid(np.dot(w.T,X) + b)</code> is a computationally efficient implementation of forward propagation across the entire training set at once. In particular, this is more efficient than using a <code>for</code> loop to iterate over each training example in turn.</p>
 </section>
 <section id="gradient-descent" class="level2">
-<h2 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h2>
+<h2 class="anchored" data-anchor-id="gradient-descent">3.3. <a id="toc3_3_"></a><a href="#toc0_">Gradient Descent</a></h2>
 <p>The optimization problem <span class="math display">\[
 \min_{w\in\mathbb{R}^n,\,b\in\mathbb{R}} J(w, b)
 \]</span></p>
@@ -519,9 +477,9 @@ b &amp;\mapsto b - \alpha \frac{\partial J(w,b)}{\partial b}
 </section>
 </section>
 <section id="the-unregularized-model" class="level1">
-<h1>THE UNREGULARIZED MODEL</h1>
+<h1>4. <a id="toc4_"></a><a href="#toc0_">THE UNREGULARIZED MODEL</a></h1>
 <section id="helper-functions" class="level2">
-<h2 class="anchored" data-anchor-id="helper-functions">Helper Functions</h2>
+<h2 class="anchored" data-anchor-id="helper-functions">4.1. <a id="toc4_1_"></a><a href="#toc0_">Helper Functions</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initialize_with_zeros(dim):</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -651,7 +609,7 @@ b &amp;\mapsto b - \alpha \frac{\partial J(w,b)}{\partial b}
 <span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> params, grads, costs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="19">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(w, b, X):</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Predict whether the label is 0 or 1 using learned logistic regression parameters (w, b) outputted from `optimize`</span></span>
@@ -679,7 +637,7 @@ b &amp;\mapsto b - \alpha \frac{\partial J(w,b)}{\partial b}
 </div>
 </section>
 <section id="combining-into-logistic-regression" class="level2">
-<h2 class="anchored" data-anchor-id="combining-into-logistic-regression">Combining into logistic regression</h2>
+<h2 class="anchored" data-anchor-id="combining-into-logistic-regression">4.2. <a id="toc4_2_"></a><a href="#toc0_">Combining into logistic regression</a></h2>
 <p>Combining the previously defined functions <code>intialize_with_zeros</code>, <code>propagate</code>, <code>optimize</code> and <code>predict</code> into the logistic regression model</p>
 <div class="cell" data-tags="[]" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(X_train, Y_train, X_test, Y_test, num_iterations<span class="op">=</span><span class="dv">3000</span>, learning_rate<span class="op">=</span><span class="fl">0.005</span>, print_cost<span class="op">=</span><span class="va">False</span>):</span>
@@ -739,7 +697,7 @@ test accuracy: 68.0 %</code></pre>
 <p>The model accuractely classified &gt;99% of the images in the training set and 70% of the images in the test set, suggesting that we are experiences overfitting to our training data.</p>
 </section>
 <section id="errors-and-learning-curves" class="level2">
-<h2 class="anchored" data-anchor-id="errors-and-learning-curves">Errors and learning curves</h2>
+<h2 class="anchored" data-anchor-id="errors-and-learning-curves">4.3. <a id="toc4_3_"></a><a href="#toc0_">Errors and learning curves</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a 'cat' that was inaccuractely classified as 'not-cat' (False Negative)</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">10</span></span>
@@ -764,7 +722,7 @@ test accuracy: 68.0 %</code></pre>
 <p><img src="index_files/figure-html/cell-25-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="24">
+<div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot learning curve (with costs)</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>costs <span class="op">=</span> np.squeeze(logistic_regression_model[<span class="st">'costs'</span>])</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>plt.plot(costs)</span>
@@ -778,7 +736,7 @@ test accuracy: 68.0 %</code></pre>
 </div>
 </section>
 <section id="animal-testing" class="level2">
-<h2 class="anchored" data-anchor-id="animal-testing">Animal Testing</h2>
+<h2 class="anchored" data-anchor-id="animal-testing">4.4. <a id="toc4_4_"></a><a href="#toc0_">Animal Testing</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_cat(image_str):</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -914,9 +872,9 @@ Observing on some other images in my camera roll:</p>
 </section>
 </section>
 <section id="the-l2-regularized-model" class="level1">
-<h1>THE L2-REGULARIZED MODEL</h1>
+<h1>5. <a id="toc5_"></a><a href="#toc0_">THE L2-REGULARIZED MODEL</a></h1>
 <section id="regularizing-the-helper-functions" class="level2">
-<h2 class="anchored" data-anchor-id="regularizing-the-helper-functions">Regularizing the helper functions</h2>
+<h2 class="anchored" data-anchor-id="regularizing-the-helper-functions">5.1. <a id="toc5_1_"></a><a href="#toc0_">Regularizing the helper functions</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_cost_regularized(w, b, X, Y, lambda_):</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -960,7 +918,7 @@ Observing on some other images in my camera roll:</p>
 <span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> grads</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="38">
+<div class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> optimize_regularized(w, b, X, Y, num_iterations<span class="op">=</span><span class="dv">3000</span>, learning_rate<span class="op">=</span><span class="fl">0.005</span>, lambda_<span class="op">=</span><span class="dv">0</span>, print_cost<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Optimizes w and b by running a gradient descent algorithm on the regularized cost function</span></span>
@@ -1011,7 +969,7 @@ Observing on some other images in my camera roll:</p>
 </div>
 </section>
 <section id="combining-into-regularized-logistic-regression" class="level2">
-<h2 class="anchored" data-anchor-id="combining-into-regularized-logistic-regression">Combining into regularized logistic regression</h2>
+<h2 class="anchored" data-anchor-id="combining-into-regularized-logistic-regression">5.2. <a id="toc5_2_"></a><a href="#toc0_">Combining into regularized logistic regression</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> regularized_model(X_train, Y_train, X_test, Y_test, num_iterations<span class="op">=</span><span class="dv">3000</span>, learning_rate<span class="op">=</span><span class="fl">0.5</span>, lambda_<span class="op">=</span><span class="dv">0</span>, print_cost<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -1055,7 +1013,7 @@ Observing on some other images in my camera roll:</p>
 <span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="40">
+<div class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>logistic_regression_model_regularized <span class="op">=</span> regularized_model(train_set_x,</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>                                                          train_set_y,</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>                                                          test_set_x,</span>
@@ -1071,7 +1029,7 @@ test accuracy: 74.0 %</code></pre>
 </div>
 </section>
 <section id="tuning-the-regularization-parameter" class="level2">
-<h2 class="anchored" data-anchor-id="tuning-the-regularization-parameter">Tuning the regularization parameter</h2>
+<h2 class="anchored" data-anchor-id="tuning-the-regularization-parameter">5.3. <a id="toc5_3_"></a><a href="#toc0_">Tuning the regularization parameter</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tune_lambda(lambdas):</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -1162,7 +1120,7 @@ test accuracy: 82.0 %
 </code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="44">
+<div class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>lambdas <span class="op">=</span> [<span class="dv">150</span>, <span class="dv">152</span>, <span class="dv">154</span>, <span class="dv">156</span>, <span class="dv">158</span>, <span class="dv">160</span>]</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>tune_lambda(lambdas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1200,7 +1158,7 @@ test accuracy: 82.0 %
 </div>
 </section>
 <section id="more-animal-testing" class="level2">
-<h2 class="anchored" data-anchor-id="more-animal-testing">More animal testing</h2>
+<h2 class="anchored" data-anchor-id="more-animal-testing">5.4. <a id="toc5_4_"></a><a href="#toc0_">More animal testing</a></h2>
 <div class="cell" data-tags="[]" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>tuned_regularized_model <span class="op">=</span> regularized_model(train_set_x,</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                                            train_set_y,</span>

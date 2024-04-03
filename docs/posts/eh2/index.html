@@ -180,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-tags="[]" data-execution_count="124">
+<div class="cell" data-execution_count="124">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
@@ -188,8 +188,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.image <span class="im">as</span> mpimg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Data Imports</a><br>
+2. <a href="#toc2_">Geocoding Postcodes with ONS data</a><br>
+3. <a href="#toc3_">Visualising Donor Data with Interactive Folium Maps</a><br>
+3.1. <a href="#toc3_1_">First Map</a><br>
+3.2. <a href="#toc3_2_">Adding Colour Labelling</a><br>
+3.3. <a href="#toc3_3_">Adding Pop-Ups</a><br>
+3.4. <a href="#toc3_4_">Adding Layer Control</a><br>
+4. <a href="#toc4_">Constructing the Fake Data</a><br>
+5. <a href="#toc5_">Remarks and Further Directions</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="data-imports" class="level1">
-<h1>Data Imports</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Data Imports</a></h1>
 <p><code>FakeIndividualConstituents.csv</code> is a dataset I constructed consisting of the donation details of 100 fictional donors to a charity in Nottingham.</p>
 <p>Importantly this data is fictional, randomly generated. It is not the details of real donors anonymised. For the full details of how I constructed this data, see the appendix at the end of this post.</p>
 <p>This post is meant to illustrate my method for investigating the distribution of donors to a real charity at which I volunteer - <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a> in Nottingham.</p>
@@ -340,7 +358,7 @@ dtypes: float64(1), int64(3), object(1)
 memory usage: 4.0+ KB</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="148">
+<div class="cell" data-execution_count="148">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="148">
 <div>
@@ -421,10 +439,10 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </section>
 <section id="geocoding-postcodes-with-ons-data" class="level1">
-<h1>Geocoding Postcodes with ONS data</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">Geocoding Postcodes with ONS data</a></h1>
 <p>For the details of this geocoding process, see my previous blog post:</p>
 <p><a href="https://danieljamessmith.github.io/blog/posts/5%20-%20Geocoding%20Postcodes%20with%20Python/">Geocoding Postcodes in Python: pgeocode v ONS</a></p>
-<div class="cell" data-tags="[]" data-execution_count="149">
+<div class="cell" data-execution_count="149">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> pd.read_csv(<span class="vs">r'C:\Users\Daniel\Downloads\open_postcode_geo.csv\open_postcode_geo.csv'</span>, header<span class="op">=</span><span class="va">None</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> post[[<span class="dv">0</span>, <span class="dv">7</span>, <span class="dv">8</span>]]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>post <span class="op">=</span> post.rename({<span class="dv">0</span>: <span class="st">'Postcode'</span>, <span class="dv">7</span>: <span class="st">'Latitude'</span>, <span class="dv">8</span>: <span class="st">'Longitude'</span>}, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -508,12 +526,12 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </section>
 <section id="visualising-donor-data-with-interactive-folium-maps" class="level1">
-<h1>Visualising Donor Data with Interactive Folium Maps</h1>
+<h1>3. <a id="toc3_"></a><a href="#toc0_">Visualising Donor Data with Interactive Folium Maps</a></h1>
 <p><a href="https://python-visualization.github.io/folium/latest/#">Folium</a> is a Python library providing the functionality to visualise data in the form of interactive leaflet (.html) maps.</p>
 <section id="first-map" class="level2">
-<h2 class="anchored" data-anchor-id="first-map">First Map</h2>
+<h2 class="anchored" data-anchor-id="first-map">3.1. <a id="toc3_1_"></a><a href="#toc0_">First Map</a></h2>
 <p>Producing a basic folium map with no extra features:</p>
-<div class="cell" data-tags="[]" data-execution_count="150">
+<div class="cell" data-execution_count="150">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> df.iterrows():  </span>
@@ -1209,9 +1227,9 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </section>
 <section id="adding-colour-labelling" class="level2">
-<h2 class="anchored" data-anchor-id="adding-colour-labelling">Adding Colour Labelling</h2>
+<h2 class="anchored" data-anchor-id="adding-colour-labelling">3.2. <a id="toc3_2_"></a><a href="#toc0_">Adding Colour Labelling</a></h2>
 <p>We can colour each point by the value of <code>TotalDonated</code> using <code>LinearColormap</code> from <code>branca.colormap</code>:</p>
-<div class="cell" data-tags="[]" data-execution_count="153">
+<div class="cell" data-execution_count="153">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'green'</span>, <span class="st">'yellow'</span>, <span class="st">'orange'</span>, <span class="st">'red'</span>, <span class="st">'purple'</span>]</span>
@@ -1969,7 +1987,7 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </section>
 <section id="adding-pop-ups" class="level2">
-<h2 class="anchored" data-anchor-id="adding-pop-ups">Adding Pop-Ups</h2>
+<h2 class="anchored" data-anchor-id="adding-pop-ups">3.3. <a id="toc3_3_"></a><a href="#toc0_">Adding Pop-Ups</a></h2>
 <p>Next, I added a pop-up to each data point showing the user the data of that donor by adding an argument <code>popup</code> to <code>folium.CircleMarker</code>:</p>
 <div class="cell" data-tags="[]" data-execution_count="154">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">12</span>)</span>
@@ -4239,7 +4257,7 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </div>
 <p>Showing a screenshot taken with ShareX using Matplotlib:</p>
-<div class="cell" data-tags="[]" data-execution_count="155">
+<div class="cell" data-execution_count="155">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>,<span class="dv">10</span>))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> mpimg.imread(<span class="st">'FakeDonorMap_noLayerControl.jpg'</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>imgplot <span class="op">=</span> plt.imshow(img)</span>
@@ -4250,7 +4268,7 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </section>
 <section id="adding-layer-control" class="level2">
-<h2 class="anchored" data-anchor-id="adding-layer-control">Adding Layer Control</h2>
+<h2 class="anchored" data-anchor-id="adding-layer-control">3.4. <a id="toc3_4_"></a><a href="#toc0_">Adding Layer Control</a></h2>
 <p>Finally, I added layer control to the map using <code>folium.map.FeatureGroup</code> and <code>folium.LayerControl</code>.</p>
 <p>This results in buttons being added to the right of the UI, under the colour bar, allowing the user to show/hide the markers for donors in specific ranges of donation totals.</p>
 <p>I used <a href="https://copilot.microsoft.com/">Microsoft Copilot</a> to assist with this step.</p>
@@ -6624,7 +6642,7 @@ memory usage: 4.0+ KB</code></pre>
 </div>
 </div>
 <p>Showing a screenshot taken with ShareX using Matplotlib:</p>
-<div class="cell" data-tags="[]" data-execution_count="158">
+<div class="cell" data-execution_count="158">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">20</span>,<span class="dv">10</span>))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> mpimg.imread(<span class="st">'FakeDonorMap_withLayerControl.jpg'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>imgplot <span class="op">=</span> plt.imshow(img)</span>
@@ -6636,7 +6654,7 @@ memory usage: 4.0+ KB</code></pre>
 </section>
 </section>
 <section id="constructing-the-fake-data" class="level1">
-<h1>Constructing the Fake Data</h1>
+<h1>4. <a id="toc4_"></a><a href="#toc0_">Constructing the Fake Data</a></h1>
 <p>I started with <code>nottm_postcodes.csv</code>, the csv file of 100 random Nottingham postcodes I used in my previous post:</p>
 <p><a href="https://danieljamessmith.github.io/blog/posts/5%20-%20Geocoding%20Postcodes%20with%20Python/">Geocoding Postcodes in Python: pgeocode v ONS</a></p>
 <div class="cell" data-tags="[]" data-execution_count="159">
@@ -7044,7 +7062,7 @@ Name: Newsletter, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="172">
+<div class="cell" data-execution_count="172">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="172">
 <div>
@@ -7125,7 +7143,7 @@ Name: Newsletter, dtype: float64</code></pre>
 </div>
 </section>
 <section id="remarks-and-further-directions" class="level1">
-<h1>Remarks and Further Directions</h1>
+<h1>5. <a id="toc5_"></a><a href="#toc0_">Remarks and Further Directions</a></h1>
 <blockquote class="blockquote">
 <p>The postcodes were randomly chosen from a certain latitude and longitude range encompassing Nottingham city. Thus there is no significance to the geographic distribution of the fake donors, while for the real data there were many interesting patterns to be investigated. For example, there is in fact a relationship between donor density and the social deprivation of areas of Nottingham not reflected in the synthetic data.</p>
 </blockquote>

@@ -144,24 +144,44 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Probability Theory</a><br>
+1.1. <a href="#toc1_1_">Random Variables and Random Vectors</a><br>
+1.1.1. <a href="#toc1_1_1_">Definition 1.1.1 - Random Variables</a><br>
+1.1.2. <a href="#toc1_1_2_">Definition 1.1.2 - Continuous RVs</a><br>
+1.1.3. <a href="#toc1_1_3_">Definition 1.1.3 - Random Vectors</a><br>
+1.2. <a href="#toc1_2_">Expectation, Moments and Independence</a><br>
+1.2.1. <a href="#toc1_2_1_">Definition 1.2.1 - Expectation</a><br>
+1.2.2. <a href="#toc1_2_2_">Definition 1.2.2 - Conditional Probability</a><br>
+1.2.3. <a href="#toc1_2_3_">Definition 1.2.3 - Independence of RVs</a><br>
+1.2.4. <a href="#toc1_2_4_">Remark 1.2.4</a><br>
+2. <a href="#toc2_">References</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="probability-theory" class="level1">
-<h1>2 - Probability Theory</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Probability Theory</a></h1>
 <hr>
 <section id="random-variables-and-random-vectors" class="level2">
-<h2 class="anchored" data-anchor-id="random-variables-and-random-vectors">2.1 - Random Variables and Random Vectors</h2>
+<h2 class="anchored" data-anchor-id="random-variables-and-random-vectors">1.1. <a id="toc1_1_"></a><a href="#toc0_">Random Variables and Random Vectors</a></h2>
 <p>Throughout we fix a probability space <span class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span> and consider <span class="math inline">\(\mathbb{R}\)</span> equipped with Lebesgue measure <span class="math inline">\(\lambda\)</span> on the Borel <span class="math inline">\(\sigma\)</span>-algebra <span class="math inline">\(\mathcal{B}(\mathbb{R}).\)</span> The reader is assumed to have taken a first course on measure theory.</p>
 <p>Note that a probability space <span class="math inline">\((\Omega,\mathcal{F},\mathbb{P})\)</span> is a measure space with unit total mass</p>
 <p><span class="math display">\[\mathbb{P}(\Omega)=1.\]</span></p>
 <hr>
-<section id="definition-2.1.1" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.1">Definition 2.1.1</h3>
+<section id="definition-1.1.1---random-variables" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.1.1---random-variables">1.1.1. <a id="toc1_1_1_"></a><a href="#toc0_">Definition 1.1.1 - Random Variables</a></h3>
 <p>A <strong>random variable</strong> <span class="math inline">\(X\)</span> is a measurable function <span class="math inline">\(X:\Omega\longrightarrow\mathbb{R}\)</span>.</p>
 <p>The cumulative distribution function (CDF) <span class="math inline">\(F_X\)</span> of a random variable <span class="math inline">\(X\)</span> is defined by <span class="math inline">\(F_X(x) = \mathbb{P}(X\leq x).\)</span></p>
 <p>A <strong>stochastic process</strong> is an indexed family of random variables <span class="math inline">\({\{X_t\}_{t\in T}}\)</span>, where the indexing set <span class="math inline">\(T\)</span> is not necessarily countable, and the index <span class="math inline">\(t\)</span> is often interpreted as time.</p>
 <hr>
 </section>
-<section id="definition-2.1.2" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.2">Definition 2.1.2</h3>
+<section id="definition-1.1.2---continuous-rvs" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.1.2---continuous-rvs">1.1.2. <a id="toc1_1_2_"></a><a href="#toc0_">Definition 1.1.2 - Continuous RVs</a></h3>
 <p><span class="math inline">\(X\)</span> is said to be a <strong>continuous</strong> random variable if its law <span class="math inline">\(\,\mathbb{P}_X = \mathbb{P}\circ X^{-1}\)</span> is absolutely continuous with respect to the Lebesgue measure <span class="math inline">\(\lambda\)</span> as a measure on <span class="math inline">\(\mathbb{R}\)</span>. That is, if</p>
 <p><span class="math display">\[\forall \, N \in \mathcal{B}(\mathbb{R}):\]</span> <span class="math display">\[\lambda(N) = 0 \Rightarrow \mathbb{P}(X \in N) = 0.\]</span></p>
 <p>By the Radon-Nikodym theorem, a random variable <span class="math inline">\(X\)</span> is continuous if (and only if) there exists a measurable function <span class="math inline">\(f_X : \mathbb{R} \longrightarrow [0,\infty)\)</span> such that for all <span class="math inline">\(\, B \in \mathcal{B}(\mathbb{R})\)</span>,</p>
@@ -170,8 +190,8 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 <p>Unless otherwise stated we now assume that a random variable <span class="math inline">\(X\)</span> is continuous and has density <span class="math inline">\(f\)</span>.</p>
 </section>
-<section id="definition-2.1.3" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.1.3">Definition 2.1.3</h3>
+<section id="definition-1.1.3---random-vectors" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.1.3---random-vectors">1.1.3. <a id="toc1_1_3_"></a><a href="#toc0_">Definition 1.1.3 - Random Vectors</a></h3>
 <p>A <strong>random vector</strong> <span class="math inline">\(\mathbf{X}\)</span> is an n-tuple of random variables</p>
 <p><span class="math display">\[\mathbf{X}=(X_1,\ldots,X_n) : \Omega \longrightarrow \mathbb{R}^n.\]</span></p>
 <p>The joint CDF <span class="math inline">\(F_{X,Y}\)</span> of a pair of random variables <span class="math inline">\(X,\,Y\)</span> is defined as</p>
@@ -196,9 +216,9 @@ f_Y(y) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} x.
 </section>
 </section>
 <section id="expectation-moments-and-independence" class="level2">
-<h2 class="anchored" data-anchor-id="expectation-moments-and-independence">2.2 - Expectation, Moments and Independence</h2>
-<section id="definition-2.2.1" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.1">Definition 2.2.1</h3>
+<h2 class="anchored" data-anchor-id="expectation-moments-and-independence">1.2. <a id="toc1_2_"></a><a href="#toc0_">Expectation, Moments and Independence</a></h2>
+<section id="definition-1.2.1---expectation" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.2.1---expectation">1.2.1. <a id="toc1_2_1_"></a><a href="#toc0_">Definition 1.2.1 - Expectation</a></h3>
 <p>The <strong>expectation</strong> <span class="math inline">\(\mathbb{E}[X]\)</span> of a random variable <span class="math inline">\(X\)</span> is simply its Lebesgue integral with respect to <span class="math inline">\(\mathbb{P}\)</span></p>
 <p><span class="math display">\[\begin{aligned}
     \mathbb{E}[X] &amp;= \int_\Omega X \, \text{d}\mathbb{P}\\
@@ -214,8 +234,8 @@ f_Y(y) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} x.
 <p>By abuse of language, it is common to refer to integrals of the form <span class="math inline">\(\int r(x)f(x)\,\text{d} x\)</span> as ‘moments’ even when the function <span class="math inline">\(r\)</span> is not a polynomial in <span class="math inline">\(x\)</span>.</p>
 <hr>
 </section>
-<section id="definition-2.2.2" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.2">Definition 2.2.2</h3>
+<section id="definition-1.2.2---conditional-probability" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.2.2---conditional-probability">1.2.2. <a id="toc1_2_2_"></a><a href="#toc0_">Definition 1.2.2 - Conditional Probability</a></h3>
 <p>Given continuous random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with <span class="math inline">\(f_Y(y)&gt;0\)</span> we define:</p>
 <ol type="1">
 <li><p>The conditional CDF <span class="math inline">\(F_{X|Y}\)</span> of <span class="math inline">\(X\)</span> given Y by</p>
@@ -227,8 +247,8 @@ f_Y(y) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} x.
 </ol>
 <hr>
 </section>
-<section id="definition-2.2.3" class="level3">
-<h3 class="anchored" data-anchor-id="definition-2.2.3">Definition 2.2.3</h3>
+<section id="definition-1.2.3---independence-of-rvs" class="level3">
+<h3 class="anchored" data-anchor-id="definition-1.2.3---independence-of-rvs">1.2.3. <a id="toc1_2_3_"></a><a href="#toc0_">Definition 1.2.3 - Independence of RVs</a></h3>
 <p>Random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are said to be <strong>independent</strong> if their joint CDF <span class="math inline">\(F_{X,Y}\)</span> factorises into the tensor product of the marginals:</p>
 <p><span class="math display">\[F_{X,Y}(x,y) = F_X(x)F_Y(y).\]</span></p>
 <p>Equivalently, if X and Y are jointly continuous then we say they are independent if their joint PDF <span class="math inline">\(f_{X,Y}\)</span> factorises into the tensor product of the marginals:</p>
@@ -236,14 +256,14 @@ f_Y(y) &amp;= \int_{-\infty}^{\infty} f_{X,Y}(x,y)\,\text{d} x.
 <p>Where for <span class="math inline">\(f,g:E\longrightarrow \mathbb{R}\)</span> the <strong>tensor product</strong> <span class="math inline">\(f\otimes g : E^2\longrightarrow \mathbb{R}\)</span> is defined by <span class="math inline">\(f\otimes g(x,y) = f(x)g(y).\)</span></p>
 <hr>
 </section>
-<section id="remark-2.2.4" class="level3">
-<h3 class="anchored" data-anchor-id="remark-2.2.4">Remark 2.2.4</h3>
+<section id="remark-1.2.4" class="level3">
+<h3 class="anchored" data-anchor-id="remark-1.2.4">1.2.4. <a id="toc1_2_4_"></a><a href="#toc0_">Remark 1.2.4</a></h3>
 <p>This is not the most compact and elegant way of defining independence of random variables through the independence of the <span class="math inline">\(\sigma\)</span>-algebras they generate. However this definition is equivalent, more intuitive and will suffice for our purposes.</p>
 </section>
 </section>
 </section>
 <section id="references" class="level1">
-<h1>References:</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">References</a></h1>
 <ul>
 <li>[1.] Josephine Evans. <em>MA359 Measure Theory</em>, 2022. Warwick Mathematics Institute, University of Warwick.</li>
 <li>[2.] Paul Chleboun. <em>ST318 Probability Theory</em>, 2022. Department of Statistics, University of Warwick.</li>

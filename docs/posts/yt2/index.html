@@ -214,31 +214,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Python 3.11.4</code></pre>
 </div>
 </div>
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Data</a><br>
+1.1. <a href="#toc1_1_">EDA</a><br>
+1.2. <a href="#toc1_2_">Cleaning Text</a><br>
+2. <a href="#toc2_">Sentiment Analysis with VADER</a><br>
+2.1. <a href="#toc2_1_">Basic NLTK</a><br>
+2.2. <a href="#toc2_2_">SentimentIntensityAnalyzer</a><br>
+2.3. <a href="#toc2_3_">Plotting VADER Results</a><br>
+3. <a href="#toc3_">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a><br>
+4. <a href="#toc4_">Comparing Models</a><br>
+5. <a href="#toc5_">Reviewing Examples</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>Sentiment analysis is a standard application of natural language processing (NLP) in which a machine learning algorithm is trained to classify text as having either positive, negative or neutral emotional tone.</p>
 <p>As a subfield of NLP, sentiment analysis is closely related to computational linguistics. Sentiment analysis has also been found to be useful in the implementation of recommender systems, in which an automated understanding of the emotional content of reviews proves to be crucial for accurate and personalized content recommendation.</p>
 <p>In this post sentiment analysis is performed on a dataset of Amazon reviews using both NLTK’s VADER sentiment analysis tool and the Hugging Face transformer-based model RoBERTa.</p>
-<section id="contents" class="level1">
-<h1>Contents</h1>
-<ul>
-<li><ol type="1">
-<li><a href="#data">Data</a></li>
-</ol></li>
-<li><ol start="2" type="1">
-<li><a href="#vader">Sentiment Analysis with VADER</a></li>
-</ol></li>
-<li><ol start="3" type="1">
-<li><a href="#rob">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a></li>
-</ol></li>
-<li><ol start="4" type="1">
-<li><a href="#comp">Comparing Models</a></li>
-</ol></li>
-</ul>
 <p><a name="data"></a></p>
-</section>
 <section id="data" class="level1">
-<h1>1 - Data</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Data</a></h1>
 <p>The data can be downloaded from <a href="https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews/data">Kaggle</a> and consists of 568,454 Amazon reviews of of 74,258 fine foods products by 256,059 users between Oct 1999 - Oct 2012. This post is based upon a <a href="https://www.youtube.com/watch?v=QpzMWQvxXWk">Youtube video</a> by <a href="https://www.youtube.com/@robmulla">Rob Mulla</a>.</p>
-<div class="cell" data-tags="[]" data-execution_count="47">
+<div class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'Reviews.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="48">
@@ -348,13 +350,13 @@ Python 3.11.4</code></pre>
 </div>
 </div>
 <p>Working with the over half a million reviews directly would be computationally expensive. In the interests of time we look only at the first 1000 reviews. The techniques used would not change when working with the full dataset.</p>
-<div class="cell" data-tags="[]" data-execution_count="51">
+<div class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.head(<span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><a name="eda"></a></p>
 <section id="eda" class="level2">
-<h2 class="anchored" data-anchor-id="eda">1.1 - EDA</h2>
-<div class="cell" data-tags="[]" data-execution_count="52">
+<h2 class="anchored" data-anchor-id="eda">1.1. <a id="toc1_1_"></a><a href="#toc0_">EDA</a></h2>
+<div class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> df[<span class="st">'Score'</span>].value_counts().sort_index() <span class="op">\</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    .plot(kind<span class="op">=</span><span class="st">'bar'</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>          title<span class="op">=</span><span class="st">'Count of Reviews by Stars'</span>,</span>
@@ -398,7 +400,7 @@ Python 3.11.4</code></pre>
 <p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="55">
+<div class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer(stop_words<span class="op">=</span><span class="st">'english'</span>, max_features<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>word_matrix <span class="op">=</span> vectorizer.fit_transform(df[<span class="st">'Text'</span>])</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>word_frequency <span class="op">=</span> word_matrix.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -422,10 +424,10 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="cleaning-text" class="level2">
-<h2 class="anchored" data-anchor-id="cleaning-text">1.2 - Cleaning Text</h2>
+<h2 class="anchored" data-anchor-id="cleaning-text">1.2. <a id="toc1_2_"></a><a href="#toc0_">Cleaning Text</a></h2>
 <p>“br” is such a common word beacuse it is present in many of the reviews as a html tag: <code>&lt;br&gt;&lt;/br&gt;</code></p>
 <p>We can fix this using the BeautifulSoup library.</p>
-<div class="cell" data-tags="[]" data-execution_count="56">
+<div class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">UserWarning</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_text(text):</span>
@@ -454,7 +456,7 @@ Python 3.11.4</code></pre>
 <p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="59">
+<div class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> CountVectorizer(stop_words<span class="op">=</span><span class="st">'english'</span>, max_features<span class="op">=</span><span class="dv">20</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>word_matrix <span class="op">=</span> vectorizer.fit_transform(df[<span class="st">'Text'</span>])</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>word_frequency <span class="op">=</span> word_matrix.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -480,12 +482,12 @@ Python 3.11.4</code></pre>
 </section>
 </section>
 <section id="sentiment-analysis-with-vader" class="level1">
-<h1>2 - Sentiment Analysis with VADER</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">Sentiment Analysis with VADER</a></h1>
 <p>NLTK’s <a href="https://www.nltk.org/api/nltk.sentiment.vader.html">VADER</a>, short for “Valence Aware Dictionary and sEntiment Reasoner,” is a pre-built sentiment analysis tool designed for analyzing the sentiment of text data, particularly in the context of natural language processing tasks.</p>
 <section id="basic-nltk" class="level2">
-<h2 class="anchored" data-anchor-id="basic-nltk">2.1 - Basic NLTK</h2>
+<h2 class="anchored" data-anchor-id="basic-nltk">2.1. <a id="toc2_1_"></a><a href="#toc0_">Basic NLTK</a></h2>
 <p>NLTK stands for <a href="https://www.nltk.org/">Natural Language Toolkit</a>. It is a comprehensive library in Python that provides tools and resources for working text data. NLTK includes various modules and packages for tasks such as tokenization, stemming, tagging, parsing, and sentiment analysis, making it a valuable resource for NLP tasks.</p>
-<div class="cell" data-tags="[]" data-execution_count="60">
+<div class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>example <span class="op">=</span> df[<span class="st">'Text'</span>][<span class="dv">50</span>]</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(example)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -515,7 +517,7 @@ Python 3.11.4</code></pre>
  ('soft', 'JJ')]</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="63">
+<div class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>entities <span class="op">=</span> nltk.chunk.ne_chunk(tagged)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>entities.pprint()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -548,7 +550,7 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="sentimentintensityanalyzer" class="level2">
-<h2 class="anchored" data-anchor-id="sentimentintensityanalyzer">2.2 - SentimentIntensityAnalyzer</h2>
+<h2 class="anchored" data-anchor-id="sentimentintensityanalyzer">2.2. <a id="toc2_2_"></a><a href="#toc0_">SentimentIntensityAnalyzer</a></h2>
 <p><code>SentimentIntensityAnalyzer</code> is a class in the NLTK library’s VADER module. It is designed for sentiment analysis and provides a pre-trained machine learning model to assess the sentiment of a piece of text by analyzing the intensity of positive, negative, and neutral sentiments.</p>
 <p>This uses a “bag of words” approach in which: 1. Stop words are removed 2. Each word is scored, and combined to give a total score</p>
 <div class="cell" data-tags="[]" data-execution_count="64">
@@ -609,7 +611,7 @@ Python 3.11.4</code></pre>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>vaders <span class="op">=</span> vaders.reset_index().rename(columns<span class="op">=</span>{<span class="st">'index'</span>:<span class="st">'Id'</span>})</span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>vaders <span class="op">=</span> vaders.merge(df,how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="73">
+<div class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we have sentiment score and metadata</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>vaders</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="73">
@@ -845,8 +847,8 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="plotting-vader-results" class="level2">
-<h2 class="anchored" data-anchor-id="plotting-vader-results">2.3 - Plotting VADER Results</h2>
-<div class="cell" data-tags="[]" data-execution_count="74">
+<h2 class="anchored" data-anchor-id="plotting-vader-results">2.3. <a id="toc2_3_"></a><a href="#toc0_">Plotting VADER Results</a></h2>
+<div class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.barplot(data<span class="op">=</span>vaders,</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">'Score'</span>,</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                 y <span class="op">=</span> <span class="st">'compound'</span>,</span>
@@ -860,7 +862,7 @@ Python 3.11.4</code></pre>
 </div>
 </div>
 <p>Unsuprisingly there is a positive correlation between review score (stars out of five) and the compound score from VADER.</p>
-<div class="cell" data-tags="[]" data-execution_count="75">
+<div class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">5</span>))</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>vaders, x <span class="op">=</span> <span class="st">'Score'</span>, y <span class="op">=</span> <span class="st">'pos'</span>, ax<span class="op">=</span>axs[<span class="dv">0</span>], palette <span class="op">=</span> color_pal)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>].set_title(<span class="st">'Positive Score'</span>)</span>
@@ -877,7 +879,7 @@ Python 3.11.4</code></pre>
 </section>
 </section>
 <section id="sentiment-analysis-with-a-hugging-face-transformer-roberta" class="level1">
-<h1>3 - Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</h1>
+<h1>3. <a id="toc3_"></a><a href="#toc0_">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a></h1>
 <ul>
 <li>Hugging Face is an AI research organization that has contributed significantly to the development of transformer-based models for NLP. The Hugging Face Transformers library is a popular open-source library that provides pre-trained transformer models, including RoBERTa.</li>
 <li>RoBERTa is a robustly optimized transformer-based natural language processing model developed by Facebook AI Research (FAIR), designed as an extension and enhancement of the BERT architecture.</li>
@@ -885,7 +887,7 @@ Python 3.11.4</code></pre>
 </ul>
 <p>The specific model we use here can be found at https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment</p>
 <p>It is a RoBERTa-base model pre-trained on a dataset of over 50 million tweets and fine-tuned for sentiment analysis. This is an example of <em>transfer learning</em>, the application to a task of a ML model that has been pre-trained on data for another closely related task for which data is more easily gathered.</p>
-<div class="cell" data-tags="[]" data-execution_count="76">
+<div class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>task <span class="op">=</span> <span class="st">"sentiment"</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>MODEL <span class="op">=</span> <span class="ss">f"cardiffnlp/twitter-roberta-base-</span><span class="sc">{</span>task<span class="sc">}</span><span class="ss">"</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(MODEL)</span>
@@ -1136,7 +1138,7 @@ Broke for id 863</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="85">
+<div class="cell" data-execution_count="85">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>results_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="85">
 <pre><code>Index(['Id', 'vader_neg', 'vader_neu', 'vader_pos', 'vader_compound',
@@ -1149,8 +1151,8 @@ Broke for id 863</code></pre>
 <p><a name="comp"></a></p>
 </section>
 <section id="comparing-models" class="level1">
-<h1>4 - Comparing Models</h1>
-<div class="cell" data-tags="[]" data-execution_count="86">
+<h1>4. <a id="toc4_"></a><a href="#toc0_">Comparing Models</a></h1>
+<div class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">'vader_neg'</span>, <span class="st">'vader_neu'</span>, <span class="st">'vader_pos'</span>,</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'roberta_neg'</span>, <span class="st">'roberta_neu'</span>, <span class="st">'roberta_pos'</span>]</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>sns.pairplot(data<span class="op">=</span>results_df,</span>
@@ -1163,9 +1165,9 @@ Broke for id 863</code></pre>
 </div>
 </section>
 <section id="reviewing-examples" class="level1">
-<h1>4.1 - Reviewing Examples</h1>
+<h1>5. <a id="toc5_"></a><a href="#toc0_">Reviewing Examples</a></h1>
 <p>We can look at some specific examples of reviews with extreme sentiment to try and gain some insight into the limitations of the models.</p>
-<div class="cell" data-tags="[]" data-execution_count="87">
+<div class="cell" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Showing the 1 star review with the highest positive polarity according to each model</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>roberta_result <span class="op">=</span> results_df.query(<span class="st">'Score == 1'</span>) <span class="op">\</span></span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">'roberta_pos'</span>, ascending<span class="op">=</span><span class="va">False</span>)[<span class="st">'Text'</span>].values[<span class="dv">0</span>]</span>

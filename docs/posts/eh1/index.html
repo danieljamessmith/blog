@@ -188,6 +188,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pgeocode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Geocoding with pgeocode</a><br>
+2. <a href="#toc2_">Geocoding with ONS data</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>As part of my voluntary work for <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a>, a Nottingham charity providing support and shelter for the homeless and vulnerably housed, I undertook a project studying the geographic distribution of individual donors to the charity across the UK.</p>
 <p>In this post I illustrate an issue I encountered while attempting to encode the postcodes of individual donors as latitude and longitude pairs, and the solution.</p>
 <p>The goal of encoding the postcodes was to produce visualisations showing how donors are distributed across Nottingham. This allowed us to gain insight into which areas/demographics should be targeted by marketing campaigns, and which social groups are underrepresented in Emmanuel House’s donor database.</p>
@@ -276,11 +287,11 @@ memory usage: 928.0+ bytes</code></pre>
 dtype: int64</code></pre>
 </div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="31">
+<div class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>postcodes <span class="op">=</span> df[<span class="st">'Postcode'</span>].to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="geocoding-with-pgeocode" class="level1">
-<h1>Geocoding with pgeocode</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Geocoding with pgeocode</a></h1>
 <p>I first attempted to geocode the postcodes using <a href="https://pypi.org/project/pgeocode/">pgeocode</a>, a lightweight Python library for geocoding postcodes and distance calculations.</p>
 <div class="cell" data-tags="[]" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nomi <span class="op">=</span> pgeocode.Nominatim(<span class="st">'gb'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1135,12 +1146,12 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>It indeed seems that pgeocode has encoded the postcodes with a less than desirable accuracy, resulting in large numbers of distinct postcodes being sent to the same point on the map.</p>
-<div class="cell" data-tags="[]" data-execution_count="41">
+<div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="geocoding-with-ons-data" class="level1">
-<h1>Geocoding with ONS data</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">Geocoding with ONS data</a></h1>
 <p>Upon suggestion from a friend I proceeded to directly encode the postcodes by downloading data from the Office for National Statistics (ONS) instead of relying on a Python library.</p>
 <p>This had the advantage of resulting in a far more accurate geocoding, but had the disadvantage of being more computationally expensive.</p>
 <div class="cell" data-execution_count="42">

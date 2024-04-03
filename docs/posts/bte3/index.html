@@ -145,12 +145,37 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><strong>Table of contents</strong><a id="toc0_"></a><br>
+1. <a href="#toc1_">Information Theory: Entropy, Mutual Information &amp; KL Divergence</a><br>
+2. <a href="#toc2_">Differential entropy</a><br>
+2.1.1. <a href="#toc2_1_1_">Definition 2.1.1 - Differential Entropy</a><br>
+2.1.2. <a href="#toc2_1_2_">Example 2.1.2 - Entropy of a univariate normal distribution</a><br>
+2.1.3. <a href="#toc2_1_3_">Theorem 2.1.3 - Translation Invariance</a><br>
+2.1.4. <a href="#toc2_1_4_">Theorem 2.1.4</a><br>
+2.1.5. <a href="#toc2_1_5_">Corollary 2.1.5</a><br>
+2.1.6. <a href="#toc2_1_6_">Definition 2.1.6 - Joint &amp; Conditional Entropy</a><br>
+2.1.7. <a href="#toc2_1_7_">Example 2.1.7 - Entropy of a multivariate normal distribution</a><br>
+2.2. <a href="#toc2_2_">- Relative Entropy &amp; Mutual Information</a><br>
+2.2.1. <a href="#toc2_2_1_">Definition 2.2.1 - KL Divergence</a><br>
+2.2.2. <a href="#toc2_2_2_">Definition 2.2.2 - Mutual Information</a><br>
+2.2.3. <a href="#toc2_2_3_">Theorem 2.2.3 - Information inequality</a><br>
+2.2.4. <a href="#toc2_2_4_">Corollary 2.2.4</a><br>
+2.2.5. <a href="#toc2_2_5_">Corollary 2.2.5</a><br>
+3. <a href="#toc3_">References</a></p>
+<!-- vscode-jupyter-toc-config
+    numbering=true
+    anchor=true
+    flat=true
+    minLevel=1
+    maxLevel=5
+    /vscode-jupyter-toc-config -->
+<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="information-theory-entropy-mutual-information-kl-divergence" class="level1">
-<h1>3. - Information Theory: Entropy, Mutual Information &amp; KL Divergence</h1>
+<h1>1. <a id="toc1_"></a><a href="#toc0_">Information Theory: Entropy, Mutual Information &amp; KL Divergence</a></h1>
 <hr>
 </section>
 <section id="differential-entropy" class="level1">
-<h1>3.1 - Differential entropy</h1>
+<h1>2. <a id="toc2_"></a><a href="#toc0_">Differential entropy</a></h1>
 <p>The physicist’s definition of the entropy <span class="math inline">\(S\)</span> of a system with a continuum of possible states with density <span class="math inline">\(f\)</span> is</p>
 <p><span class="math inline">\(S = -\int f\log f.\)</span></p>
 <p>Note that for a probability density <span class="math inline">\(f\)</span> representing particle distribution in phase space the entropy <span class="math inline">\(S\)</span> coincides with Boltzmann’s H functional <span class="math inline">\(H(f)\)</span> up to a change of sign:</p>
@@ -163,8 +188,8 @@ S &amp;= \text{supp}\,(f)\\
   &amp;= \left\{ x\in\mathbb{R} \,\vert\, f(x)\neq0 \right\}.
 \end{aligned}\]</span></p>
 <hr>
-<section id="definition-3.1.1-differential-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="definition-3.1.1-differential-entropy">Definition 3.1.1 (Differential Entropy)</h3>
+<section id="definition-2.1.1---differential-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="definition-2.1.1---differential-entropy">2.1.1. <a id="toc2_1_1_"></a><a href="#toc0_">Definition 2.1.1 - Differential Entropy</a></h3>
 <p>The <strong>differential entropy</strong> of the random variable <span class="math inline">\(X\)</span> is denoted by <span class="math inline">\(h(X)\)</span> or <span class="math inline">\(h(f)\)</span> (as it only depends on the density <span class="math inline">\(f\)</span>) and is defined by</p>
 <p><span class="math display">\[h(f) = -\int_S f(x) \log f(x)\,\text{d} x.\]</span></p>
 <p>If <span class="math inline">\(\log = \ln\)</span> then we say the differential entropy is measured in <strong>nats</strong>.<br>
@@ -172,8 +197,8 @@ If <span class="math inline">\(\log = \log_2\)</span> then we say the differenti
 <p>Unless otherwise specified, <span class="math inline">\(\log\)</span> denotes the natural logarithm.</p>
 <hr>
 </section>
-<section id="example-3.1.2-entropy-of-a-univariate-normal-distribution" class="level3">
-<h3 class="anchored" data-anchor-id="example-3.1.2-entropy-of-a-univariate-normal-distribution">Example 3.1.2 (Entropy of a univariate normal distribution)</h3>
+<section id="example-2.1.2---entropy-of-a-univariate-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="example-2.1.2---entropy-of-a-univariate-normal-distribution">2.1.2. <a id="toc2_1_2_"></a><a href="#toc0_">Example 2.1.2 - Entropy of a univariate normal distribution</a></h3>
 <p>Let <span class="math inline">\(X \sim\mathcal{N}(0,\sigma^2)\)</span>. That is, suppose <span class="math inline">\(X\)</span> is a random variable with density</p>
 <p><span class="math display">\[f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{x^2}{2\sigma^2}}.\]</span></p>
 <p>Then we compute <span class="math display">\[\begin{aligned}
@@ -186,8 +211,8 @@ If <span class="math inline">\(\log = \log_2\)</span> then we say the differenti
 \end{aligned}\]</span></p>
 <hr>
 </section>
-<section id="theorem-3.1.3" class="level3">
-<h3 class="anchored" data-anchor-id="theorem-3.1.3">Theorem 3.1.3</h3>
+<section id="theorem-2.1.3---translation-invariance" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-2.1.3---translation-invariance">2.1.3. <a id="toc2_1_3_"></a><a href="#toc0_">Theorem 2.1.3 - Translation Invariance</a></h3>
 <p>For any <span class="math inline">\(c\in\mathbb{R}\)</span> it holds that</p>
 <p><span class="math display">\[h(X+c) = h(X).\]</span></p>
 <p><em>Proof.</em></p>
@@ -198,8 +223,8 @@ If <span class="math inline">\(\log = \log_2\)</span> then we say the differenti
 \end{aligned}\]</span> ◻</p>
 <hr>
 </section>
-<section id="theorem-3.1.4" class="level3">
-<h3 class="anchored" data-anchor-id="theorem-3.1.4">Theorem 3.1.4</h3>
+<section id="theorem-2.1.4" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-2.1.4">2.1.4. <a id="toc2_1_4_"></a><a href="#toc0_">Theorem 2.1.4</a></h3>
 <p>For <span class="math inline">\(a\in\mathbb{R}\)</span> it holds that</p>
 <p><span class="math display">\[h(aX) = h(X) + \log|a|.\]</span></p>
 <p><em>Proof.</em></p>
@@ -215,13 +240,13 @@ If <span class="math inline">\(\log = \log_2\)</span> then we say the differenti
 <p>◻</p>
 <hr>
 </section>
-<section id="corollary-3.1.5" class="level3">
-<h3 class="anchored" data-anchor-id="corollary-3.1.5">Corollary 3.1.5</h3>
+<section id="corollary-2.1.5" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-2.1.5">2.1.5. <a id="toc2_1_5_"></a><a href="#toc0_">Corollary 2.1.5</a></h3>
 <p><span class="math display">\[h(A\mathbf{X}) = h(\mathbf{X})+\log|\det A|\]</span></p>
 <hr>
 </section>
-<section id="definition-3.1.6-joint-conditional-entropy" class="level3">
-<h3 class="anchored" data-anchor-id="definition-3.1.6-joint-conditional-entropy">Definition 3.1.6 (Joint &amp; Conditional Entropy)</h3>
+<section id="definition-2.1.6---joint-conditional-entropy" class="level3">
+<h3 class="anchored" data-anchor-id="definition-2.1.6---joint-conditional-entropy">2.1.6. <a id="toc2_1_6_"></a><a href="#toc0_">Definition 2.1.6 - Joint &amp; Conditional Entropy</a></h3>
 <p>The <strong>joint differential entropy</strong> of a set <span class="math inline">\(X_1,\dots,X_n\)</span> of (jointly continuous) random variables with joint density <span class="math inline">\(f = f(x_1,\dots,x_n)\)</span> is defined as</p>
 <p><span class="math display">\[h(X_1,\dots,X_n) = -\int f(x_1,\dots,x_n) \log f(x_1,\dots,x_n)\,\text{d}^{n}x.\]</span></p>
 <p>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have joint density <span class="math inline">\(f_{X,Y}(x,y)\)</span> then we define the <strong>conditional differential entropy</strong> as</p>
@@ -231,22 +256,22 @@ If <span class="math inline">\(\log = \log_2\)</span> then we say the differenti
 <p>which may fail to hold if any of the concerned entropies are infinite or do not exist.</p>
 <hr>
 </section>
-<section id="example-3.1.7-entropy-of-a-multivariate-normal-distribution" class="level3">
-<h3 class="anchored" data-anchor-id="example-3.1.7-entropy-of-a-multivariate-normal-distribution">Example 3.1.7 (Entropy of a multivariate normal distribution)</h3>
+<section id="example-2.1.7---entropy-of-a-multivariate-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="example-2.1.7---entropy-of-a-multivariate-normal-distribution">2.1.7. <a id="toc2_1_7_"></a><a href="#toc0_">Example 2.1.7 - Entropy of a multivariate normal distribution</a></h3>
 <p>Let <span class="math inline">\(X_1,\dots,X_n\)</span> have a multivariate Gaussian distribution with mean <span class="math inline">\(\mu\)</span> and covariance matrix <span class="math inline">\(K\)</span>. Then</p>
 <p><span class="math display">\[h(X_1,\dots, X_n) = \frac{1}{2}\log\left[(2\pi e)^n\det K\right].\]</span></p>
 </section>
 <section id="relative-entropy-mutual-information" class="level2">
-<h2 class="anchored" data-anchor-id="relative-entropy-mutual-information">3.2 - Relative Entropy &amp; Mutual Information</h2>
-<section id="definition-3.2.1-kl-divergence" class="level3">
-<h3 class="anchored" data-anchor-id="definition-3.2.1-kl-divergence">Definition 3.2.1 (KL divergence)</h3>
+<h2 class="anchored" data-anchor-id="relative-entropy-mutual-information">2.2. <a id="toc2_2_"></a><a href="#toc0_">- Relative Entropy &amp; Mutual Information</a></h2>
+<section id="definition-2.2.1---kl-divergence" class="level3">
+<h3 class="anchored" data-anchor-id="definition-2.2.1---kl-divergence">2.2.1. <a id="toc2_2_1_"></a><a href="#toc0_">Definition 2.2.1 - KL Divergence</a></h3>
 <p>The <strong>relative entropy</strong> (also known as the <strong>Kullback-Liebler divergence</strong>) <span class="math inline">\(D(f\,||\,g)\)</span> between two densities <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> is defined as</p>
 <p><span class="math display">\[D(f\,||\,g) = \int f(x)\log\frac{f(x)}{g(x)}\,\text{d}x.\]</span></p>
 <hr>
 <p><em>Note:</em> <span class="math display">\[D(f\,||\,g) &lt; \infty \Longleftrightarrow \text{supp}\,f\subseteq\text{supp}\,g.\]</span></p>
 </section>
-<section id="definition-3.2.2-mutual-information" class="level3">
-<h3 class="anchored" data-anchor-id="definition-3.2.2-mutual-information">Definition 3.2.2 (Mutual information)</h3>
+<section id="definition-2.2.2---mutual-information" class="level3">
+<h3 class="anchored" data-anchor-id="definition-2.2.2---mutual-information">2.2.2. <a id="toc2_2_2_"></a><a href="#toc0_">Definition 2.2.2 - Mutual Information</a></h3>
 <p>Given two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with joint density <span class="math inline">\(f_{X,Y}\)</span> define the <strong>mutual information</strong> <span class="math inline">\(I(X;Y)\)</span> between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> by</p>
 <p><span class="math display">\[I(X;Y) = \int f_{X,Y}(x,y)\log\left[\frac{f_{X,Y}(x,y)}{f_X(x)f_Y(y)}\right]\,\text{d}x\,\text{d}y.\]</span></p>
 <hr>
@@ -264,8 +289,8 @@ I(X;Y) &amp;= I(Y;X),\\
 I(X;X) &amp;= h(X).
 \end{aligned}\]</span></p>
 </section>
-<section id="theorem-3.2.3-information-inequality" class="level3">
-<h3 class="anchored" data-anchor-id="theorem-3.2.3-information-inequality">Theorem 3.2.3 (Information inequality)</h3>
+<section id="theorem-2.2.3---information-inequality" class="level3">
+<h3 class="anchored" data-anchor-id="theorem-2.2.3---information-inequality">2.2.3. <a id="toc2_2_3_"></a><a href="#toc0_">Theorem 2.2.3 - Information inequality</a></h3>
 <p>For any pair of densities <span class="math inline">\(f,\,g\)</span>:</p>
 <p><span class="math display">\[D(f\,||\,g) \geq 0,\]</span></p>
 <p>with equality if and only if <span class="math inline">\(f = g\)</span> a.e.</p>
@@ -282,16 +307,16 @@ I(X;X) &amp;= h(X).
 <p>with equality iff <span class="math inline">\(f = g\)</span> a.e. ◻</p>
 <hr>
 </section>
-<section id="corollary-3.2.4" class="level3">
-<h3 class="anchored" data-anchor-id="corollary-3.2.4">Corollary 3.2.4</h3>
+<section id="corollary-2.2.4" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-2.2.4">2.2.4. <a id="toc2_2_4_"></a><a href="#toc0_">Corollary 2.2.4</a></h3>
 <p>For any pair of random variables <span class="math inline">\(X,\,Y\)</span>: <span class="math display">\[I(X;Y)\geq 0,\]</span> with equality if and only if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
 <p><em>Proof.</em></p>
 <p><span class="math display">\[I(X;Y) = D(f_{X,Y}\,||\,f_X\otimes f_Y) \geq 0\]</span></p>
 <p>with equality iff <span class="math inline">\(f_{X,Y} = f_X\otimes f_Y\)</span> a.e. i.e.&nbsp;iff <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent. ◻</p>
 <hr>
 </section>
-<section id="corollary-3.2.5" class="level3">
-<h3 class="anchored" data-anchor-id="corollary-3.2.5">Corollary 3.2.5</h3>
+<section id="corollary-2.2.5" class="level3">
+<h3 class="anchored" data-anchor-id="corollary-2.2.5">2.2.5. <a id="toc2_2_5_"></a><a href="#toc0_">Corollary 2.2.5</a></h3>
 <p>For any pair of random variables <span class="math inline">\(X,\,Y\)</span>:</p>
 <p><span class="math display">\[h(X|Y) \leq h(X),\]</span></p>
 <p>with equality if and only if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
@@ -303,7 +328,7 @@ I(X;X) &amp;= h(X).
 </section>
 </section>
 <section id="references" class="level1">
-<h1>References:</h1>
+<h1>3. <a id="toc3_"></a><a href="#toc0_">References</a></h1>
 <ul>
 <li>[1] Thomas M Cover. Elements of information theory. John Wiley &amp; Sons, 1999</li>
 </ul>
