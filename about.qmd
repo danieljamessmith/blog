@@ -13,10 +13,9 @@ about:
 
 ---
 
-This portfolio is made using Quarto, an open source technical publishing system that provides the functionality to render .ipynb and .md files as blog posts. 
+This site is made using Quarto, an open source technical publishing system that provides the functionality to render .ipynb files as blog posts, and hosted with GitHub pages.
 
-The .ipynb files are written in Python 3 using Jupyter Lab.
+The .ipynb files are written in Python3 using Jupyter Lab.
 
-The mathematics posts are typically written in LaTeX and converted to .md using Pandoc.
+The mathematics posts are typically written in LaTeX and converted to markdown using Pandoc.
 
-I am using GitHub pages to host the site. 

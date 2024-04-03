@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>djs - Portfolio - Blog</title>
+<title>djs - Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -47,7 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,6 +62,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -94,6 +101,33 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -101,11 +135,11 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">djs - Portfolio</span>
+    <span class="navbar-title">djs</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -115,13 +149,13 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -142,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -150,7 +184,9 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
+
 </header>
+
 
 
 
@@ -158,19 +194,19 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Python,ML,Pandas,scikit-learn,folium,KMeans,GMM,BIRCH,PCA,Clustering,Donor Segmentation,Emmanuel House" data-listing-date-sort="1712012400000" data-listing-file-modified-sort="1712098413250" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="0" data-categories="Python,ML,Pandas,scikit-learn,folium,KMeans,GMM,BIRCH,PCA,Clustering,Donor Segmentation,Emmanuel House" data-listing-date-sort="1712012400000" data-listing-file-modified-sort="1712183315075" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="664">
 <div class="thumbnail">
-<p><a href="./posts/eh4/index.html"> <img src="./posts/eh4/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/eh4/index.html" class="no-external"></a></p><a href="./posts/eh4/index.html" class="no-external">
+<p><img src="./posts/eh4/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/eh4/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/eh4/index.html">
 <h3 class="no-anchor listing-title">
-Donor Segmentation Using an Ensemble of Clustering Algorithms - Hyperparameter Tuning
+<a href="./posts/eh4/index.html" class="no-external">Donor Segmentation Using an Ensemble of Clustering Algorithms - Hyperparameter Tuning</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/eh4/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -209,36 +245,34 @@ Donor Segmentation
 Emmanuel House
 </div>
 </div>
-<a href="./posts/eh4/index.html">
 <div class="listing-description">
-<p>Read a Jupyter notebook from my machine learning project for Emmanuel House Support Centre - ‘Donor segmentation using an ensemble of clustering algorithms’.</p>
+<a href="./posts/eh4/index.html" class="no-external">Read a Jupyter notebook from my machine learning project for Emmanuel House Support Centre: ‘Donor segmentation using an ensemble of clustering algorithms’.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/eh4/index.html">
+<a href="./posts/eh4/index.html" class="no-external">
 <div class="listing-date">
 Apr 2, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Python,Pandas,folium,GeoPy,HTML,Emmanuel House" data-listing-date-sort="1711843200000" data-listing-file-modified-sort="1712103146111" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="1" data-categories="Python,Pandas,folium,GeoPy,HTML,Emmanuel House" data-listing-date-sort="1711843200000" data-listing-file-modified-sort="1712183289830" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="704">
 <div class="thumbnail">
-<p><a href="./posts/eh3/index.html"> <img src="./posts/eh3/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/eh3/index.html" class="no-external"></a></p><a href="./posts/eh3/index.html" class="no-external">
+<p><img src="./posts/eh3/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/eh3/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/eh3/index.html">
 <h3 class="no-anchor listing-title">
-Geographic Analysis of Charity Donors - Latest Leaflet Maps
+<a href="./posts/eh3/index.html" class="no-external">Geographic Analysis of Charity Donors - Latest Leaflet Maps</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/eh3/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -259,36 +293,34 @@ HTML
 Emmanuel House
 </div>
 </div>
-<a href="./posts/eh3/index.html">
 <div class="listing-description">
-<p>Explore my latest interactive map displaying the geographic distribution of a artificial dataset of donors to a Nottingham charity. The geodesic distance from the donor to the charity is engineered using GeoPy.</p>
+<a href="./posts/eh3/index.html" class="no-external">Explore my latest interactive map displaying the geographic distribution of a artificial dataset of donors to a Nottingham charity. The geodesic distance from the donor to the charity is engineered using GeoPy.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/eh3/index.html">
+<a href="./posts/eh3/index.html" class="no-external">
 <div class="listing-date">
 Mar 31, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="Mathematics,Probability Theory,Information Theory,Boltzmann Equation" data-listing-date-sort="1711152000000" data-listing-file-modified-sort="1712104048198" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="2" data-categories="Mathematics,Probability Theory,Information Theory,Boltzmann Equation" data-listing-date-sort="1711152000000" data-listing-file-modified-sort="1712183270600" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1012">
 <div class="thumbnail">
-<p><a href="./posts/bte3/index.html"> <img src="./posts/bte3/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/bte3/index.html" class="no-external"></a></p><a href="./posts/bte3/index.html" class="no-external">
+<p><img src="./posts/bte3/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/bte3/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/bte3/index.html">
 <h3 class="no-anchor listing-title">
-The Boltzmann Equation - 3. Information Theory
+<a href="./posts/bte3/index.html" class="no-external">The Boltzmann Equation - 3. Information Theory</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/bte3/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Mathematics'); return false;">
 Mathematics
@@ -303,36 +335,34 @@ Information Theory
 Boltzmann Equation
 </div>
 </div>
-<a href="./posts/bte3/index.html">
 <div class="listing-description">
-<p>We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence and prove the information inequality.</p>
+<a href="./posts/bte3/index.html" class="no-external">We introduce key notions from information theory such as differential entropy and the Kullback-Liebler (KL) divergence and prove the information inequality.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/bte3/index.html">
+<a href="./posts/bte3/index.html" class="no-external">
 <div class="listing-date">
 Mar 23, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="Python,ML,Pandas,Seaborn,scikit-learn,TensorFlow,XGBoost,Optuna" data-listing-date-sort="1710806400000" data-listing-file-modified-sort="1712103089072" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<div class="quarto-post image-right" data-index="3" data-categories="Python,ML,Pandas,Seaborn,scikit-learn,TensorFlow,XGBoost,Optuna" data-listing-date-sort="1710806400000" data-listing-file-modified-sort="1712183332818" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2058">
 <div class="thumbnail">
-<p><a href="./posts/k2/index.html"> <img src="./posts/k2/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/k2/index.html" class="no-external"></a></p><a href="./posts/k2/index.html" class="no-external">
+<p><img src="./posts/k2/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/k2/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/k2/index.html">
 <h3 class="no-anchor listing-title">
-Model Selection and Hyperparameter Tuning using Optuna for Loan Charge-Off Prediction
+<a href="./posts/k2/index.html" class="no-external">Model Selection and Hyperparameter Tuning using Optuna for Loan Charge-Off Prediction</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/k2/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -359,36 +389,34 @@ XGBoost
 Optuna
 </div>
 </div>
-<a href="./posts/k2/index.html">
 <div class="listing-description">
-<p>After cleaning and preprocessing a modified LendingClub dataset of loan applicants I implement an Optuna study for both model selection and hyperparameter tuning with cross-validation to choose a model to predict if an unseen applicant will repay their loan.</p>
+<a href="./posts/k2/index.html" class="no-external">After cleaning and preprocessing a modified LendingClub dataset of loan applicants I implement an Optuna study for both model selection and hyperparameter tuning with cross-validation to choose a model to predict if an unseen applicant will repay their loan.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/k2/index.html">
+<a href="./posts/k2/index.html" class="no-external">
 <div class="listing-date">
 Mar 19, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Python,Pandas,folium,Emmanuel House" data-listing-date-sort="1710633600000" data-listing-file-modified-sort="1712103165649" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="4" data-categories="Python,Pandas,folium,Emmanuel House" data-listing-date-sort="1710633600000" data-listing-file-modified-sort="1712183276420" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="880">
 <div class="thumbnail">
-<p><a href="./posts/eh2/index.html"> <img src="./posts/eh2/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/eh2/index.html" class="no-external"></a></p><a href="./posts/eh2/index.html" class="no-external">
+<p><img src="./posts/eh2/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/eh2/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/eh2/index.html">
 <h3 class="no-anchor listing-title">
-Visualising the Geographic Distribution of Charity Donors with Interactive Leaflet Maps
+<a href="./posts/eh2/index.html" class="no-external">Visualising the Geographic Distribution of Charity Donors with Interactive Leaflet Maps</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/eh2/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -403,36 +431,34 @@ folium
 Emmanuel House
 </div>
 </div>
-<a href="./posts/eh2/index.html">
 <div class="listing-description">
-<p>I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by constructing interactive leaflet maps in folium with a synthetic dataset.</p>
+<a href="./posts/eh2/index.html" class="no-external">I illustrate my method for investigating the geographic distribution of individual donors to Emmanuel House Support Centre in Nottingham by constructing interactive leaflet maps in folium with a synthetic dataset.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/eh2/index.html">
+<a href="./posts/eh2/index.html" class="no-external">
 <div class="listing-date">
 Mar 17, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="Python,Pandas,folium,Emmanuel House" data-listing-date-sort="1710547200000" data-listing-file-modified-sort="1712103191041" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<div class="quarto-post image-right" data-index="5" data-categories="Python,Pandas,folium,Emmanuel House" data-listing-date-sort="1710547200000" data-listing-file-modified-sort="1712183276427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="495">
 <div class="thumbnail">
-<p><a href="./posts/eh1/index.html"> <img src="./posts/eh1/ons_map.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/eh1/index.html" class="no-external"></a></p><a href="./posts/eh1/index.html" class="no-external">
+<p><img src="./posts/eh1/ons_map.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/eh1/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/eh1/index.html">
 <h3 class="no-anchor listing-title">
-Geocoding Postcodes in Python: pgeocode v ONS
+<a href="./posts/eh1/index.html" class="no-external">Geocoding Postcodes in Python: pgeocode v ONS</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/eh1/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -447,36 +473,34 @@ folium
 Emmanuel House
 </div>
 </div>
-<a href="./posts/eh1/index.html">
 <div class="listing-description">
-<p>I explain a problem encountered in voluntary work undertaken for Emmanuel House Support Centre in Nottingham related to encoding postcodes as coordinates, and the solution found.</p>
+<a href="./posts/eh1/index.html" class="no-external">I explain a problem encountered in voluntary work undertaken for Emmanuel House Support Centre in Nottingham related to encoding postcodes as coordinates, and the solution found.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/eh1/index.html">
+<a href="./posts/eh1/index.html" class="no-external">
 <div class="listing-date">
 Mar 16, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="Mathematics,Probability Theory,Boltzmann Equation" data-listing-date-sort="1707782400000" data-listing-file-modified-sort="1712103882470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="6" data-categories="Mathematics,Probability Theory,Boltzmann Equation" data-listing-date-sort="1707782400000" data-listing-file-modified-sort="1712183276427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="905">
 <div class="thumbnail">
-<p><a href="./posts/bte2/index.html"> <img src="./posts/bte2/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/bte2/index.html" class="no-external"></a></p><a href="./posts/bte2/index.html" class="no-external">
+<p><img src="./posts/bte2/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/bte2/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/bte2/index.html">
 <h3 class="no-anchor listing-title">
-The Boltzmann Equation - 2. Probabilistic Preliminaries
+<a href="./posts/bte2/index.html" class="no-external">The Boltzmann Equation - 2. Probabilistic Preliminaries</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/bte2/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Mathematics'); return false;">
 Mathematics
@@ -488,36 +512,34 @@ Probability Theory
 Boltzmann Equation
 </div>
 </div>
-<a href="./posts/bte2/index.html">
 <div class="listing-description">
-<p>Before we can discuss Information Theory and its consequences for the Boltzmann equation, we first need to make some definitions from probability theory.</p>
+<a href="./posts/bte2/index.html" class="no-external">Before we can discuss Information Theory and its consequences for the Boltzmann equation, we first need to make some definitions from probability theory.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/bte2/index.html">
+<a href="./posts/bte2/index.html" class="no-external">
 <div class="listing-date">
 Feb 13, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="Mathematics,PDEs,Boltzmann Equation" data-listing-date-sort="1706486400000" data-listing-file-modified-sort="1712103507130" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<div class="quarto-post image-right" data-index="7" data-categories="Mathematics,PDEs,Boltzmann Equation" data-listing-date-sort="1706486400000" data-listing-file-modified-sort="1712183276427" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2182">
 <div class="thumbnail">
-<p><a href="./posts/bte1/index.html"> <img src="./posts/bte1/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/bte1/index.html" class="no-external"></a></p><a href="./posts/bte1/index.html" class="no-external">
+<p><img src="./posts/bte1/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/bte1/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/bte1/index.html">
 <h3 class="no-anchor listing-title">
-The Boltzmann Equation - 1. Introduction
+<a href="./posts/bte1/index.html" class="no-external">The Boltzmann Equation - 1. Introduction</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/bte1/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Mathematics'); return false;">
 Mathematics
@@ -529,36 +551,34 @@ PDEs
 Boltzmann Equation
 </div>
 </div>
-<a href="./posts/bte1/index.html">
 <div class="listing-description">
-<p>I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: ‘The interplay between Information theory and the long-time behaviour of a dilute gas’.</p>
+<a href="./posts/bte1/index.html" class="no-external">I introduce the rigorous theory of the Boltzmann Transport Equation, following my undergraduate research project at Warwick Mathematics Institue: ‘The interplay between Information theory and the long-time behaviour of a dilute gas’.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/bte1/index.html">
+<a href="./posts/bte1/index.html" class="no-external">
 <div class="listing-date">
 Jan 29, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="Python,ML,Natural Language Processing,NLTK,Hugging Face,Sentiment Analysis" data-listing-date-sort="1705968000000" data-listing-file-modified-sort="1712103403045" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="8" data-categories="Python,ML,Natural Language Processing,NLTK,Hugging Face,Sentiment Analysis" data-listing-date-sort="1705968000000" data-listing-file-modified-sort="1712183367528" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="700">
 <div class="thumbnail">
-<p><a href="./posts/yt2/index.html"> <img src="./posts/yt2/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/yt2/index.html" class="no-external"></a></p><a href="./posts/yt2/index.html" class="no-external">
+<p><img src="./posts/yt2/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/yt2/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/yt2/index.html">
 <h3 class="no-anchor listing-title">
-Sentiment Analysis with NLTK and Hugging Face Transformers
+<a href="./posts/yt2/index.html" class="no-external">Sentiment Analysis with NLTK and Hugging Face Transformers</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/yt2/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -579,36 +599,34 @@ Hugging Face
 Sentiment Analysis
 </div>
 </div>
-<a href="./posts/yt2/index.html">
 <div class="listing-description">
-<p>Sentiment analysis is performed on a dataset of Amazon reviews using NLTK’s VADER and a RoBERTa-base model from Hugging Face.</p>
+<a href="./posts/yt2/index.html" class="no-external">Sentiment analysis is performed on a dataset of Amazon reviews using NLTK’s VADER and a RoBERTa-base model from Hugging Face.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/yt2/index.html">
+<a href="./posts/yt2/index.html" class="no-external">
 <div class="listing-date">
 Jan 23, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="Python,ML,NumPy" data-listing-date-sort="1705363200000" data-listing-file-modified-sort="1712103270794" data-listing-date-modified-sort="1706054400000" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="9" data-categories="Python,ML,NumPy" data-listing-date-sort="1705363200000" data-listing-file-modified-sort="1712183344376" data-listing-date-modified-sort="1706054400000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1676">
 <div class="thumbnail">
-<p><a href="./posts/ng1/index.html"> <img src="./posts/ng1/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/ng1/index.html" class="no-external"></a></p><a href="./posts/ng1/index.html" class="no-external">
+<p><img src="./posts/ng1/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/ng1/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/ng1/index.html">
 <h3 class="no-anchor listing-title">
-Logistic Regression with Gradient Descent and L2-Regularization
+<a href="./posts/ng1/index.html" class="no-external">Logistic Regression with Gradient Descent and L2-Regularization</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/ng1/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -620,36 +638,34 @@ ML
 NumPy
 </div>
 </div>
-<a href="./posts/ng1/index.html">
 <div class="listing-description">
-<p>Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Overfitting to the training data is counteracted by including a regularization term in the cost function. The regularization parameter is tuned to improve accuracy on the validation data.</p>
+<a href="./posts/ng1/index.html" class="no-external">Logistic regression is implemented in NumPy and interpreted as a perceptron with sigmoid activation. The resulting model is used to detect cats in an image classification problem. Overfitting to the training data is counteracted by including a regularization term in the cost function. The regularization parameter is tuned to improve accuracy on the validation data.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/ng1/index.html">
+<a href="./posts/ng1/index.html" class="no-external">
 <div class="listing-date">
 Jan 16, 2024
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="Python,ML,Pandas,Seaborn,XGBoost,Time Series Forecasting" data-listing-date-sort="1703203200000" data-listing-file-modified-sort="1712103306636" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3">
+<div class="quarto-post image-right" data-index="10" data-categories="Python,ML,Pandas,Seaborn,XGBoost,Time Series Forecasting" data-listing-date-sort="1703203200000" data-listing-file-modified-sort="1712183358780" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="521">
 <div class="thumbnail">
-<p><a href="./posts/yt1/index.html"> <img src="./posts/yt1/preview.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/yt1/index.html" class="no-external"></a></p><a href="./posts/yt1/index.html" class="no-external">
+<p><img src="./posts/yt1/preview.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/yt1/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/yt1/index.html">
 <h3 class="no-anchor listing-title">
-Forecasting Energy Consumption with XGBoost
+<a href="./posts/yt1/index.html" class="no-external">Forecasting Energy Consumption with XGBoost</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/yt1/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -670,36 +686,34 @@ XGBoost
 Time Series Forecasting
 </div>
 </div>
-<a href="./posts/yt1/index.html">
 <div class="listing-description">
-<p>Informed by YouTube videos of <span>Rob Mulla</span> we use XGBoost to forecast energy consumption in the eastern US.</p>
+<a href="./posts/yt1/index.html" class="no-external">Informed by YouTube videos of <span>Rob Mulla</span> we use XGBoost to forecast energy consumption in the eastern US.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/yt1/index.html">
+<a href="./posts/yt1/index.html" class="no-external">
 <div class="listing-date">
 Dec 22, 2023
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="Python,ML,Pandas,Seaborn,LightGBM" data-listing-date-sort="1700697600000" data-listing-file-modified-sort="1712103218002" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="11" data-categories="Python,ML,Pandas,Seaborn,LightGBM" data-listing-date-sort="1700697600000" data-listing-file-modified-sort="1712183323481" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1349">
 <div class="thumbnail">
-<p><a href="./posts/k1/index.html"> <p class="card-img-top"><img src="posts\k1\index_files\figure-html\cell-8-output-2.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/k1/index.html" class="no-external"></a></p><a href="./posts/k1/index.html" class="no-external">
+<p class="card-img-top"><img src="posts\k1\index_files\figure-html\cell-8-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/k1/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/k1/index.html">
 <h3 class="no-anchor listing-title">
-The Spaceship Titanic with LightGBM
+<a href="./posts/k1/index.html" class="no-external">The Spaceship Titanic with LightGBM</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/k1/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -717,19 +731,17 @@ Seaborn
 LightGBM
 </div>
 </div>
-<a href="./posts/k1/index.html">
 <div class="listing-description">
-<p>A LightGBM classifier is trained with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset.</p>
+<a href="./posts/k1/index.html" class="no-external">A LightGBM classifier is trained with hyperparameters tuned using a random search to achieve &gt;80% classification accuracy on the Spaceship Titanic dataset.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/k1/index.html">
+<a href="./posts/k1/index.html" class="no-external">
 <div class="listing-date">
 Nov 23, 2023
 </div>
 <div class="listing-author">
-Daniel Smith
+Daniel J Smith
 </div>
 </a>
 </div>
@@ -818,10 +830,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -831,8 +842,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -845,6 +865,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -888,6 +1027,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -913,6 +1053,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -973,6 +1139,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

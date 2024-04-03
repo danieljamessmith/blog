@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "djs - Portfolio"
+  title: "djs"
   site-url: "https://danieljamessmith.github.io/portfolio/"
   navbar:
     right:
