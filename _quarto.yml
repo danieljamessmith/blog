@@ -18,5 +18,9 @@ format:
       sidebar-width: 300px
       margin-width: 300px
 
+code-block-bg: true
+code-block-border-left: "#413764"
+highlight-style: atom-one
+
 
 
