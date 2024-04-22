@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -137,7 +137,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
+  <li><a href="#cleaning-text" id="toc-cleaning-text" class="nav-link" data-scroll-target="#cleaning-text">Cleaning Text</a></li>
+  </ul></li>
+  <li><a href="#sentiment-analysis-with-vader" id="toc-sentiment-analysis-with-vader" class="nav-link" data-scroll-target="#sentiment-analysis-with-vader">Sentiment Analysis with VADER</a>
+  <ul class="collapse">
+  <li><a href="#basic-nltk" id="toc-basic-nltk" class="nav-link" data-scroll-target="#basic-nltk">Basic NLTK</a></li>
+  <li><a href="#sentimentintensityanalyzer" id="toc-sentimentintensityanalyzer" class="nav-link" data-scroll-target="#sentimentintensityanalyzer">SentimentIntensityAnalyzer</a></li>
+  <li><a href="#plotting-vader-results" id="toc-plotting-vader-results" class="nav-link" data-scroll-target="#plotting-vader-results">Plotting VADER Results</a></li>
+  </ul></li>
+  <li><a href="#sentiment-analysis-with-a-hugging-face-transformer-roberta" id="toc-sentiment-analysis-with-a-hugging-face-transformer-roberta" class="nav-link" data-scroll-target="#sentiment-analysis-with-a-hugging-face-transformer-roberta">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a></li>
+  <li><a href="#comparing-models" id="toc-comparing-models" class="nav-link" data-scroll-target="#comparing-models">Comparing Models</a></li>
+  <li><a href="#reviewing-examples" id="toc-reviewing-examples" class="nav-link" data-scroll-target="#reviewing-examples">Reviewing Examples</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -213,31 +234,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Python 3.11.4</code></pre>
 </div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">Data</a><br>
-1.1. <a href="#toc1_1_">EDA</a><br>
-1.2. <a href="#toc1_2_">Cleaning Text</a><br>
-2. <a href="#toc2_">Sentiment Analysis with VADER</a><br>
-2.1. <a href="#toc2_1_">Basic NLTK</a><br>
-2.2. <a href="#toc2_2_">SentimentIntensityAnalyzer</a><br>
-2.3. <a href="#toc2_3_">Plotting VADER Results</a><br>
-3. <a href="#toc3_">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a><br>
-4. <a href="#toc4_">Comparing Models</a><br>
-5. <a href="#toc5_">Reviewing Examples</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>Sentiment analysis is a standard application of natural language processing (NLP) in which a machine learning algorithm is trained to classify text as having either positive, negative or neutral emotional tone.</p>
 <p>As a subfield of NLP, sentiment analysis is closely related to computational linguistics. Sentiment analysis has also been found to be useful in the implementation of recommender systems, in which an automated understanding of the emotional content of reviews proves to be crucial for accurate and personalized content recommendation.</p>
 <p>In this post sentiment analysis is performed on a dataset of Amazon reviews using both NLTK’s VADER sentiment analysis tool and the Hugging Face transformer-based model RoBERTa.</p>
 <p><a name="data"></a></p>
 <section id="data" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">Data</a></h1>
+<h1>Data</h1>
 <p>The data can be downloaded from <a href="https://www.kaggle.com/datasets/snap/amazon-fine-food-reviews/data">Kaggle</a> and consists of 568,454 Amazon reviews of of 74,258 fine foods products by 256,059 users between Oct 1999 - Oct 2012. This post is based upon a <a href="https://www.youtube.com/watch?v=QpzMWQvxXWk">Youtube video</a> by <a href="https://www.youtube.com/@robmulla">Rob Mulla</a>.</p>
 <div class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'Reviews.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -354,7 +356,7 @@ Python 3.11.4</code></pre>
 </div>
 <p><a name="eda"></a></p>
 <section id="eda" class="level2">
-<h2 class="anchored" data-anchor-id="eda">1.1. <a id="toc1_1_"></a><a href="#toc0_">EDA</a></h2>
+<h2 class="anchored" data-anchor-id="eda">EDA</h2>
 <div class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> df[<span class="st">'Score'</span>].value_counts().sort_index() <span class="op">\</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    .plot(kind<span class="op">=</span><span class="st">'bar'</span>,</span>
@@ -423,7 +425,7 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="cleaning-text" class="level2">
-<h2 class="anchored" data-anchor-id="cleaning-text">1.2. <a id="toc1_2_"></a><a href="#toc0_">Cleaning Text</a></h2>
+<h2 class="anchored" data-anchor-id="cleaning-text">Cleaning Text</h2>
 <p>“br” is such a common word beacuse it is present in many of the reviews as a html tag: <code>&lt;br&gt;&lt;/br&gt;</code></p>
 <p>We can fix this using the BeautifulSoup library.</p>
 <div class="cell" data-execution_count="56">
@@ -481,10 +483,10 @@ Python 3.11.4</code></pre>
 </section>
 </section>
 <section id="sentiment-analysis-with-vader" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">Sentiment Analysis with VADER</a></h1>
+<h1>Sentiment Analysis with VADER</h1>
 <p>NLTK’s <a href="https://www.nltk.org/api/nltk.sentiment.vader.html">VADER</a>, short for “Valence Aware Dictionary and sEntiment Reasoner,” is a pre-built sentiment analysis tool designed for analyzing the sentiment of text data, particularly in the context of natural language processing tasks.</p>
 <section id="basic-nltk" class="level2">
-<h2 class="anchored" data-anchor-id="basic-nltk">2.1. <a id="toc2_1_"></a><a href="#toc0_">Basic NLTK</a></h2>
+<h2 class="anchored" data-anchor-id="basic-nltk">Basic NLTK</h2>
 <p>NLTK stands for <a href="https://www.nltk.org/">Natural Language Toolkit</a>. It is a comprehensive library in Python that provides tools and resources for working text data. NLTK includes various modules and packages for tasks such as tokenization, stemming, tagging, parsing, and sentiment analysis, making it a valuable resource for NLP tasks.</p>
 <div class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>example <span class="op">=</span> df[<span class="st">'Text'</span>][<span class="dv">50</span>]</span>
@@ -549,7 +551,7 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="sentimentintensityanalyzer" class="level2">
-<h2 class="anchored" data-anchor-id="sentimentintensityanalyzer">2.2. <a id="toc2_2_"></a><a href="#toc0_">SentimentIntensityAnalyzer</a></h2>
+<h2 class="anchored" data-anchor-id="sentimentintensityanalyzer">SentimentIntensityAnalyzer</h2>
 <p><code>SentimentIntensityAnalyzer</code> is a class in the NLTK library’s VADER module. It is designed for sentiment analysis and provides a pre-trained machine learning model to assess the sentiment of a piece of text by analyzing the intensity of positive, negative, and neutral sentiments.</p>
 <p>This uses a “bag of words” approach in which: 1. Stop words are removed 2. Each word is scored, and combined to give a total score</p>
 <div class="cell" data-tags="[]" data-execution_count="64">
@@ -846,7 +848,7 @@ Python 3.11.4</code></pre>
 </div>
 </section>
 <section id="plotting-vader-results" class="level2">
-<h2 class="anchored" data-anchor-id="plotting-vader-results">2.3. <a id="toc2_3_"></a><a href="#toc0_">Plotting VADER Results</a></h2>
+<h2 class="anchored" data-anchor-id="plotting-vader-results">Plotting VADER Results</h2>
 <div class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.barplot(data<span class="op">=</span>vaders,</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                 x <span class="op">=</span> <span class="st">'Score'</span>,</span>
@@ -878,7 +880,7 @@ Python 3.11.4</code></pre>
 </section>
 </section>
 <section id="sentiment-analysis-with-a-hugging-face-transformer-roberta" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</a></h1>
+<h1>Sentiment Analysis with a Hugging Face Transformer (RoBERTa)</h1>
 <ul>
 <li>Hugging Face is an AI research organization that has contributed significantly to the development of transformer-based models for NLP. The Hugging Face Transformers library is a popular open-source library that provides pre-trained transformer models, including RoBERTa.</li>
 <li>RoBERTa is a robustly optimized transformer-based natural language processing model developed by Facebook AI Research (FAIR), designed as an extension and enhancement of the BERT architecture.</li>
@@ -1150,7 +1152,7 @@ Broke for id 863</code></pre>
 <p><a name="comp"></a></p>
 </section>
 <section id="comparing-models" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">Comparing Models</a></h1>
+<h1>Comparing Models</h1>
 <div class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">'vader_neg'</span>, <span class="st">'vader_neu'</span>, <span class="st">'vader_pos'</span>,</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'roberta_neg'</span>, <span class="st">'roberta_neu'</span>, <span class="st">'roberta_pos'</span>]</span>
@@ -1164,7 +1166,7 @@ Broke for id 863</code></pre>
 </div>
 </section>
 <section id="reviewing-examples" class="level1">
-<h1>5. <a id="toc5_"></a><a href="#toc0_">Reviewing Examples</a></h1>
+<h1>Reviewing Examples</h1>
 <p>We can look at some specific examples of reviews with extreme sentiment to try and gain some insight into the limitations of the models.</p>
 <div class="cell" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Showing the 1 star review with the highest positive polarity according to each model</span></span>
@@ -1342,6 +1344,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,

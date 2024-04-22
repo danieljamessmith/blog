@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,7 +136,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-imports-and-exploration" id="toc-data-imports-and-exploration" class="nav-link active" data-scroll-target="#data-imports-and-exploration">Data imports and exploration</a></li>
+  <li><a href="#missing-values-and-feature-engineering" id="toc-missing-values-and-feature-engineering" class="nav-link" data-scroll-target="#missing-values-and-feature-engineering">Missing values and feature engineering</a>
+  <ul class="collapse">
+  <li><a href="#filling-homeplanet-destination-and-vip" id="toc-filling-homeplanet-destination-and-vip" class="nav-link" data-scroll-target="#filling-homeplanet-destination-and-vip">Filling <code>HomePlanet</code>, <code>Destination</code> and <code>VIP</code></a></li>
+  <li><a href="#filling-age-and-the-expenditure-features" id="toc-filling-age-and-the-expenditure-features" class="nav-link" data-scroll-target="#filling-age-and-the-expenditure-features">Filling <code>Age</code> and the expenditure features</a></li>
+  <li><a href="#new-features---agegroup-cabinside-and-groupsize" id="toc-new-features---agegroup-cabinside-and-groupsize" class="nav-link" data-scroll-target="#new-features---agegroup-cabinside-and-groupsize">New features - <code>AgeGroup</code>, <code>CabinSide</code> and <code>GroupSize</code></a></li>
+  <li><a href="#finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets" id="toc-finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets" class="nav-link" data-scroll-target="#finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets">Finishing preprocessing - dropping features and splitting into train and test sets</a></li>
+  </ul></li>
+  <li><a href="#tuning-a-lgbmclassifier-with-randomizedsearchcv" id="toc-tuning-a-lgbmclassifier-with-randomizedsearchcv" class="nav-link" data-scroll-target="#tuning-a-lgbmclassifier-with-randomizedsearchcv">Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></a></li>
+  <li><a href="#fitting-the-best-lgbmclassifier-to-the-train-set" id="toc-fitting-the-best-lgbmclassifier-to-the-train-set" class="nav-link" data-scroll-target="#fitting-the-best-lgbmclassifier-to-the-train-set">Fitting the best <code>LGBMClassifier</code> to the train set</a></li>
+  <li><a href="#using-the-trained-model-to-predict-on-the-test-set" id="toc-using-the-trained-model-to-predict-on-the-test-set" class="nav-link" data-scroll-target="#using-the-trained-model-to-predict-on-the-test-set">Using the trained model to predict on the test set</a></li>
+  <li><a href="#further-directions" id="toc-further-directions" class="nav-link" data-scroll-target="#further-directions">Further Directions</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -204,27 +223,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3.11.4 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 13:38:37) [MSC v.1916 64 bit (AMD64)]</code></pre>
 </div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">Data imports and exploration</a><br>
-2. <a href="#toc2_">Missing values and feature engineering</a><br>
-2.1. <a href="#toc2_1_">Filling <code>HomePlanet</code>, <code>Destination</code> and <code>VIP</code></a><br>
-2.2. <a href="#toc2_2_">Filling <code>Age</code> and the expenditure features</a><br>
-2.3. <a href="#toc2_3_">New features - <code>AgeGroup</code>, <code>CabinSide</code> and <code>GroupSize</code></a><br>
-2.4. <a href="#toc2_4_">Finishing preprocessing - dropping features and splitting into train and test sets</a><br>
-3. <a href="#toc3_">Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></a><br>
-4. <a href="#toc4_">Fitting the best <code>LGBMClassifier</code> to the train set</a><br>
-5. <a href="#toc5_">Using the trained model to predict on the test set</a><br>
-6. <a href="#toc6_">Further Directions</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="data-imports-and-exploration" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">Data imports and exploration</a></h1>
+<h1>Data imports and exploration</h1>
 <p>We use the <a href="https://www.kaggle.com/competitions/spaceship-titanic">Spaceship Titanic dataset from Kaggle</a>, designed as a lighthearted, fictional reimagining of the famous (infamous) titanic dataset. The goal is to predict if passengers on the Spaceship Titanic were transported into an alternate dimension by a collision with a spacetime anamoly, based upon known data.</p>
 <p>The data is provided in two files, <code>train.csv</code> and <code>test.csv</code>. The training data <code>train.csv</code> has all of the following features, while the test data <code>test.csv</code> has all of the following features minus the target <code>Transported</code> feature.</p>
 <blockquote class="blockquote">
@@ -773,8 +773,8 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="missing-values-and-feature-engineering" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">Missing values and feature engineering</a></h1>
-<div class="cell" data-tags="[]" data-execution_count="12">
+<h1>Missing values and feature engineering</h1>
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Expenses_features <span class="op">=</span> [<span class="st">'RoomService'</span>,<span class="st">'FoodCourt'</span>,<span class="st">'ShoppingMall'</span>,<span class="st">'Spa'</span>,<span class="st">'VRDeck'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Fill the null values in the <code>Expenses_features</code> with 0 for the passengers in cryosleep</p>
@@ -791,8 +791,8 @@ dtype: int64</code></pre>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'CryoSleep'</span>] <span class="op">=</span> data[<span class="st">'CryoSleep'</span>].fillna(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="filling-homeplanet-destination-and-vip" class="level2">
-<h2 class="anchored" data-anchor-id="filling-homeplanet-destination-and-vip">2.1. <a id="toc2_1_"></a><a href="#toc0_">Filling <code>HomePlanet</code>, <code>Destination</code> and <code>VIP</code></a></h2>
-<div class="cell" data-tags="[]" data-execution_count="16">
+<h2 class="anchored" data-anchor-id="filling-homeplanet-destination-and-vip">Filling <code>HomePlanet</code>, <code>Destination</code> and <code>VIP</code></h2>
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_train[<span class="st">'HomePlanet'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>HomePlanet
@@ -884,7 +884,7 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="filling-age-and-the-expenditure-features" class="level2">
-<h2 class="anchored" data-anchor-id="filling-age-and-the-expenditure-features">2.2. <a id="toc2_2_"></a><a href="#toc0_">Filling <code>Age</code> and the expenditure features</a></h2>
+<h2 class="anchored" data-anchor-id="filling-age-and-the-expenditure-features">Filling <code>Age</code> and the expenditure features</h2>
 <p>To fill the remaining null values in <code>Age</code> and <code>Expenses_features</code> we will use the median, to reduce the influence of outliers. This requires seperating <code>data</code> back into constituent train and test sets, to avoid data leakage.</p>
 <div class="cell" data-tags="[]" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> data[:<span class="bu">len</span>(df_train)]</span>
@@ -954,7 +954,7 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="new-features---agegroup-cabinside-and-groupsize" class="level2">
-<h2 class="anchored" data-anchor-id="new-features---agegroup-cabinside-and-groupsize">2.3. <a id="toc2_3_"></a><a href="#toc0_">New features - <code>AgeGroup</code>, <code>CabinSide</code> and <code>GroupSize</code></a></h2>
+<h2 class="anchored" data-anchor-id="new-features---agegroup-cabinside-and-groupsize">New features - <code>AgeGroup</code>, <code>CabinSide</code> and <code>GroupSize</code></h2>
 <p>Create a new feature <code>AgeGroup</code> by binning the <code>Age</code> feature into 8 different categories.</p>
 <div class="cell" data-tags="[]" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'Age'</span>].<span class="bu">max</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1001,8 +1001,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 </section>
 <section id="finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets" class="level2">
-<h2 class="anchored" data-anchor-id="finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets">2.4. <a id="toc2_4_"></a><a href="#toc0_">Finishing preprocessing - dropping features and splitting into train and test sets</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="39">
+<h2 class="anchored" data-anchor-id="finishing-preprocessing---dropping-features-and-splitting-into-train-and-test-sets">Finishing preprocessing - dropping features and splitting into train and test sets</h2>
+<div class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.drop([<span class="st">'PassengerId'</span>,<span class="st">'Cabin'</span>,<span class="st">'Name'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="40">
@@ -1534,7 +1534,7 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="tuning-a-lgbmclassifier-with-randomizedsearchcv" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></a></h1>
+<h1>Tuning a <code>LGBMClassifier</code> with <code>RandomizedSearchCV</code></h1>
 <p>Before we can fit a model to the data, we need to encode the categorical and boolean features in a way the <code>LGBMClassifier</code> can understand.</p>
 <ul>
 <li><p>Categorical features are encoded with the <code>pandas.Categorical</code> datatype. This is convenient and avoids the need to manually encode using, for example, <code>pandas.get_dummies</code>. LightGBM can handle categorical features encoded in this way but not all ML algorithms can, for example neural networks cannot.</p></li>
@@ -1704,8 +1704,8 @@ dtype: object</code></pre>
 </div>
 </section>
 <section id="fitting-the-best-lgbmclassifier-to-the-train-set" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">Fitting the best <code>LGBMClassifier</code> to the train set</a></h1>
-<div class="cell" data-tags="[]" data-execution_count="56">
+<h1>Fitting the best <code>LGBMClassifier</code> to the train set</h1>
+<div class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>model.fit(</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>    X_train,</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>    y_train,</span>
@@ -1764,7 +1764,7 @@ weighted avg       0.81      0.80      0.80      1739
 </div>
 </section>
 <section id="using-the-trained-model-to-predict-on-the-test-set" class="level1">
-<h1>5. <a id="toc5_"></a><a href="#toc0_">Using the trained model to predict on the test set</a></h1>
+<h1>Using the trained model to predict on the test set</h1>
 <p>As with the training data, we must change the type of the categorical features in the test set to <code>pandas.Categorical</code>.</p>
 <div class="cell" data-tags="[]" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>test.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1897,7 +1897,7 @@ Length: 4277, dtype: int32</code></pre>
 <p>Submitting this <code>soln.csv</code> file to <a href="https://www.kaggle.com/competitions/spaceship-titanic/submissions">Kaggle</a> resulted in a public score of 0.801, placing the entry in the top 22% of the leaderboard. This is impressive considering the simplicity of the model, the short training time required and the uncomplicated methods used to fill null values</p>
 </section>
 <section id="further-directions" class="level1">
-<h1>6. <a id="toc6_"></a><a href="#toc0_">Further Directions</a></h1>
+<h1>Further Directions</h1>
 <p>Our model’s performance could be improved through work in several different directions, such as further feature engineering, further hyperparameter tuning and experimentation with other models.</p>
 <p>For example, we could engineer a new feature <code>FamilySize</code> based upon the number of passengers with the same surname. This would pose the challenge of first finding a way to fill the null values in the <code>Name</code> column.</p>
 <p>Our method for filling the null values in the categorical columns such as <code>Destination</code> and <code>HomePlanet</code> was simplistic, just filling based upon the most common occurance without attempting to preserve the overall distribution of the data over such categories. More sophisticated methods of filling that attempt to preserve data distribution might result in a more powerful and more generalisable model.</p>
@@ -2119,6 +2119,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,

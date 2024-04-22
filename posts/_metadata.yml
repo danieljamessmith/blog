@@ -8,8 +8,13 @@ freeze: true
 title-block-banner: false
 
 format:
-  html:
-    grid: 
-        body-width: 1000px
-        sidebar-width: 200px
-        margin-width: 200px
+  html: default
+  ipynb: default
+  pdf: default
+
+code-block-bg: true
+code-block-border-left: "#413764"
+highlight-style: atom-one
+
+toc: true
+toc-expand: true

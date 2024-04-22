@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-04-14">
 <meta name="description" content="Explore the implementation of Variational AutoEncoders (VAEs) in PyTorch. This notebook provides a brief overview of VAEs and their function. The focus is on the implementation and comparison of both 1 and 2 hidden layer VAEs. The VAEs are trained on the MNIST dataset and are then used to generate new examples of handwritten digits.">
 
-<title>djs - Implementing Variational AutoEncoders (VAEs) in PyTorch</title>
+<title>Blog - Implementing Variational AutoEncoders (VAEs) in PyTorch</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">djs</span>
+    <span class="navbar-title">Blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -133,7 +133,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#variational-autoencoders-vaes" id="toc-variational-autoencoders-vaes" class="nav-link active" data-scroll-target="#variational-autoencoders-vaes">Variational AutoEncoders (VAEs)</a></li>
+  <li><a href="#single-hidden-layer-vae" id="toc-single-hidden-layer-vae" class="nav-link" data-scroll-target="#single-hidden-layer-vae">Single-Hidden-Layer VAE</a>
+  <ul class="collapse">
+  <li><a href="#initialising-single-layer-vae-model" id="toc-initialising-single-layer-vae-model" class="nav-link" data-scroll-target="#initialising-single-layer-vae-model">Initialising Single-Layer VAE model</a></li>
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset">The Dataset</a>
+  <ul class="collapse">
+  <li><a href="#mnist" id="toc-mnist" class="nav-link" data-scroll-target="#mnist">MNIST</a></li>
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data Loading</a></li>
+  </ul></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training">Training</a>
+  <ul class="collapse">
+  <li><a href="#training-function-train_vae" id="toc-training-function-train_vae" class="nav-link" data-scroll-target="#training-function-train_vae">Training Function <code>train_vae</code></a></li>
+  </ul></li>
+  <li><a href="#visualising-results" id="toc-visualising-results" class="nav-link" data-scroll-target="#visualising-results">Visualising Results</a></li>
+  </ul></li>
+  <li><a href="#double-hidden-layer-vae" id="toc-double-hidden-layer-vae" class="nav-link" data-scroll-target="#double-hidden-layer-vae">Double-Hidden-Layer VAE</a>
+  <ul class="collapse">
+  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
+  <li><a href="#initialising-double-layer-vae-model" id="toc-initialising-double-layer-vae-model" class="nav-link" data-scroll-target="#initialising-double-layer-vae-model">Initialising Double-Layer VAE model</a></li>
+  <li><a href="#training-1" id="toc-training-1" class="nav-link" data-scroll-target="#training-1">Training</a></li>
+  <li><a href="#visualing-results" id="toc-visualing-results" class="nav-link" data-scroll-target="#visualing-results">Visualing Results</a></li>
+  </ul></li>
+  <li><a href="#remarks-and-further-directions" id="toc-remarks-and-further-directions" class="nav-link" data-scroll-target="#remarks-and-further-directions">Remarks and Further Directions</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.out.ipynb" download="index.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -177,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -190,48 +220,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm   <span class="co"># Progress Bar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">Variational AutoEncoders (VAEs)</a><br>
-2. <a href="#toc2_">Single-Hidden-Layer VAE</a><br>
-2.1. <a href="#toc2_1_">Hyperparameters</a><br>
-2.2. <a href="#toc2_2_">Initialising Single-Layer VAE model</a><br>
-2.3. <a href="#toc2_3_">The Dataset</a><br>
-2.3.1. <a href="#toc2_3_1_">MNIST</a><br>
-2.3.2. <a href="#toc2_3_2_">Data Loading</a><br>
-2.4. <a href="#toc2_4_">Training</a><br>
-2.4.1. <a href="#toc2_4_1_">Training Function <code>train_vae</code></a><br>
-2.5. <a href="#toc2_5_">Visualising Results</a><br>
-3. <a href="#toc3_">Double-Hidden-Layer VAE</a><br>
-3.1. <a href="#toc3_1_">Hyperparameters</a><br>
-3.2. <a href="#toc3_2_">Initialising Double-Layer VAE model</a><br>
-3.3. <a href="#toc3_3_">Training</a><br>
-3.4. <a href="#toc3_4_">Visualing Results</a><br>
-4. <a href="#toc4_">Remarks and Further Directions</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="variational-autoencoders-vaes" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">Variational AutoEncoders (VAEs)</a></h1>
+<h1>Variational AutoEncoders (VAEs)</h1>
 <p>Variational AutoEncoders (VAEs) are a type of generative model designed to capture the underlying probability distribution of a given dataset and generate novel samples. They utilize an architecture that comprises of an encoder-decoder structure:</p>
 <p><img src="vae.png"></p>
 <p>In a nutshell, a VAE is an autoencoder whose encodings distribution is regularised during the training to ensure that its latent space has good properties allowing us to generate some new data. The term “variational” comes from the close relation there is between the regularisation and the variational inference method in statistics.</p>
 <p>VAEs tackle the problem of the latent space irregularity by making the encoder return a distribution over the latent space instead of a single point and by adding in the loss function a regularisation term over that returned distribution in order to ensure a better organisation of the latent space.</p>
 <p>For more details see the VAE wikipedia page:</p>
 <blockquote class="blockquote">
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Variational_autoencoder">https://en.wikipedia.org/wiki/Variational_autoencoder</a></li>
-</ul>
+<p><a href="https://en.wikipedia.org/wiki/Variational_autoencoder">https://en.wikipedia.org/wiki/Variational_autoencoder</a></p>
 </blockquote>
 <p>In this post we implement a 1 and 2 hidden layer VAE in PyTorch trained on the MNIST dataset and use the trained models to generate novel examples of handwritten digits.</p>
 </section>
 <section id="single-hidden-layer-vae" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">Single-Hidden-Layer VAE</a></h1>
-<div class="cell" data-execution_count="2">
+<h1>Single-Hidden-Layer VAE</h1>
+<div class="cell" data-execution_count="3">
+<details open="">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VariationalAutoEncoder(nn.Module):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Variational AutoEncoder (VAE) with a single hidden layer in the encoder and decoder.</span></span>
@@ -309,10 +314,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>        mu, logvar <span class="op">=</span> <span class="va">self</span>.encode(x)</span>
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> <span class="va">self</span>.reparameterize(mu, logvar)</span>
 <span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.decode(z), mu, logvar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<section id="hyperparameters" class="level2">
-<h2 class="anchored" data-anchor-id="hyperparameters">2.1. <a id="toc2_1_"></a><a href="#toc0_">Hyperparameters</a></h2>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the device for computation, prefer GPU (cuda) if available, else use CPU</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
@@ -335,10 +339,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The learning rate for the Adam optimizer.</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> <span class="fl">3e-4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 <section id="initialising-single-layer-vae-model" class="level2">
-<h2 class="anchored" data-anchor-id="initialising-single-layer-vae-model">2.2. <a id="toc2_2_"></a><a href="#toc0_">Initialising Single-Layer VAE model</a></h2>
-<div class="cell" data-execution_count="4">
+<h2 class="anchored" data-anchor-id="initialising-single-layer-vae-model">Initialising Single-Layer VAE model</h2>
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialise Model</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an instance of the VariationalAutoEncoder class with the specified input, hidden, and latent dimensions.</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The model is moved to the specified device (either CPU or GPU) for computation.</span></span>
@@ -357,23 +360,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="the-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="the-dataset">2.3. <a id="toc2_3_"></a><a href="#toc0_">The Dataset</a></h2>
+<h2 class="anchored" data-anchor-id="the-dataset">The Dataset</h2>
 <section id="mnist" class="level3">
-<h3 class="anchored" data-anchor-id="mnist">2.3.1. <a id="toc2_3_1_"></a><a href="#toc0_">MNIST</a></h3>
+<h3 class="anchored" data-anchor-id="mnist">MNIST</h3>
 <p>The <strong>MNIST dataset</strong> is a large database of handwritten digits that is commonly used for training various image processing systems. It contains <strong>60,000 training images</strong> and <strong>10,000 testing images</strong>. Each image is a grayscale 28x28 pixel representation of a digit.</p>
 <p><img src="OIP.jpg"></p>
 <p>For more details see the MNIST wikipedia page:</p>
 <blockquote class="blockquote">
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/MNIST_database">https://en.wikipedia.org/wiki/MNIST_database</a></li>
-</ul>
+<p><a href="https://en.wikipedia.org/wiki/MNIST_database">https://en.wikipedia.org/wiki/MNIST_database</a></p>
 </blockquote>
 </section>
 <section id="data-loading" class="level3">
-<h3 class="anchored" data-anchor-id="data-loading">2.3.2. <a id="toc2_3_2_"></a><a href="#toc0_">Data Loading</a></h3>
+<h3 class="anchored" data-anchor-id="data-loading">Data Loading</h3>
 <p>The dataset is loaded from a local directory named <code>dataset/</code>. If the dataset is not available in this directory, it will be downloaded. The images from the dataset are transformed into tensors using the <code>transforms.ToTensor()</code> function from PyTorch. This converts the images from a PIL Image or numpy <code>ndarray</code> into tensor format.</p>
 <p>After loading the dataset, we use PyTorch’s <code>DataLoader</code> to shuffle and batch the data. Shuffling the data ensures that the model’s performance is not affected by the order of the data in the dataset. The <code>batch_size</code> parameter for the DataLoader is set to <code>BATCH_SIZE</code>.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset loading</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the MNIST dataset. If it's not available in the local directory, download it.</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The images are transformed to tensors using transforms.ToTensor().</span></span>
@@ -387,24 +388,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> DataLoader(dataset<span class="op">=</span>dataset,</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                          batch_size<span class="op">=</span>BATCH_SIZE,</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                          shuffle<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to dataset/MNIST\raw\train-images-idx3-ubyte.gz
+Extracting dataset/MNIST\raw\train-images-idx3-ubyte.gz to dataset/MNIST\raw
+
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to dataset/MNIST\raw\train-labels-idx1-ubyte.gz
+Extracting dataset/MNIST\raw\train-labels-idx1-ubyte.gz to dataset/MNIST\raw
+
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to dataset/MNIST\raw\t10k-images-idx3-ubyte.gz
+Extracting dataset/MNIST\raw\t10k-images-idx3-ubyte.gz to dataset/MNIST\raw
+
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to dataset/MNIST\raw\t10k-labels-idx1-ubyte.gz
+Extracting dataset/MNIST\raw\t10k-labels-idx1-ubyte.gz to dataset/MNIST\raw
+</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████| 9912422/9912422 [00:01&lt;00:00, 5711216.86it/s]
+100%|██████████| 28881/28881 [00:00&lt;00:00, 28869326.46it/s]
+100%|██████████| 1648877/1648877 [00:00&lt;00:00, 6409941.87it/s]
+100%|██████████| 4542/4542 [00:00&lt;?, ?it/s]</code></pre>
+</div>
 </div>
 </section>
 </section>
 <section id="training" class="level2">
-<h2 class="anchored" data-anchor-id="training">2.4. <a id="toc2_4_"></a><a href="#toc0_">Training</a></h2>
+<h2 class="anchored" data-anchor-id="training">Training</h2>
 <section id="training-function-train_vae" class="level3">
-<h3 class="anchored" data-anchor-id="training-function-train_vae">2.4.1. <a id="toc2_4_1_"></a><a href="#toc0_">Training Function <code>train_vae</code></a></h3>
+<h3 class="anchored" data-anchor-id="training-function-train_vae">Training Function <code>train_vae</code></h3>
 <p>The <code>train_vae</code> function is implemented and used to train the VAE model.</p>
 <blockquote class="blockquote">
 <p><strong>Training Loop</strong>:</p>
 <ul>
 <li><p>The model is set to training mode at the start.</p></li>
 <li><p>For each epoch, the function initializes the total loss for the epoch (<code>epoch_loss</code>).</p></li>
-<li><p>It then loops over the training data. For each batch, it performs a forward pass, computes the loss, performs backpropagation, and updates the model parameters.</p></li>
+<li><p>It then loops over the training data. For each batch, it performs a forward pass, computes the loss, performs backpropagation, and updates the model parameters. <br></p></li>
 </ul>
-</blockquote>
-<p><br></p>
-<blockquote class="blockquote">
 <p><strong>Loss Function</strong>:</p>
 <ul>
 <li><p>The loss function consists of two parts: the reconstruction loss and the Kullback-Leibler (KL) divergence.</p></li>
@@ -416,71 +438,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p><a href="https://danieljamessmith.github.io/blog/posts/bte3/#definition-2.2.1---kl-divergence">“The Boltzmann Equation - 3. Information Theory”</a></p>
 </blockquote>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_vae(model, train_loader, optimizer, loss_fn, num_epochs, device):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Train a Variational AutoEncoder (VAE) model.</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The VAE model.</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    train_loader (DataLoader): The DataLoader for the training data.</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    optimizer (Optimizer): The optimizer for the model.</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    loss_fn (Loss): The loss function to use.</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    num_epochs (int): The number of epochs to train for.</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    device (torch.device): The device to train the model on.</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in training mode</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start Training</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the loss for this epoch</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        epoch_loss <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># tqdm is used to show a progress bar for the training loop</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        loop <span class="op">=</span> tqdm(<span class="bu">enumerate</span>(train_loader), total<span class="op">=</span><span class="bu">len</span>(train_loader), leave<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, (x, _) <span class="kw">in</span> loop:</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Forward Pass:</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Move the input to the device and reshape it</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> x.to(device).view(x.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Pass the input through the model to get the reconstructed output and the parameters of the latent distribution</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>            x_reconstructed, mu, logvar <span class="op">=</span> model(x)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute Loss:</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the reconstruction loss (how well the model can reconstruct the input)</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>            reconstruction_loss <span class="op">=</span> loss_fn(x_reconstructed, x)</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the KL divergence loss (how much the latent distribution deviates from a standard normal distribution)</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>            kl_div <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> torch.<span class="bu">sum</span>(<span class="dv">1</span> <span class="op">+</span> logvar <span class="op">-</span> mu.<span class="bu">pow</span>(<span class="dv">2</span>) <span class="op">-</span> logvar.exp())</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Backpropagation:</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the total loss, perform backpropagation to compute gradients, and update the model parameters</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> reconstruction_loss <span class="op">+</span> kl_div </span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add the loss for this batch to the total loss for this epoch</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>            epoch_loss <span class="op">+=</span> loss.item()</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update the progress bar with the current loss</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>            loop.set_description(<span class="ss">f"Epoch [</span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>num_epochs<span class="sc">}</span><span class="ss">]"</span>)</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>            loop.set_postfix(loss<span class="op">=</span>epoch_loss <span class="op">/</span> (i<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Training completed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train_vae(model, train_loader, optimizer, loss_fn, NUM_EPOCHS, DEVICE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_vae(model, train_loader, optimizer, loss_fn, num_epochs, device):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Train a Variational AutoEncoder (VAE) model.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The VAE model.</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">    train_loader (DataLoader): The DataLoader for the training data.</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">    optimizer (Optimizer): The optimizer for the model.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">    loss_fn (Loss): The loss function to use.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">    num_epochs (int): The number of epochs to train for.</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">    device (torch.device): The device to train the model on.</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in training mode</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start Training</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the loss for this epoch</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        epoch_loss <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># tqdm is used to show a progress bar for the training loop</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        loop <span class="op">=</span> tqdm(<span class="bu">enumerate</span>(train_loader), total<span class="op">=</span><span class="bu">len</span>(train_loader), leave<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, (x, _) <span class="kw">in</span> loop:</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Forward Pass:</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Move the input to the device and reshape it</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> x.to(device).view(x.shape[<span class="dv">0</span>], <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Pass the input through the model to get the reconstructed output and the parameters of the latent distribution</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>            x_reconstructed, mu, logvar <span class="op">=</span> model(x)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute Loss:</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the reconstruction loss (how well the model can reconstruct the input)</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            reconstruction_loss <span class="op">=</span> loss_fn(x_reconstructed, x)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the KL divergence loss (how much the latent distribution deviates from a standard normal distribution)</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>            kl_div <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> torch.<span class="bu">sum</span>(<span class="dv">1</span> <span class="op">+</span> logvar <span class="op">-</span> mu.<span class="bu">pow</span>(<span class="dv">2</span>) <span class="op">-</span> logvar.exp())</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Backpropagation:</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute the total loss, perform backpropagation to compute gradients, and update the model parameters</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> reconstruction_loss <span class="op">+</span> kl_div </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add the loss for this batch to the total loss for this epoch</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>            epoch_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update the progress bar with the current loss</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>            loop.set_description(<span class="ss">f"Epoch [</span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>num_epochs<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>            loop.set_postfix(loss<span class="op">=</span>epoch_loss <span class="op">/</span> (i<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Training completed."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>train_vae(model, train_loader, optimizer, loss_fn, NUM_EPOCHS, DEVICE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch [1/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:17&lt;00:00, 104.52it/s, loss=5.78e+3]
-Epoch [2/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 103.98it/s, loss=4.41e+3]
-Epoch [3/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 103.65it/s, loss=4.05e+3]
-Epoch [4/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:17&lt;00:00, 105.10it/s, loss=3.85e+3]
-Epoch [5/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:17&lt;00:00, 104.45it/s, loss=3.73e+3]
-Epoch [6/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 102.88it/s, loss=3.65e+3]
-Epoch [7/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 102.84it/s, loss=3.6e+3]
-Epoch [8/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:17&lt;00:00, 104.33it/s, loss=3.56e+3]
-Epoch [9/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 102.58it/s, loss=3.53e+3]
-Epoch [10/10]: 100%|████████████████████████████████████████████████| 1875/1875 [00:18&lt;00:00, 102.18it/s, loss=3.51e+3]</code></pre>
+<pre><code>  0%|          | 0/1875 [00:00&lt;?, ?it/s]Epoch [1/10]: 100%|██████████| 1875/1875 [00:21&lt;00:00, 89.18it/s, loss=5.79e+3]
+Epoch [2/10]: 100%|██████████| 1875/1875 [00:20&lt;00:00, 89.30it/s, loss=4.45e+3]
+Epoch [3/10]: 100%|██████████| 1875/1875 [00:20&lt;00:00, 91.68it/s, loss=4.1e+3] 
+Epoch [4/10]: 100%|██████████| 1875/1875 [00:20&lt;00:00, 89.58it/s, loss=3.89e+3]
+Epoch [5/10]: 100%|██████████| 1875/1875 [00:20&lt;00:00, 90.01it/s, loss=3.77e+3]
+Epoch [6/10]: 100%|██████████| 1875/1875 [00:21&lt;00:00, 87.77it/s, loss=3.68e+3]
+Epoch [7/10]: 100%|██████████| 1875/1875 [00:21&lt;00:00, 88.52it/s, loss=3.62e+3]
+Epoch [8/10]: 100%|██████████| 1875/1875 [00:20&lt;00:00, 89.39it/s, loss=3.58e+3]
+Epoch [9/10]: 100%|██████████| 1875/1875 [00:21&lt;00:00, 87.81it/s, loss=3.54e+3]
+Epoch [10/10]: 100%|██████████| 1875/1875 [00:21&lt;00:00, 86.45it/s, loss=3.52e+3]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training completed.</code></pre>
@@ -489,103 +514,109 @@ Epoch [10/10]: 100%|████████████████████
 </section>
 </section>
 <section id="visualising-results" class="level2">
-<h2 class="anchored" data-anchor-id="visualising-results">2.5. <a id="toc2_5_"></a><a href="#toc0_">Visualising Results</a></h2>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inference(model, digit, num_examples<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate `num_examples` of the specified `digit` using the provided VAE `model`.</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The Variational AutoEncoder model.</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">    digit (int): The digit to generate (0-9).</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">    num_examples (int, optional): The number of examples to generate. Defaults to 1.</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    plot (bool, optional): Whether to plot the generated images. Defaults to False.</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">    list of Tensor: The generated images.</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in evaluation mode</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract an example of the specified digit from the dataset</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x, y <span class="kw">in</span> train_loader.dataset:</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y <span class="op">==</span> digit:</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>            image <span class="op">=</span> x</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the mean and logvar for the specified digit</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    mu, logvar <span class="op">=</span> model.encode(image.view(<span class="dv">1</span>, <span class="dv">784</span>).to(DEVICE))</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a list to store the output images</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    out_images <span class="op">=</span> []</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> example <span class="kw">in</span> <span class="bu">range</span>(num_examples):</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a latent vector</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        std <span class="op">=</span> torch.exp(<span class="fl">0.5</span> <span class="op">*</span> logvar)</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> torch.randn_like(std).to(DEVICE)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> mu <span class="op">+</span> eps <span class="op">*</span> std</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decode the latent vector</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>            out <span class="op">=</span> model.decode(z)</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reshape the output and move it to CPU</span></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> out.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">28</span>, <span class="dv">28</span>).cpu()</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add the output image to the list</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>        out_images.append(out)</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot the image if plot is True</span></span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> plot:</span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>            plt.imshow(out[<span class="dv">0</span>].detach().numpy().reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>            plt.axis(<span class="st">'off'</span>)</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>            plt.show()</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out_images</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<h2 class="anchored" data-anchor-id="visualising-results">Visualising Results</h2>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>inference(model, digit<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inference(model, digit, num_examples<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate `num_examples` of the specified `digit` using the provided VAE `model`.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The Variational AutoEncoder model.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">    digit (int): The digit to generate (0-9).</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">    num_examples (int, optional): The number of examples to generate. Defaults to 1.</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    plot (bool, optional): Whether to plot the generated images. Defaults to False.</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">    list of Tensor: The generated images.</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in evaluation mode</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract an example of the specified digit from the dataset</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x, y <span class="kw">in</span> train_loader.dataset:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y <span class="op">==</span> digit:</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>            image <span class="op">=</span> x</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the mean and logvar for the specified digit</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    mu, logvar <span class="op">=</span> model.encode(image.view(<span class="dv">1</span>, <span class="dv">784</span>).to(DEVICE))</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a list to store the output images</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    out_images <span class="op">=</span> []</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> example <span class="kw">in</span> <span class="bu">range</span>(num_examples):</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a latent vector</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        std <span class="op">=</span> torch.exp(<span class="fl">0.5</span> <span class="op">*</span> logvar)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> torch.randn_like(std).to(DEVICE)</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> mu <span class="op">+</span> eps <span class="op">*</span> std</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decode the latent vector</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>            out <span class="op">=</span> model.decode(z)</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reshape the output and move it to CPU</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> out.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">28</span>, <span class="dv">28</span>).cpu()</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add the output image to the list</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>        out_images.append(out)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot the image if plot is True</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> plot:</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>            plt.imshow(out[<span class="dv">0</span>].detach().numpy().reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>            plt.axis(<span class="st">'off'</span>)</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>            plt.show()</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out_images</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>inference(model, digit<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>inference(model, digit<span class="op">=</span><span class="dv">6</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>inference(model, digit<span class="op">=</span><span class="dv">6</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualise_digits(model):</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate and plot an example of each digit (0-9) using the provided VAE `model`.</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The Variational AutoEncoder model.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in evaluation mode</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a subplot for each digit in a 5x2 grid</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    fig, axs <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    fig.subplots_adjust(hspace<span class="op">=</span><span class="fl">0.5</span>, wspace<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> digit <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate an example of the digit</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        out_images <span class="op">=</span> inference(model, digit, num_examples<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Display the output image with a title</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axs[digit <span class="op">//</span> <span class="dv">2</span>, digit <span class="op">%</span> <span class="dv">2</span>]</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        ax.imshow(out_images[<span class="dv">0</span>][<span class="dv">0</span>].detach().numpy().reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        ax.axis(<span class="st">'off'</span>)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'Generated Digit: </span><span class="sc">{</span>digit<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>visualise_digits(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualise_digits(model):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate and plot an example of each digit (0-9) using the provided VAE `model`.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">    model (nn.Module): The Variational AutoEncoder model.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure model is in evaluation mode</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a subplot for each digit in a 5x2 grid</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    fig, axs <span class="op">=</span> plt.subplots(<span class="dv">5</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    fig.subplots_adjust(hspace<span class="op">=</span><span class="fl">0.5</span>, wspace<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> digit <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate an example of the digit</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        out_images <span class="op">=</span> inference(model, digit, num_examples<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Display the output image with a title</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        ax <span class="op">=</span> axs[digit <span class="op">//</span> <span class="dv">2</span>, digit <span class="op">%</span> <span class="dv">2</span>]</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        ax.imshow(out_images[<span class="dv">0</span>][<span class="dv">0</span>].detach().numpy().reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        ax.axis(<span class="st">'off'</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'Generated Digit: </span><span class="sc">{</span>digit<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>visualise_digits(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
@@ -593,176 +624,179 @@ Epoch [10/10]: 100%|████████████████████
 </section>
 </section>
 <section id="double-hidden-layer-vae" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">Double-Hidden-Layer VAE</a></h1>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VariationalAutoEncoder_nlayers(nn.Module):</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Variational AutoEncoder (VAE) with a configurable number of hidden layers.</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">    input_dim (int): The dimension of the input data.</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">    h_dim1 (int, optional): The dimension of the first hidden layer. Defaults to 400.</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">    h_dim2 (int, optional): The dimension of the second hidden layer. Defaults to 200.</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">    z_dim (int, optional): The dimension of the latent space. Defaults to 20.</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    num_layers (int, optional): The number of hidden layers in the encoder and decoder (1 or 2). Defaults to 1.</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, h_dim1<span class="op">=</span><span class="dv">400</span>, h_dim2<span class="op">=</span><span class="dv">200</span>, z_dim<span class="op">=</span><span class="dv">20</span>, num_layers<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_layers <span class="op">=</span> num_layers</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Encoder</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.img_2hid1 <span class="op">=</span> nn.Linear(input_dim, h_dim1)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid1_2hid2 <span class="op">=</span> nn.Linear(h_dim1, h_dim2)</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2mu <span class="op">=</span> nn.Linear(h_dim2, z_dim)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2logvar <span class="op">=</span> nn.Linear(h_dim2, z_dim)</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2mu <span class="op">=</span> nn.Linear(h_dim1, z_dim)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2logvar <span class="op">=</span> nn.Linear(h_dim1, z_dim)</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decoder</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.z_2hid2 <span class="op">=</span> nn.Linear(z_dim, h_dim2)</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2hid1 <span class="op">=</span> nn.Linear(h_dim2, h_dim1)</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.z_2hid2 <span class="op">=</span> nn.Linear(z_dim, h_dim1)</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hid1_2img <span class="op">=</span> nn.Linear(h_dim1, input_dim)</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relu <span class="op">=</span> nn.ReLU()</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x):</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Encodes the input into a distribution over the latent space.</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="co">        x (Tensor): The input data.</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple of Tensor: The mean and log variance of the latent distribution.</span></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>        h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.img_2hid1(x))</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>            h2 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.hid1_2hid2(h1))</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>            mu, logvar <span class="op">=</span> <span class="va">self</span>.hid2_2mu(h2), <span class="va">self</span>.hid2_2logvar(h2)</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>            mu, logvar <span class="op">=</span> <span class="va">self</span>.hid2_2mu(h1), <span class="va">self</span>.hid2_2logvar(h1)</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mu, logvar</span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> reparameterize(<span class="va">self</span>, mu, logvar):</span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="co">        Generates a latent vector by reparameterization.</span></span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="co">        mu (Tensor): The mean of the latent distribution.</span></span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a><span class="co">        logvar (Tensor): The log variance of the latent distribution.</span></span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="co">        Tensor: The latent vector.</span></span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>        std <span class="op">=</span> torch.exp(<span class="fl">0.5</span><span class="op">*</span>logvar)</span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> torch.randn_like(std)</span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mu <span class="op">+</span> eps<span class="op">*</span>std</span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, z):</span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="co">        Decodes a latent vector into the input space.</span></span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
-<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a><span class="co">        z (Tensor): The latent vector.</span></span>
-<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="co">        Tensor: The decoded data.</span></span>
-<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>            h2 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.z_2hid2(z))</span>
-<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>            h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.hid2_2hid1(h2))</span>
-<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>            h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.z_2hid2(z))</span>
-<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.sigmoid(<span class="va">self</span>.hid1_2img(h1))</span>
-<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
-<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a><span class="co">        Performs a forward pass through the model.</span></span>
-<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
-<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a><span class="co">        x (Tensor): The input data.</span></span>
-<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple of Tensor: The decoded data, mean and log variance of the latent distribution.</span></span>
-<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>        mu, logvar <span class="op">=</span> <span class="va">self</span>.encode(x)</span>
-<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> <span class="va">self</span>.reparameterize(mu, logvar)</span>
-<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.decode(z), mu, logvar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="hyperparameters-1" class="level2">
-<h2 class="anchored" data-anchor-id="hyperparameters-1">3.1. <a id="toc3_1_"></a><a href="#toc0_">Hyperparameters</a></h2>
+<h1>Double-Hidden-Layer VAE</h1>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the device for computation, prefer GPU (cuda) if available, else use CPU</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the input data. For MNIST, images are 28x28 pixels, so the input dimension is 784.</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>INPUT_DIM <span class="op">=</span> <span class="dv">784</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the first hidden layer in the VAE.</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>H_DIM1 <span class="op">=</span> <span class="dv">400</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the second hidden layer in the VAE.</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>H_DIM2 <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the latent space in the VAE. This is the dimension of the random variable z in the VAE.</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>Z_DIM <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of epochs to train the model. An epoch is one complete pass through the entire training dataset.</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>NUM_EPOCHS <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of samples per batch. The model parameters are updated once per batch.</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">32</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The learning rate for the Adam optimizer.</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> <span class="fl">3e-4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VariationalAutoEncoder_nlayers(nn.Module):</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Variational AutoEncoder (VAE) with a configurable number of hidden layers.</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">    input_dim (int): The dimension of the input data.</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">    h_dim1 (int, optional): The dimension of the first hidden layer. Defaults to 400.</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">    h_dim2 (int, optional): The dimension of the second hidden layer. Defaults to 200.</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">    z_dim (int, optional): The dimension of the latent space. Defaults to 20.</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">    num_layers (int, optional): The number of hidden layers in the encoder and decoder (1 or 2). Defaults to 1.</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_dim, h_dim1<span class="op">=</span><span class="dv">400</span>, h_dim2<span class="op">=</span><span class="dv">200</span>, z_dim<span class="op">=</span><span class="dv">20</span>, num_layers<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_layers <span class="op">=</span> num_layers</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Encoder</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.img_2hid1 <span class="op">=</span> nn.Linear(input_dim, h_dim1)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid1_2hid2 <span class="op">=</span> nn.Linear(h_dim1, h_dim2)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2mu <span class="op">=</span> nn.Linear(h_dim2, z_dim)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2logvar <span class="op">=</span> nn.Linear(h_dim2, z_dim)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2mu <span class="op">=</span> nn.Linear(h_dim1, z_dim)</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2logvar <span class="op">=</span> nn.Linear(h_dim1, z_dim)</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Decoder</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.z_2hid2 <span class="op">=</span> nn.Linear(z_dim, h_dim2)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.hid2_2hid1 <span class="op">=</span> nn.Linear(h_dim2, h_dim1)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.z_2hid2 <span class="op">=</span> nn.Linear(z_dim, h_dim1)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hid1_2img <span class="op">=</span> nn.Linear(h_dim1, input_dim)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relu <span class="op">=</span> nn.ReLU()</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, x):</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Encodes the input into a distribution over the latent space.</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co">        x (Tensor): The input data.</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple of Tensor: The mean and log variance of the latent distribution.</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.img_2hid1(x))</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>            h2 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.hid1_2hid2(h1))</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>            mu, logvar <span class="op">=</span> <span class="va">self</span>.hid2_2mu(h2), <span class="va">self</span>.hid2_2logvar(h2)</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>            mu, logvar <span class="op">=</span> <span class="va">self</span>.hid2_2mu(h1), <span class="va">self</span>.hid2_2logvar(h1)</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mu, logvar</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> reparameterize(<span class="va">self</span>, mu, logvar):</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a><span class="co">        Generates a latent vector by reparameterization.</span></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="co">        mu (Tensor): The mean of the latent distribution.</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a><span class="co">        logvar (Tensor): The log variance of the latent distribution.</span></span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a><span class="co">        Tensor: The latent vector.</span></span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>        std <span class="op">=</span> torch.exp(<span class="fl">0.5</span><span class="op">*</span>logvar)</span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> torch.randn_like(std)</span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mu <span class="op">+</span> eps<span class="op">*</span>std</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> decode(<span class="va">self</span>, z):</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="co">        Decodes a latent vector into the input space.</span></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a><span class="co">        z (Tensor): The latent vector.</span></span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a><span class="co">        Tensor: The decoded data.</span></span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.num_layers <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>            h2 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.z_2hid2(z))</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>            h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.hid2_2hid1(h2))</span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>            h1 <span class="op">=</span> <span class="va">self</span>.relu(<span class="va">self</span>.z_2hid2(z))</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> torch.sigmoid(<span class="va">self</span>.hid1_2img(h1))</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a><span class="co">        Performs a forward pass through the model.</span></span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a><span class="co">        x (Tensor): The input data.</span></span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple of Tensor: The decoded data, mean and log variance of the latent distribution.</span></span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>        mu, logvar <span class="op">=</span> <span class="va">self</span>.encode(x)</span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> <span class="va">self</span>.reparameterize(mu, logvar)</span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.decode(z), mu, logvar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h2>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the device for computation, prefer GPU (cuda) if available, else use CPU</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the input data. For MNIST, images are 28x28 pixels, so the input dimension is 784.</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>INPUT_DIM <span class="op">=</span> <span class="dv">784</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the first hidden layer in the VAE.</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>H_DIM1 <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the second hidden layer in the VAE.</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>H_DIM2 <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The dimension of the latent space in the VAE. This is the dimension of the random variable z in the VAE.</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>Z_DIM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of epochs to train the model. An epoch is one complete pass through the entire training dataset.</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>NUM_EPOCHS <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of samples per batch. The model parameters are updated once per batch.</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># The learning rate for the Adam optimizer.</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> <span class="fl">3e-4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="initialising-double-layer-vae-model" class="level2">
-<h2 class="anchored" data-anchor-id="initialising-double-layer-vae-model">3.2. <a id="toc3_2_"></a><a href="#toc0_">Initialising Double-Layer VAE model</a></h2>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialise Model</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an instance of the VariationalAutoEncoder_nlayer class with the specified input, hidden, and latent dimensions. Set num_layers=2.</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The model is moved to the specified device (either CPU or GPU) for computation.</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>model_2layers <span class="op">=</span> VariationalAutoEncoder_nlayers(INPUT_DIM, </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                               H_DIM1, </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                                               H_DIM2, </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                                               Z_DIM, </span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                               num_layers<span class="op">=</span><span class="dv">2</span>).to(DEVICE)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimizer</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The Adam optimizer is used for updating the parameters of the model.</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># The learning rate (LR) is a hyperparameter that controls how much the weights of the network will change in response to the gradient.</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model_2layers.parameters(), lr<span class="op">=</span>LR)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Loss Function</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The Binary Cross Entropy (BCE) loss function is used as the reconstruction loss for the VAE.</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># This loss function measures the error between the reconstructed image and the original image.</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># The 'sum' reduction mode is used, which means the losses are summed over all elements in the output.</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>loss_fn <span class="op">=</span> nn.BCELoss(reduction<span class="op">=</span><span class="st">"sum"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h2 class="anchored" data-anchor-id="initialising-double-layer-vae-model">Initialising Double-Layer VAE model</h2>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialise Model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an instance of the VariationalAutoEncoder_nlayer class with the specified input, hidden, and latent dimensions. Set num_layers=2.</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The model is moved to the specified device (either CPU or GPU) for computation.</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>model_2layers <span class="op">=</span> VariationalAutoEncoder_nlayers(INPUT_DIM, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                               H_DIM1, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                                               H_DIM2, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                                               Z_DIM, </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                                               num_layers<span class="op">=</span><span class="dv">2</span>).to(DEVICE)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimizer</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The Adam optimizer is used for updating the parameters of the model.</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># The learning rate (LR) is a hyperparameter that controls how much the weights of the network will change in response to the gradient.</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model_2layers.parameters(), lr<span class="op">=</span>LR)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Loss Function</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The Binary Cross Entropy (BCE) loss function is used as the reconstruction loss for the VAE.</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># This loss function measures the error between the reconstructed image and the original image.</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># The 'sum' reduction mode is used, which means the losses are summed over all elements in the output.</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>loss_fn <span class="op">=</span> nn.BCELoss(reduction<span class="op">=</span><span class="st">"sum"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="training-1" class="level2">
-<h2 class="anchored" data-anchor-id="training-1">3.3. <a id="toc3_3_"></a><a href="#toc0_">Training</a></h2>
+<h2 class="anchored" data-anchor-id="training-1">Training</h2>
 <p>Using the <code>train_vae</code> model as defined for the Single-Hidden-Layer VAE model:</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>train_vae(model_2layers, train_loader, optimizer, loss_fn, NUM_EPOCHS, DEVICE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>train_vae(model_2layers, train_loader, optimizer, loss_fn, NUM_EPOCHS, DEVICE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Epoch [1/10]: 100%|███████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 74.91it/s, loss=5.7e+3]
-Epoch [2/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 74.91it/s, loss=4.33e+3]
-Epoch [3/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:24&lt;00:00, 75.31it/s, loss=3.89e+3]
-Epoch [4/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:27&lt;00:00, 68.30it/s, loss=3.68e+3]
-Epoch [5/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:26&lt;00:00, 70.11it/s, loss=3.56e+3]
-Epoch [6/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 72.26it/s, loss=3.48e+3]
-Epoch [7/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:26&lt;00:00, 72.02it/s, loss=3.43e+3]
-Epoch [8/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 73.71it/s, loss=3.39e+3]
-Epoch [9/10]: 100%|██████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 74.50it/s, loss=3.36e+3]
-Epoch [10/10]: 100%|█████████████████████████████████████████████████| 1875/1875 [00:25&lt;00:00, 73.04it/s, loss=3.33e+3]</code></pre>
+<pre><code>Epoch [1/10]: 100%|██████████| 1875/1875 [00:27&lt;00:00, 67.16it/s, loss=5.66e+3]
+Epoch [2/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 66.65it/s, loss=4.33e+3]
+Epoch [3/10]: 100%|██████████| 1875/1875 [00:27&lt;00:00, 67.01it/s, loss=3.89e+3]
+Epoch [4/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 66.40it/s, loss=3.68e+3]
+Epoch [5/10]: 100%|██████████| 1875/1875 [00:27&lt;00:00, 66.99it/s, loss=3.56e+3]
+Epoch [6/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 65.96it/s, loss=3.49e+3]
+Epoch [7/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 66.65it/s, loss=3.44e+3]
+Epoch [8/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 65.94it/s, loss=3.4e+3] 
+Epoch [9/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 64.93it/s, loss=3.37e+3]
+Epoch [10/10]: 100%|██████████| 1875/1875 [00:28&lt;00:00, 64.87it/s, loss=3.35e+3]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Training completed.</code></pre>
@@ -770,22 +804,22 @@ Epoch [10/10]: 100%|████████████████████
 </div>
 </section>
 <section id="visualing-results" class="level2">
-<h2 class="anchored" data-anchor-id="visualing-results">3.4. <a id="toc3_4_"></a><a href="#toc0_">Visualing Results</a></h2>
+<h2 class="anchored" data-anchor-id="visualing-results">Visualing Results</h2>
 <p>Using the <code>inference</code> and <code>visualize_digits</code> functions as defined for the Single-Hidden-Layer VAE model:</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>inference(model_2layers, digit<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>inference(model_2layers, digit<span class="op">=</span><span class="dv">1</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>inference(model_2layers, digit<span class="op">=</span><span class="dv">6</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>inference(model_2layers, digit<span class="op">=</span><span class="dv">6</span>, plot<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>visualise_digits(model_2layers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>visualise_digits(model_2layers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
@@ -793,17 +827,11 @@ Epoch [10/10]: 100%|████████████████████
 </section>
 </section>
 <section id="remarks-and-further-directions" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">Remarks and Further Directions</a></h1>
+<h1>Remarks and Further Directions</h1>
 <blockquote class="blockquote">
 <ul>
-<li>The generated images of the digits are slightly sharper and more interpretable when the encoder &amp; decoder have 2 hidden layers compared to 1 hidden layer. This is because a model with more hidden layers is more expressible and is able to capture more complex patterns in the training data.</li>
-</ul>
-<p><br></p>
-<ul>
-<li>Further improvements could be seen by tuning the hyperparameters of the models such as the learning rate <code>LR</code> and the batch size <code>BATCH_SIZE</code>.</li>
-</ul>
-<p><br></p>
-<ul>
+<li>The generated images of the digits are slightly sharper and more interpretable when the encoder &amp; decoder have 2 hidden layers compared to 1 hidden layer. This is because a model with more hidden layers is more expressible and is able to capture more complex patterns in the training data. <br></li>
+<li>Further improvements could be seen by tuning the hyperparameters of the models such as the learning rate <code>LR</code> and the batch size <code>BATCH_SIZE</code>. <br></li>
 <li>Adding regularization e.g.&nbsp;through dropout layers and/or regularization terms in the loss function would result in more generalisable models.</li>
 </ul>
 </blockquote>

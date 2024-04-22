@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-04-08">
 <meta name="description" content="Learn how to read ONS lookup tables into Pandas to convert postcodes into local demographic statistics, such as population density and Index of Multiple Deprivation (IMD) score. Learn how to use KNNImputer from scikit-learn to fill missing values. See how these statistics correlate with donation history for a dataset of charity donors.">
 
-<title>djs - Joining Demographic Statistics onto a Dataset of Charity Donors with Python</title>
+<title>Blog - Joining Demographic Statistics onto a Dataset of Charity Donors with Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">djs</span>
+    <span class="navbar-title">Blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -137,7 +137,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#geocoding" id="toc-geocoding" class="nav-link active" data-scroll-target="#geocoding">GEOCODING</a></li>
+  <li><a href="#joining-oas" id="toc-joining-oas" class="nav-link" data-scroll-target="#joining-oas">JOINING OAs</a>
+  <ul class="collapse">
+  <li><a href="#what-are-output-areas-oas" id="toc-what-are-output-areas-oas" class="nav-link" data-scroll-target="#what-are-output-areas-oas">What are Output Areas (OAs)?</a></li>
+  <li><a href="#joining-lsoa2021-and-oa2021-onto-postcode" id="toc-joining-lsoa2021-and-oa2021-onto-postcode" class="nav-link" data-scroll-target="#joining-lsoa2021-and-oa2021-onto-postcode">JOINING LSOA2021 and OA2021 ONTO POSTCODE</a></li>
+  <li><a href="#joining-msoa2011-onto-postcode" id="toc-joining-msoa2011-onto-postcode" class="nav-link" data-scroll-target="#joining-msoa2011-onto-postcode">JOINING MSOA2011 ONTO POSTCODE</a></li>
+  </ul></li>
+  <li><a href="#joining-demographic-statistics-onto-oas" id="toc-joining-demographic-statistics-onto-oas" class="nav-link" data-scroll-target="#joining-demographic-statistics-onto-oas">JOINING DEMOGRAPHIC STATISTICS ONTO OAs</a>
+  <ul class="collapse">
+  <li><a href="#understanding-the-index-of-multiple-deprivation-imd-score" id="toc-understanding-the-index-of-multiple-deprivation-imd-score" class="nav-link" data-scroll-target="#understanding-the-index-of-multiple-deprivation-imd-score">Understanding the Index of Multiple Deprivation (IMD) Score</a></li>
+  <li><a href="#joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011" id="toc-joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011" class="nav-link" data-scroll-target="#joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011">Joining IMD2019 onto <code>df</code> by first coverting LSOA2021 to LSOA2011:</a>
+  <ul class="collapse">
+  <li><a href="#using-knnimputer-to-fill-missing-imd-scores" id="toc-using-knnimputer-to-fill-missing-imd-scores" class="nav-link" data-scroll-target="#using-knnimputer-to-fill-missing-imd-scores">Using <code>KNNImputer</code> to fill missing IMD scores:</a></li>
+  </ul></li>
+  <li><a href="#joining-population-density-onto-lsoa2021" id="toc-joining-population-density-onto-lsoa2021" class="nav-link" data-scroll-target="#joining-population-density-onto-lsoa2021">Joining population density onto LSOA2021:</a>
+  <ul class="collapse">
+  <li><a href="#using-knnimputer-to-fill-missing-population-densities" id="toc-using-knnimputer-to-fill-missing-population-densities" class="nav-link" data-scroll-target="#using-knnimputer-to-fill-missing-population-densities">Using <code>KNNImputer</code> to fill missing population densities</a></li>
+  </ul></li>
+  <li><a href="#joining-average-annual-income-onto-msoa2011" id="toc-joining-average-annual-income-onto-msoa2011" class="nav-link" data-scroll-target="#joining-average-annual-income-onto-msoa2011">Joining Average Annual Income onto MSOA2011</a>
+  <ul class="collapse">
+  <li><a href="#using-knnimputer-to-fill-missing-avgareaincome-values" id="toc-using-knnimputer-to-fill-missing-avgareaincome-values" class="nav-link" data-scroll-target="#using-knnimputer-to-fill-missing-avgareaincome-values">Using <code>KNNImputer</code> to fill missing ‘AvgAreaIncome’ values</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#visualising-results-with-folium" id="toc-visualising-results-with-folium" class="nav-link" data-scroll-target="#visualising-results-with-folium">VISUALISING RESULTS WITH FOLIUM</a></li>
+  <li><a href="#relationships-between-demographic-statistics-donation-history" id="toc-relationships-between-demographic-statistics-donation-history" class="nav-link" data-scroll-target="#relationships-between-demographic-statistics-donation-history">Relationships between demographic statistics &amp; donation history</a>
+  <ul class="collapse">
+  <li><a href="#imd-score" id="toc-imd-score" class="nav-link" data-scroll-target="#imd-score">IMD Score</a></li>
+  <li><a href="#population-density" id="toc-population-density" class="nav-link" data-scroll-target="#population-density">Population Density</a></li>
+  <li><a href="#average-income" id="toc-average-income" class="nav-link" data-scroll-target="#average-income">Average Income</a></li>
+  </ul></li>
+  <li><a href="#remarks" id="toc-remarks" class="nav-link" data-scroll-target="#remarks">Remarks</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.out.ipynb" download="index.out.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -191,34 +229,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> branca.colormap <span class="im">import</span> LinearColormap</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> KNNImputer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">GEOCODING</a><br>
-2. <a href="#toc2_">JOINING OAs</a><br>
-2.1. <a href="#toc2_1_">What are Output Areas (OAs)?</a><br>
-2.2. <a href="#toc2_2_">JOINING LSOA2021 and OA2021 ONTO POSTCODE</a><br>
-2.3. <a href="#toc2_3_">JOINING MSOA2011 ONTO POSTCODE</a><br>
-3. <a href="#toc3_">JOINING DEMOGRAPHIC STATISTICS ONTO OAs</a><br>
-3.1. <a href="#toc3_1_">Understanding the Index of Multiple Deprivation (IMD) Score</a><br>
-3.2. <a href="#toc3_2_">Joining IMD2019 onto <code>df</code> by first coverting LSOA2021 to LSOA2011:</a><br>
-3.2.1. <a href="#toc3_2_1_">Using <code>KNNImputer</code> to fill missing IMD scores:</a><br>
-3.3. <a href="#toc3_3_">Joining population density onto LSOA2021:</a><br>
-3.3.1. <a href="#toc3_3_1_">Using <code>KNNImputer</code> to fill missing population densities</a><br>
-3.4. <a href="#toc3_4_">Joining Average Annual Income onto MSOA2011</a><br>
-3.4.1. <a href="#toc3_4_1_">Using <code>KNNImputer</code> to fill missing ‘AvgAreaIncome’ values</a><br>
-4. <a href="#toc4_">VISUALISING RESULTS WITH FOLIUM</a><br>
-5. <a href="#toc5_">Relationships between demographic statistics &amp; donation history</a><br>
-5.1. <a href="#toc5_1_">IMD Score</a><br>
-5.2. <a href="#toc5_2_">Population Density</a><br>
-5.3. <a href="#toc5_3_">Average Income</a><br>
-6. <a href="#toc6_">Remarks</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <blockquote class="blockquote">
 <ul>
 <li><p>This post uses the dataset <code>FakeIndividualConstituents.csv</code>, comprising of 100 randomly selected postcodes in Nottingham city and crudely constructed donation behaviours for the ficticious donors these postcodes represent.</p></li>
@@ -226,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>This post follows some of my voluntary data analysis when studying a real dataset of donors to <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a> in Nottingham.</p></li>
 </ul>
 </blockquote>
-<p><a href="#dnldts39078" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUsTnVtYmVyRG9uYXRpb25zLFRvdGFsRG9uYXRlZCxBdmVyYWdlRG9uYXRlZCxOZXdzbGV0dGVyDQpORzkgM1dGLDQsNjEsMTUuMjUsMQ0KTkc5IDRXUCwxLDIzLDIzLjAsMA0KTkc5IDNFTCwxLDMwLDMwLjAsMA0KTkcxIDlGSCw1LDc1LDE1LjAsMQ0KTkc1IDZRWiwxLDE1LDE1LjAsMA0KTkc3IDVRTCwyLDMxLDE1LjUsMA0KTkc3IDJGVCwxLDE1LDE1LjAsMA0KTkc0IDFQWSwyLDMxLDE1LjUsMA0KTkc4IDNTTCwxLDE4LDE4LjAsMA0KTkc5IDRBWCw1LDc1LDE1LjAsMQ0KTkc1IDFQUywxLDE1LDE1LjAsMA0KTkcxMyA4WFMsMiwzOSwxOS41LDANCk5HMSAzUkQsMTQsMjEzLDE1LjIxLDENCk5HOCAyRlUsNCw2MiwxNS41LDENCk5HMyA3R04sMiwzMCwxNS4wLDANCk5HMSAxTlIsMSwxNSwxNS4wLDANCk5HMSAzTkUsMSwxNSwxNS4wLDANCk5HNyAyR1EsMyw0NSwxNS4wLDENCk5HOCAzREIsNCw2MCwxNS4wLDENCk5HNSA1R0QsMSwxOCwxOC4wLDANCk5HOSAzSEcsNSw4NCwxNi44LDENCk5HOSAyVUIsMiwzMCwxNS4wLDANCk5HMiA1SE4sNywxMDUsMTUuMCwxDQpORzMgMUxFLDEsMjcsMjcuMCwwDQpORzIgM0RXLDEsMTYsMTYuMCwwDQpORzIgN1JZLDIxLDMxNSwxNS4wLDENCk5HMyAzRU4sMSwzOCwzOC4wLDANCk5HMyA0SkwsMTIsNTcwLDQ3LjUsMQ0KTkc1IDJFVCw3LDEwOSwxNS41NywxDQpORzUgOVdBLDMsNDUsMTUuMCwxDQpORzIgNlBQLDIsMzAsMTUuMCwwDQpORzUgMUJXLDEyLDE4OCwxNS42NywxDQpORzkgMVBSLDksMTM3LDE1LjIyLDENCk5HNCAxSlksMiwzMCwxNS4wLDANCk5HMSAxTEYsMyw0NiwxNS4zMywxDQpORzEgMU5OLDcsMzEzLDQ0LjcxLDENCk5HNiAwR0EsMiwzMCwxNS4wLDANCk5HOCAzREosNCw2MCwxNS4wLDENCk5HMSA1QlQsMjAsMzAwLDE1LjAsMQ0KTkc4IDlRTiw5LDEzOCwxNS4zMywxDQpORzcgMkxGLDEsMTUsMTUuMCwwDQpORzUgME5ULDIsMzEsMTUuNSwwDQpORzMgMkVVLDIsMzAsMTUuMCwwDQpORzMgNk5ZLDEsMTcsMTcuMCwwDQpORzcgNEdSLDEsMTUsMTUuMCwwDQpORzIgNVhTLDIsNjEsMzAuNSwxDQpORzIgNVhaLDMsNDUsMTUuMCwxDQpORzMgNUhSLDQsNjAsMTUuMCwxDQpORzIgNEdXLDEsMTUsMTUuMCwwDQpORzkgMVBZLDEsNDQsNDQuMCwwDQpORzEyIDJBVCwzLDUxLDE3LjAsMQ0KTkczIDdGRSwyLDMwLDE1LjAsMA0KTkcyIDZRQiw5LDEzNiwxNS4xMSwxDQpORzcgMVJBLDQsNjMsMTUuNzUsMQ0KTkc1IDNGRCw2LDkyLDE1LjMzLDENCk5HNyAzTFQsMSwxNSwxNS4wLDANCk5HNiA2RUcsMSwxMzYsMTM2LjAsMQ0KTkc0IDFQRCwyLDMwLDE1LjAsMA0KTkc2IDhQSiwyLDMyLDE2LjAsMA0KTkcxMSA3QVgsMSw1MzksNTM5LjAsMQ0KTkc4IDZEUSwzLDQ1LDE1LjAsMQ0KTkcxIDFFUSw5LDEzNSwxNS4wLDENCk5HNiA5TEUsMSwxNiwxNi4wLDANCk5HOSAySkIsNiw5OSwxNi41LDENCk5HOCAzSFQsOSwxNDMsMTUuODksMQ0KTkc3IDFQWSw5LDEzNSwxNS4wLDENCk5HMTEgN0VTLDIsMzAsMTUuMCwwDQpORzMgNVNILDUsNzUsMTUuMCwxDQpORzEgNERCLDIsMzAsMTUuMCwwDQpORzggNUxXLDIsNTYsMjguMCwxDQpORzIgMVFILDEsMTUsMTUuMCwwDQpORzEgOUVaLDQsMzg4LDk3LjAsMQ0KTkcyIDdETCwxLDE2LDE2LjAsMA0KTkc1IDNIVywyLDMwLDE1LjAsMA0KTkcxIDNKUCw4LDE2NjE4LDIwNzcuMjUsMQ0KTkcxIDFEVSwxNCwyMjUsMTYuMDcsMQ0KTkcxIDlHRSwyLDMwLDE1LjAsMA0KTkc3IDZIQiwyLDM0LDE3LjAsMA0KTkc1IDFKRywxLDI4LDI4LjAsMA0KTkc3IDNQQiwxLDY4LDY4LjAsMQ0KTkcxIDZXWSwzNyw1NTgsMTUuMDgsMQ0KTkcxIDFFTiwyLDMwLDE1LjAsMA0KTkcyIDRERywxMCwxNTAsMTUuMCwxDQpORzIgOUpZLDEsNTgsNTguMCwwDQpORzcgMUpRLDMsNDUsMTUuMCwxDQpORzcgNVFYLDMsNTAsMTYuNjcsMQ0KTkczIDZHWSw2LDkxLDE1LjE3LDENCk5HOCA1V0UsMSwxNiwxNi4wLDANCk5HNyA3REIsMiwzMCwxNS4wLDANCk5HOCAzRU4sMiw5Miw0Ni4wLDENCk5HOSAyWlosMiwzMSwxNS41LDANCk5HNiA5RUosMyw1MSwxNy4wLDENCk5HNyAxRlAsMiwzMCwxNS4wLDANCk5HMSAxUVEsMSwxNSwxNS4wLDANCk5HOCAyUk4sMSwyMSwyMS4wLDANCk5HMiAxV1ksMSwxNSwxNS4wLDANCk5HOCAxTkQsMTAsMTY5LDE2LjksMQ0KTkc5IDJRQSwxLDE1LDE1LjAsMA0KTkczIDFGRiwyMiwzMzMsMTUuMTQsMQ0KTkc3IDFVQiwzLDQ1LDE1LjAsMQ0K').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts63202" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUsTnVtYmVyRG9uYXRpb25zLFRvdGFsRG9uYXRlZCxBdmVyYWdlRG9uYXRlZCxOZXdzbGV0dGVyDQpORzkgM1dGLDQsNjEsMTUuMjUsMQ0KTkc5IDRXUCwxLDIzLDIzLjAsMA0KTkc5IDNFTCwxLDMwLDMwLjAsMA0KTkcxIDlGSCw1LDc1LDE1LjAsMQ0KTkc1IDZRWiwxLDE1LDE1LjAsMA0KTkc3IDVRTCwyLDMxLDE1LjUsMA0KTkc3IDJGVCwxLDE1LDE1LjAsMA0KTkc0IDFQWSwyLDMxLDE1LjUsMA0KTkc4IDNTTCwxLDE4LDE4LjAsMA0KTkc5IDRBWCw1LDc1LDE1LjAsMQ0KTkc1IDFQUywxLDE1LDE1LjAsMA0KTkcxMyA4WFMsMiwzOSwxOS41LDANCk5HMSAzUkQsMTQsMjEzLDE1LjIxLDENCk5HOCAyRlUsNCw2MiwxNS41LDENCk5HMyA3R04sMiwzMCwxNS4wLDANCk5HMSAxTlIsMSwxNSwxNS4wLDANCk5HMSAzTkUsMSwxNSwxNS4wLDANCk5HNyAyR1EsMyw0NSwxNS4wLDENCk5HOCAzREIsNCw2MCwxNS4wLDENCk5HNSA1R0QsMSwxOCwxOC4wLDANCk5HOSAzSEcsNSw4NCwxNi44LDENCk5HOSAyVUIsMiwzMCwxNS4wLDANCk5HMiA1SE4sNywxMDUsMTUuMCwxDQpORzMgMUxFLDEsMjcsMjcuMCwwDQpORzIgM0RXLDEsMTYsMTYuMCwwDQpORzIgN1JZLDIxLDMxNSwxNS4wLDENCk5HMyAzRU4sMSwzOCwzOC4wLDANCk5HMyA0SkwsMTIsNTcwLDQ3LjUsMQ0KTkc1IDJFVCw3LDEwOSwxNS41NywxDQpORzUgOVdBLDMsNDUsMTUuMCwxDQpORzIgNlBQLDIsMzAsMTUuMCwwDQpORzUgMUJXLDEyLDE4OCwxNS42NywxDQpORzkgMVBSLDksMTM3LDE1LjIyLDENCk5HNCAxSlksMiwzMCwxNS4wLDANCk5HMSAxTEYsMyw0NiwxNS4zMywxDQpORzEgMU5OLDcsMzEzLDQ0LjcxLDENCk5HNiAwR0EsMiwzMCwxNS4wLDANCk5HOCAzREosNCw2MCwxNS4wLDENCk5HMSA1QlQsMjAsMzAwLDE1LjAsMQ0KTkc4IDlRTiw5LDEzOCwxNS4zMywxDQpORzcgMkxGLDEsMTUsMTUuMCwwDQpORzUgME5ULDIsMzEsMTUuNSwwDQpORzMgMkVVLDIsMzAsMTUuMCwwDQpORzMgNk5ZLDEsMTcsMTcuMCwwDQpORzcgNEdSLDEsMTUsMTUuMCwwDQpORzIgNVhTLDIsNjEsMzAuNSwxDQpORzIgNVhaLDMsNDUsMTUuMCwxDQpORzMgNUhSLDQsNjAsMTUuMCwxDQpORzIgNEdXLDEsMTUsMTUuMCwwDQpORzkgMVBZLDEsNDQsNDQuMCwwDQpORzEyIDJBVCwzLDUxLDE3LjAsMQ0KTkczIDdGRSwyLDMwLDE1LjAsMA0KTkcyIDZRQiw5LDEzNiwxNS4xMSwxDQpORzcgMVJBLDQsNjMsMTUuNzUsMQ0KTkc1IDNGRCw2LDkyLDE1LjMzLDENCk5HNyAzTFQsMSwxNSwxNS4wLDANCk5HNiA2RUcsMSwxMzYsMTM2LjAsMQ0KTkc0IDFQRCwyLDMwLDE1LjAsMA0KTkc2IDhQSiwyLDMyLDE2LjAsMA0KTkcxMSA3QVgsMSw1MzksNTM5LjAsMQ0KTkc4IDZEUSwzLDQ1LDE1LjAsMQ0KTkcxIDFFUSw5LDEzNSwxNS4wLDENCk5HNiA5TEUsMSwxNiwxNi4wLDANCk5HOSAySkIsNiw5OSwxNi41LDENCk5HOCAzSFQsOSwxNDMsMTUuODksMQ0KTkc3IDFQWSw5LDEzNSwxNS4wLDENCk5HMTEgN0VTLDIsMzAsMTUuMCwwDQpORzMgNVNILDUsNzUsMTUuMCwxDQpORzEgNERCLDIsMzAsMTUuMCwwDQpORzggNUxXLDIsNTYsMjguMCwxDQpORzIgMVFILDEsMTUsMTUuMCwwDQpORzEgOUVaLDQsMzg4LDk3LjAsMQ0KTkcyIDdETCwxLDE2LDE2LjAsMA0KTkc1IDNIVywyLDMwLDE1LjAsMA0KTkcxIDNKUCw4LDE2NjE4LDIwNzcuMjUsMQ0KTkcxIDFEVSwxNCwyMjUsMTYuMDcsMQ0KTkcxIDlHRSwyLDMwLDE1LjAsMA0KTkc3IDZIQiwyLDM0LDE3LjAsMA0KTkc1IDFKRywxLDI4LDI4LjAsMA0KTkc3IDNQQiwxLDY4LDY4LjAsMQ0KTkcxIDZXWSwzNyw1NTgsMTUuMDgsMQ0KTkcxIDFFTiwyLDMwLDE1LjAsMA0KTkcyIDRERywxMCwxNTAsMTUuMCwxDQpORzIgOUpZLDEsNTgsNTguMCwwDQpORzcgMUpRLDMsNDUsMTUuMCwxDQpORzcgNVFYLDMsNTAsMTYuNjcsMQ0KTkczIDZHWSw2LDkxLDE1LjE3LDENCk5HOCA1V0UsMSwxNiwxNi4wLDANCk5HNyA3REIsMiwzMCwxNS4wLDANCk5HOCAzRU4sMiw5Miw0Ni4wLDENCk5HOSAyWlosMiwzMSwxNS41LDANCk5HNiA5RUosMyw1MSwxNy4wLDENCk5HNyAxRlAsMiwzMCwxNS4wLDANCk5HMSAxUVEsMSwxNSwxNS4wLDANCk5HOCAyUk4sMSwyMSwyMS4wLDANCk5HMiAxV1ksMSwxNSwxNS4wLDANCk5HOCAxTkQsMTAsMTY5LDE2LjksMQ0KTkc5IDJRQSwxLDE1LDE1LjAsMA0KTkczIDFGRiwyMiwzMzMsMTUuMTQsMQ0KTkc3IDFVQiwzLDQ1LDE1LjAsMQ0K').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -234,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'FakeIndividualConstituents.csv'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-info downloadthis  " id="dnldts39078"><i class="bi bi-database-fill-down"></i> Download FakeIndividualConstituents.csv </button></a></p>
+        });"><button class="btn btn-info downloadthis  " id="dnldts63202"><i class="bi bi-database-fill-down"></i> Download FakeIndividualConstituents.csv </button></a></p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'files/FakeIndividualConstituents.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -382,10 +392,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <section id="geocoding" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">GEOCODING</a></h1>
+<h1>GEOCODING</h1>
 <p>Lookup table connecting postcodes to the latitude/longitudes of their centres:</p>
 <blockquote class="blockquote">
-<p><a href="https://www.data.gov.uk/dataset/091feb1c-aea6-45c9-82bf-768a15c65307/open-postcode-geo">https://www.data.gov.uk/dataset/091feb1c-aea6-45c9-82bf-768a15c65307/open-postcode-geo</a></p>
+<p><a href="https://www.data.gov.uk/dataset/091feb1c-aea6-45c9-82bf-768a15c65307/open-postcode-geo">https://www.data.gov.uk/…</a></p>
 </blockquote>
 <p>See previous blog posts <a href="https://danieljamessmith.github.io/blog/posts/eh1/">(1)</a> <a href="https://danieljamessmith.github.io/blog/posts/eh2/">(2)</a> for the details of this geocoding process.</p>
 <div class="cell" data-execution_count="5">
@@ -543,10 +553,10 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="joining-oas" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">JOINING OAs</a></h1>
+<h1>JOINING OAs</h1>
 <p>In order to join demographic statistics onto the dataframe, we first need to convert postcodes into various output areas (OAs). Specifically OA2021, LSOA2021, LSOA2011 and MSOA2011.</p>
 <section id="what-are-output-areas-oas" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-output-areas-oas">2.1. <a id="toc2_1_"></a><a href="#toc0_">What are Output Areas (OAs)?</a></h2>
+<h2 class="anchored" data-anchor-id="what-are-output-areas-oas">What are Output Areas (OAs)?</h2>
 <blockquote class="blockquote">
 <ul>
 <li><p>Output Areas (OAs) are the smallest geographical unit for which census data is reported. In the UK, they were introduced for the 2001 Census and have been used since. They are designed to be of a similar population size, with each one containing at least 40 households and 100 individuals where possible. The aim is to provide a consistent base for reporting statistics over time.</p></li>
@@ -556,10 +566,10 @@ dtype: int64</code></pre>
 </blockquote>
 </section>
 <section id="joining-lsoa2021-and-oa2021-onto-postcode" class="level2">
-<h2 class="anchored" data-anchor-id="joining-lsoa2021-and-oa2021-onto-postcode">2.2. <a id="toc2_2_"></a><a href="#toc0_">JOINING LSOA2021 and OA2021 ONTO POSTCODE</a></h2>
+<h2 class="anchored" data-anchor-id="joining-lsoa2021-and-oa2021-onto-postcode">JOINING LSOA2021 and OA2021 ONTO POSTCODE</h2>
 <p>Lookup table for converting Postcode to LSOA2021 and OA2021:</p>
 <blockquote class="blockquote">
-<p><a href="https://geoportal.statistics.gov.uk/datasets/ons::postcode-to-oa21-to-lsoa21-to-msoa21-to-ltla22-to-utla22-to-cauth22-nov-2023-lookup-for-the-uk/about">https://geoportal.statistics.gov.uk/datasets/ons::postcode-to-oa21-to-lsoa21-to-msoa21-to-ltla22-to-utla22-to-cauth22-nov-2023-lookup-for-the-uk/about</a></p>
+<p><a href="https://geoportal.statistics.gov.uk/datasets/ons::postcode-to-oa21-to-lsoa21-to-msoa21-to-ltla22-to-utla22-to-cauth22-nov-2023-lookup-for-the-uk/about">https://geoportal.statistics.gov.uk/…</a></p>
 </blockquote>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the lookup table and display 5 random rows</span></span>
@@ -878,10 +888,10 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="joining-msoa2011-onto-postcode" class="level2">
-<h2 class="anchored" data-anchor-id="joining-msoa2011-onto-postcode">2.3. <a id="toc2_3_"></a><a href="#toc0_">JOINING MSOA2011 ONTO POSTCODE</a></h2>
+<h2 class="anchored" data-anchor-id="joining-msoa2011-onto-postcode">JOINING MSOA2011 ONTO POSTCODE</h2>
 <p>Lookup table for converting Postcode to MSOA2011:</p>
 <blockquote class="blockquote">
-<p><a href="https://geoportal.statistics.gov.uk/datasets/e7824b1475604212a2325cd373946235/about">https://geoportal.statistics.gov.uk/datasets/e7824b1475604212a2325cd373946235/about</a></p>
+<p><a href="https://geoportal.statistics.gov.uk/datasets/e7824b1475604212a2325cd373946235/about">https://geoportal.statistics.gov.uk/…</a></p>
 </blockquote>
 <p>Please note that I have renamed my file to <code>pcd_to_oa11_msoa11_lsoa11.csv</code> from <code>PCD_OA_LSOA_MSOA_LAD_MAY22_UK_LU.csv</code> which was the name it had at download time.</p>
 <div class="cell" data-execution_count="12">
@@ -1078,20 +1088,20 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="joining-demographic-statistics-onto-oas" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">JOINING DEMOGRAPHIC STATISTICS ONTO OAs</a></h1>
+<h1>JOINING DEMOGRAPHIC STATISTICS ONTO OAs</h1>
 <section id="understanding-the-index-of-multiple-deprivation-imd-score" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-the-index-of-multiple-deprivation-imd-score">3.1. <a id="toc3_1_"></a><a href="#toc0_">Understanding the Index of Multiple Deprivation (IMD) Score</a></h2>
+<h2 class="anchored" data-anchor-id="understanding-the-index-of-multiple-deprivation-imd-score">Understanding the Index of Multiple Deprivation (IMD) Score</h2>
 <p>The IMD Score is a measure of relative deprivation for small areas in the UK. It combines information from seven domains to produce an overall relative measure of deprivation. The higher the IMD Score, the more deprived an area is considered to be. Unlike the IMD Rank, which ranks areas in order, the IMD Score provides a measure of the absolute level of deprivation.</p>
 </section>
 <section id="joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011" class="level2">
-<h2 class="anchored" data-anchor-id="joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011">3.2. <a id="toc3_2_"></a><a href="#toc0_">Joining IMD2019 onto <code>df</code> by first coverting LSOA2021 to LSOA2011:</a></h2>
+<h2 class="anchored" data-anchor-id="joining-imd2019-onto-df-by-first-coverting-lsoa2021-to-lsoa2011">Joining IMD2019 onto <code>df</code> by first coverting LSOA2021 to LSOA2011:</h2>
 <p>Lookup table coverting LSOA2021 to LSOA2011:</p>
 <blockquote class="blockquote">
-<p><a href="https://geoportal.statistics.gov.uk/datasets/ons::lsoa-2011-to-lsoa-2021-to-local-authority-district-2022-lookup-for-england-and-wales-version-2-1/about">https://geoportal.statistics.gov.uk/datasets/ons::lsoa-2011-to-lsoa-2021-to-local-authority-district-2022-lookup-for-england-and-wales-version-2-1/about</a></p>
+<p><a href="https://geoportal.statistics.gov.uk/datasets/ons::lsoa-2011-to-lsoa-2021-to-local-authority-district-2022-lookup-for-england-and-wales-version-2-1/about">https://geoportal.statistics.gov.uk/…</a></p>
 </blockquote>
 <p>Lookup table converting LSOA2011 to Index of Multiple Deprivation (IMD) 2019:</p>
 <blockquote class="blockquote">
-<p><a href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019">https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019</a></p>
+<p><a href="https://www.gov.uk/government/statistics/english-indices-of-deprivation-2019">https://www.gov.uk/government/statistics/…</a></p>
 </blockquote>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the LSOA lookup data</span></span>
@@ -1128,7 +1138,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <section id="using-knnimputer-to-fill-missing-imd-scores" class="level3">
-<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-imd-scores">3.2.1. <a id="toc3_2_1_"></a><a href="#toc0_">Using <code>KNNImputer</code> to fill missing IMD scores:</a></h3>
+<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-imd-scores">Using <code>KNNImputer</code> to fill missing IMD scores:</h3>
 <div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe with only the columns of interest</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>geo_data <span class="op">=</span> df[[<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>, <span class="st">'IMD_Score'</span>]]</span>
@@ -1154,10 +1164,10 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="joining-population-density-onto-lsoa2021" class="level2">
-<h2 class="anchored" data-anchor-id="joining-population-density-onto-lsoa2021">3.3. <a id="toc3_3_"></a><a href="#toc0_">Joining population density onto LSOA2021:</a></h2>
+<h2 class="anchored" data-anchor-id="joining-population-density-onto-lsoa2021">Joining population density onto LSOA2021:</h2>
 <p>Lookup table connecting LSOA2021 to population density:</p>
 <blockquote class="blockquote">
-<p><a href="https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity">https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity</a></p>
+<p><a href="https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity">https://www.ons.gov.uk/peoplepopulationandcommunity/…</a></p>
 </blockquote>
 <p>Please note I used the ‘Mid-2020: SAPE23DT11’ edition of this dataset.</p>
 <div class="cell" data-execution_count="21">
@@ -1291,7 +1301,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <section id="using-knnimputer-to-fill-missing-population-densities" class="level3">
-<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-population-densities">3.3.1. <a id="toc3_3_1_"></a><a href="#toc0_">Using <code>KNNImputer</code> to fill missing population densities</a></h3>
+<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-population-densities">Using <code>KNNImputer</code> to fill missing population densities</h3>
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe with only the columns of interest</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>pop_data <span class="op">=</span> df[[<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>, <span class="st">'PopDensity'</span>]]</span>
@@ -1317,10 +1327,10 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="joining-average-annual-income-onto-msoa2011" class="level2">
-<h2 class="anchored" data-anchor-id="joining-average-annual-income-onto-msoa2011">3.4. <a id="toc3_4_"></a><a href="#toc0_">Joining Average Annual Income onto MSOA2011</a></h2>
+<h2 class="anchored" data-anchor-id="joining-average-annual-income-onto-msoa2011">Joining Average Annual Income onto MSOA2011</h2>
 <p>Lookup table joining MSOA2011 to Average Annual Income:</p>
 <blockquote class="blockquote">
-<p><a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/smallareaincomeestimatesformiddlelayersuperoutputareasenglandandwales">https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/smallareaincomeestimatesformiddlelayersuperoutputareasenglandandwales</a></p>
+<p><a href="https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/smallareaincomeestimatesformiddlelayersuperoutputareasenglandandwales">https://www.ons.gov.uk/employmentandlabourmarket/…</a></p>
 </blockquote>
 <p>Please note that my file <code>MSOA2011_to_Income.csv</code> is the ‘Total Annual Income’ sheet of the Financial year ending 2020 edition of this dataset.</p>
 <div class="cell" data-execution_count="26">
@@ -1484,7 +1494,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <section id="using-knnimputer-to-fill-missing-avgareaincome-values" class="level3">
-<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-avgareaincome-values">3.4.1. <a id="toc3_4_1_"></a><a href="#toc0_">Using <code>KNNImputer</code> to fill missing ‘AvgAreaIncome’ values</a></h3>
+<h3 class="anchored" data-anchor-id="using-knnimputer-to-fill-missing-avgareaincome-values">Using <code>KNNImputer</code> to fill missing ‘AvgAreaIncome’ values</h3>
 <div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new dataframe `inc_data` with only the columns of interest</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>inc_data <span class="op">=</span> df[[<span class="st">'Latitude'</span>, <span class="st">'Longitude'</span>, <span class="st">'AvgAreaIncome'</span>]]</span>
@@ -1511,7 +1521,7 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="visualising-results-with-folium" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">VISUALISING RESULTS WITH FOLIUM</a></h1>
+<h1>VISUALISING RESULTS WITH FOLIUM</h1>
 <div class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> folium.Map(location<span class="op">=</span>[<span class="fl">52.9548</span>, <span class="op">-</span><span class="fl">1.1581</span>], zoom_start<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3799,9 +3809,9 @@ dtype: int64</code></pre>
 </blockquote>
 </section>
 <section id="relationships-between-demographic-statistics-donation-history" class="level1">
-<h1>5. <a id="toc5_"></a><a href="#toc0_">Relationships between demographic statistics &amp; donation history</a></h1>
+<h1>Relationships between demographic statistics &amp; donation history</h1>
 <section id="imd-score" class="level2">
-<h2 class="anchored" data-anchor-id="imd-score">5.1. <a id="toc5_1_"></a><a href="#toc0_">IMD Score</a></h2>
+<h2 class="anchored" data-anchor-id="imd-score">IMD Score</h2>
 <div class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">24</span>, <span class="dv">8</span>))</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3831,7 +3841,7 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="population-density" class="level2">
-<h2 class="anchored" data-anchor-id="population-density">5.2. <a id="toc5_2_"></a><a href="#toc0_">Population Density</a></h2>
+<h2 class="anchored" data-anchor-id="population-density">Population Density</h2>
 <div class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">24</span>, <span class="dv">8</span>))</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3864,7 +3874,7 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="average-income" class="level2">
-<h2 class="anchored" data-anchor-id="average-income">5.3. <a id="toc5_3_"></a><a href="#toc0_">Average Income</a></h2>
+<h2 class="anchored" data-anchor-id="average-income">Average Income</h2>
 <div class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">24</span>, <span class="dv">8</span>))</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3898,7 +3908,7 @@ dtype: int64</code></pre>
 </section>
 </section>
 <section id="remarks" class="level1">
-<h1>6. <a id="toc6_"></a><a href="#toc0_">Remarks</a></h1>
+<h1>Remarks</h1>
 <blockquote class="blockquote">
 <ul>
 <li><p>It may be tempting to write off the negligble correlations shown in the above plots as facets of the fact that the donors in <code>FakeIndividualConstituents.csv</code> have randomly selected postcodes and crudely contructed donation histories.</p></li>

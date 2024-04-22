@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -101,7 +101,29 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-boltzmann-equation" id="toc-the-boltzmann-equation" class="nav-link active" data-scroll-target="#the-boltzmann-equation">The Boltzmann Equation</a>
+  <ul class="collapse">
+  <li><a href="#the-evolution-equations" id="toc-the-evolution-equations" class="nav-link" data-scroll-target="#the-evolution-equations">The Evolution Equations</a></li>
+  <li><a href="#boundary-conditions" id="toc-boundary-conditions" class="nav-link" data-scroll-target="#boundary-conditions">Boundary conditions</a></li>
+  <li><a href="#collision-kernels" id="toc-collision-kernels" class="nav-link" data-scroll-target="#collision-kernels">Collision kernels</a></li>
+  <li><a href="#the-h-theorem" id="toc-the-h-theorem" class="nav-link" data-scroll-target="#the-h-theorem">The H Theorem</a>
+  <ul class="collapse">
+  <li><a href="#theorem-1.4.1-boltzmanns-h-theorem" id="toc-theorem-1.4.1-boltzmanns-h-theorem" class="nav-link" data-scroll-target="#theorem-1.4.1-boltzmanns-h-theorem">Theorem 1.4.1 (Boltzmann’s H Theorem)</a></li>
+  </ul></li>
+  <li><a href="#collision-invariants-and-conservation-laws" id="toc-collision-invariants-and-conservation-laws" class="nav-link" data-scroll-target="#collision-invariants-and-conservation-laws">Collision Invariants and conservation laws</a>
+  <ul class="collapse">
+  <li><a href="#lemma-1.5.1" id="toc-lemma-1.5.1" class="nav-link" data-scroll-target="#lemma-1.5.1">Lemma 1.5.1</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -144,29 +166,11 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">The Boltzmann Equation</a><br>
-1.1. <a href="#toc1_1_">The Evolution Equations</a><br>
-1.2. <a href="#toc1_2_">Boundary conditions</a><br>
-1.3. <a href="#toc1_3_">Collision kernels</a><br>
-1.4. <a href="#toc1_4_">The H Theorem</a><br>
-1.4.1. <a href="#toc1_4_1_">Theorem 1.4.1 (Boltzmann’s H Theorem)</a><br>
-1.5. <a href="#toc1_5_">Collision Invariants and conservation laws</a><br>
-1.5.1. <a href="#toc1_5_1_">Lemma 1.5.1</a><br>
-2. <a href="#toc2_">References</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="the-boltzmann-equation" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">The Boltzmann Equation</a></h1>
+<h1>The Boltzmann Equation</h1>
 <hr>
 <section id="the-evolution-equations" class="level2">
-<h2 class="anchored" data-anchor-id="the-evolution-equations">1.1. <a id="toc1_1_"></a><a href="#toc0_">The Evolution Equations</a></h2>
+<h2 class="anchored" data-anchor-id="the-evolution-equations">The Evolution Equations</h2>
 <p>The <strong>Boltzmann equation</strong> (also known as the <strong>Boltzmann transport equation</strong>) models the behaviour of a gas comprised of a single particle species, sufficiently dilute so that quantum effects are negligible and when all inter-particle interactions are assumed to be elastic binary collisions:</p>
 <p><span class="math display">\[\begin{aligned}
 \frac{\partial f}{\partial t} + v\cdot \nabla_{x} f = Q(f,f),\quad x\in X,\: v\in \mathbb{R}^d,\: t\geq0.
@@ -236,7 +240,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 <hr>
 </section>
 <section id="boundary-conditions" class="level2">
-<h2 class="anchored" data-anchor-id="boundary-conditions">1.2. <a id="toc1_2_"></a><a href="#toc0_">Boundary conditions</a></h2>
+<h2 class="anchored" data-anchor-id="boundary-conditions">Boundary conditions</h2>
 <p>For there to be any hope of our problem being well-posed we need to supplement the Boltzmann equation with boundary conditions, modelling the interactions between the particles and the boundary <span class="math inline">\(\partial X\)</span> of the spatial domain <span class="math inline">\(X\)</span>.</p>
 <p>Of course, the only thing restricting the choice of such boundary conditions is our imagination. We briefly discuss some of the most popular and physically relevant choices.</p>
 <ul>
@@ -257,7 +261,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 <hr>
 </section>
 <section id="collision-kernels" class="level2">
-<h2 class="anchored" data-anchor-id="collision-kernels">1.3. <a id="toc1_3_"></a><a href="#toc0_">Collision kernels</a></h2>
+<h2 class="anchored" data-anchor-id="collision-kernels">Collision kernels</h2>
 <p>The collision kernel <span class="math inline">\(B\)</span> is related to the physical cross section <span class="math inline">\(\Sigma(v-v_*,\sigma)\)</span> by the identity</p>
 <p><span class="math display">\[\begin{aligned}
     B = |v-v_*|\Sigma
@@ -296,7 +300,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 \end{aligned}\]</span></p>
 </section>
 <section id="the-h-theorem" class="level2">
-<h2 class="anchored" data-anchor-id="the-h-theorem">1.4. <a id="toc1_4_"></a><a href="#toc0_">The H Theorem</a></h2>
+<h2 class="anchored" data-anchor-id="the-h-theorem">The H Theorem</h2>
 <p>For a probability density <span class="math inline">\(f\)</span> on <span class="math inline">\(X \times \mathbb{R}^d\)</span> define Boltzmann’s <strong>H functional</strong> by <span class="math display">\[\begin{aligned}
     H(f)
 = \int_{X\times\mathbb{R}^d}f\log f\,\text{d} x\,\text{d} v.
@@ -305,7 +309,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 <p>Boltzmann’s <strong>H theorem</strong> loosely states that <span class="math inline">\(H(f)\)</span> is a quantity monotonically decreasing (non-increasing) in time, and is stationary if and only if <span class="math inline">\(f\)</span> is a Maxwellian. Making this precise is a task more technical that it might first appear.</p>
 <hr>
 <section id="theorem-1.4.1-boltzmanns-h-theorem" class="level3">
-<h3 class="anchored" data-anchor-id="theorem-1.4.1-boltzmanns-h-theorem">1.4.1. <a id="toc1_4_1_"></a><a href="#toc0_">Theorem 1.4.1 (Boltzmann’s H Theorem)</a></h3>
+<h3 class="anchored" data-anchor-id="theorem-1.4.1-boltzmanns-h-theorem">Theorem 1.4.1 (Boltzmann’s H Theorem)</h3>
 <p>Let <span class="math inline">\((f_t)_{t\geq0}\)</span> be a well-behaved (smooth) solution of the Boltzmann equation (in particular with finite entropy), with either periodic, bounce-back or specular boundary conditions. In the latter case assume further that <span class="math inline">\(d = 2 \text{ or } 3\)</span> and the spatial domain <span class="math inline">\(X\)</span> has no axis of symmetry. Then:</p>
 <ol type="1">
 <li><p><span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) \leq 0.\]</span> Moreover, one can define another functional <span class="math inline">\(D\)</span> on <span class="math inline">\(L^1\left(\mathbb{R}^d\right)\)</span> called the such that <span class="math display">\[\frac{\text{d}}{\text{d} t} H(f_t) = -\int_X D(f_t(x,\cdot\,)\,\text{d} x.\]</span></p></li>
@@ -323,7 +327,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 </section>
 </section>
 <section id="collision-invariants-and-conservation-laws" class="level2">
-<h2 class="anchored" data-anchor-id="collision-invariants-and-conservation-laws">1.5. <a id="toc1_5_"></a><a href="#toc0_">Collision Invariants and conservation laws</a></h2>
+<h2 class="anchored" data-anchor-id="collision-invariants-and-conservation-laws">Collision Invariants and conservation laws</h2>
 <p>The entropy dissipation functional <span class="math inline">\(D\)</span> introduced in Theorem 1 can be expressed as</p>
 <p><span class="math display">\[\begin{aligned}
    D(f) = \frac{1}{4}\int_{\mathbb{R}^d\times\mathbb{R}^d\times\mathbb{S}^{d-1}}B(v-v_{*},\sigma)(f'f'_*-ff_*)\mathrm{log}\,\frac{f'f'_*}{ff_*}\,\text{d}\sigma\,\text{d} v_*\,\text{d} v.
@@ -336,7 +340,7 @@ Q(f,f) = Q^+(f,f)-Q^-(f,f),
 <p>The derivation of the above formula for <span class="math inline">\(D\)</span> relies on the following lemma used to symmetrize the Boltzmann operator <span class="math inline">\(Q\)</span>:</p>
 <hr>
 <section id="lemma-1.5.1" class="level3">
-<h3 class="anchored" data-anchor-id="lemma-1.5.1">1.5.1. <a id="toc1_5_1_"></a><a href="#toc0_">Lemma 1.5.1</a></h3>
+<h3 class="anchored" data-anchor-id="lemma-1.5.1">Lemma 1.5.1</h3>
 <p>The change of variables interchanging the primed and unprimed velocities</p>
 <p><span class="math display">\[\begin{aligned}
     (v,v_*,\sigma) \longmapsto (v',v'_*,k)\\
@@ -380,7 +384,7 @@ Repeated application of Lemma 1 to an integral of the form <span class="math inl
 </section>
 </section>
 <section id="references" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">References</a></h1>
+<h1>References</h1>
 <ul>
 <li>[1.] Carlo Cercignani et al.&nbsp;<em>Mathematical methods in kinetic theory</em>, volume 1. Springer, 1969.</li>
 <li>[2.] Cédric Villani. <em>A review of mathematical topics in collisional kinetic theory</em>. Handbook of mathematical fluid dynamics, 1(71-305):3–8, 2002.</li>
@@ -470,6 +474,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,

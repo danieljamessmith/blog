@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "djs"
+  title: "Blog"
   site-url: "https://danieljamessmith.github.io/portfolio/"
   navbar:
     right:
@@ -14,9 +14,15 @@ format:
     theme: Lux
     css: styles.css
     grid: 
-      body-width: 1500px
-      sidebar-width: 200px
-      margin-width: 200px
+      body-width: 1000px
+      sidebar-width: 300px
+      margin-width: 300px
+
+mathjax: true
+
+font:
+  main: Roboto 
+  mono: Courier New 
 
 
 

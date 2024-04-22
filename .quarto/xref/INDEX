@@ -237,9 +237,16 @@
     "index.html": "3bfcf7ab"
   },
   "posts/eh5/index.ipynb": {
-    "index.html": "a8a98262"
+    "index.html": "a8a98262",
+    "index.out.ipynb": "52462bf3",
+    "index.tex": "8d0206c3"
   },
   "posts/yt3/index.ipynb": {
-    "index.html": "188b5b06"
+    "index.html": "188b5b06",
+    "index.out.ipynb": "2d3f5b1f",
+    "index.tex": "3dba24ce"
+  },
+  "docs/posts/yt3/index.out.ipynb": {
+    "index.out.html": "34543b5c"
   }
 }

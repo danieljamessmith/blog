@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,7 +136,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-imports" id="toc-data-imports" class="nav-link active" data-scroll-target="#data-imports">Data Imports</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">—</a></li>
+  </ul></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#missing-values-and-feature-engineering" id="toc-missing-values-and-feature-engineering" class="nav-link" data-scroll-target="#missing-values-and-feature-engineering">Missing Values and Feature Engineering</a>
+  <ul class="collapse">
+  <li><a href="#emp_title-and-emp_length" id="toc-emp_title-and-emp_length" class="nav-link" data-scroll-target="#emp_title-and-emp_length"><code>emp_title</code> and <code>emp_length</code></a></li>
+  <li><a href="#filling-mort_acc-using-total_acc" id="toc-filling-mort_acc-using-total_acc" class="nav-link" data-scroll-target="#filling-mort_acc-using-total_acc">Filling <code>mort_acc</code> using <code>total_acc</code></a></li>
+  <li><a href="#categorical-features" id="toc-categorical-features" class="nav-link" data-scroll-target="#categorical-features">Categorical Features</a></li>
+  </ul></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a>
+  <ul class="collapse">
+  <li><a href="#traintest-split" id="toc-traintest-split" class="nav-link" data-scroll-target="#traintest-split">TRAIN/TEST SPLIT</a></li>
+  <li><a href="#normalising-the-data" id="toc-normalising-the-data" class="nav-link" data-scroll-target="#normalising-the-data">Normalising the Data</a></li>
+  </ul></li>
+  <li><a href="#model-selection-and-hyperparameter-tuning-with-optuna" id="toc-model-selection-and-hyperparameter-tuning-with-optuna" class="nav-link" data-scroll-target="#model-selection-and-hyperparameter-tuning-with-optuna">Model Selection and Hyperparameter Tuning with Optuna</a></li>
+  <li><a href="#fitting-the-best-model-and-predicting-on-test-set" id="toc-fitting-the-best-model-and-predicting-on-test-set" class="nav-link" data-scroll-target="#fitting-the-best-model-and-predicting-on-test-set">Fitting the Best Model and Predicting on Test Set</a></li>
+  <li><a href="#examining-misclassified-points" id="toc-examining-misclassified-points" class="nav-link" data-scroll-target="#examining-misclassified-points">Examining Misclassified Points</a>
+  <ul class="collapse">
+  <li><a href="#producing-some-visualisations-investigating-the-distribution-of-misclassified-points" id="toc-producing-some-visualisations-investigating-the-distribution-of-misclassified-points" class="nav-link" data-scroll-target="#producing-some-visualisations-investigating-the-distribution-of-misclassified-points">Producing some visualisations investigating the distribution of misclassified points</a></li>
+  </ul></li>
+  <li><a href="#remarks-further-directions" id="toc-remarks-further-directions" class="nav-link" data-scroll-target="#remarks-further-directions">Remarks &amp; Further Directions</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -231,33 +261,8 @@ Python 3.11.4</code></pre>
 2.14.0</code></pre>
 </div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">Data Imports</a><br>
-2. <a href="#toc2_">Exploratory Data Analysis</a><br>
-3. <a href="#toc3_">Missing Values and Feature Engineering</a><br>
-3.1. <a href="#toc3_1_"><code>emp_title</code> and <code>emp_length</code></a><br>
-3.2. <a href="#toc3_2_">Filling <code>mort_acc</code> using <code>total_acc</code></a><br>
-3.3. <a href="#toc3_3_">Categorical Features</a><br>
-4. <a href="#toc4_">Preprocessing</a><br>
-4.1. <a href="#toc4_1_">TRAIN/TEST SPLIT</a><br>
-4.2. <a href="#toc4_2_">Normalising the Data</a><br>
-5. <a href="#toc5_">Model Selection and Hyperparameter Tuning with Optuna</a><br>
-6. <a href="#toc6_">Fitting the Best Model and Predicting on Test Set</a><br>
-7. <a href="#toc7_">Examining Misclassified Points</a><br>
-7.1. <a href="#toc7_1_">Producing some visualisations investigating the distribution of misclassified points</a><br>
-8. <a href="#toc8_">Remarks &amp; Further Directions</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <section id="data-imports" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">Data Imports</a></h1>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section">—-</h2>
+<h1>Data Imports</h1>
 <p>We use a modified LendingClub dataset from Kaggle, sourced from <a href="https://www.udemy.com/course/python-for-data-science-and-machine-learning-bootcamp/?couponCode=LETSLEARNNOWPP">Udemy course by Jose Portilla</a>.</p>
 <p>Before preprocessing, the dataset has the following features:</p>
 
@@ -586,10 +591,9 @@ Number of public record bankruptcies
 </tbody>
 
 </table>
-</section>
-<section id="section-1" class="level2">
-<h2 class="anchored" data-anchor-id="section-1">—</h2>
-<div class="cell" data-tags="[]" data-execution_count="5">
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section">—</h2>
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'lending_club_loan.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="6">
@@ -795,10 +799,10 @@ memory usage: 81.6+ MB</code></pre>
 </section>
 </section>
 <section id="exploratory-data-analysis" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">Exploratory Data Analysis</a></h1>
+<h1>Exploratory Data Analysis</h1>
 <p>In this section I produce some figures while exploring the distribution of the dataset.</p>
 <p>The uninterested should feel free to skip forward a section</p>
-<div class="cell" data-tags="[]" data-execution_count="8">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(x<span class="op">=</span><span class="st">'loan_status'</span>,data<span class="op">=</span>df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>&lt;Axes: xlabel='loan_status', ylabel='count'&gt;</code></pre>
@@ -1172,11 +1176,11 @@ memory usage: 81.6+ MB</code></pre>
 </div>
 </section>
 <section id="missing-values-and-feature-engineering" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">Missing Values and Feature Engineering</a></h1>
+<h1>Missing Values and Feature Engineering</h1>
 <p>Some of the columns in the dataframe have missing values which we need to fill before we can hope to train any machine learning models.</p>
 <p>In this section we also conduct “feature engineering”, creating new columns from the existing columns in order to try and enhance the expressibility of the data.</p>
 <p>The categorical features also need to be encoded. The machine learning algorithms I want to search over cannot all handle textual data such as ‘False’, so we need to conduct <a href="https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/">One Hot Encoding</a> to ensure the dataframe only consists of numeric columns.</p>
-<div class="cell" data-tags="[]" data-execution_count="20">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'loan_repaid'</span>] <span class="op">=</span> (df[<span class="st">'loan_status'</span>] <span class="op">==</span> <span class="st">'Fully Paid'</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'loan_repaid'</span>,<span class="st">'loan_status'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
@@ -1381,8 +1385,8 @@ Name: purpose, Length: 396030, dtype: object</code></pre>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(<span class="st">'title'</span>,axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="emp_title-and-emp_length" class="level2">
-<h2 class="anchored" data-anchor-id="emp_title-and-emp_length">3.1. <a id="toc3_1_"></a><a href="#toc0_"><code>emp_title</code> and <code>emp_length</code></a></h2>
-<div class="cell" data-tags="[]" data-execution_count="28">
+<h2 class="anchored" data-anchor-id="emp_title-and-emp_length"><code>emp_title</code> and <code>emp_length</code></h2>
+<div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'emp_title'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>0                        Marketing
@@ -1500,8 +1504,8 @@ Name: emp_length, Length: 396030, dtype: object</code></pre>
 </div>
 </section>
 <section id="filling-mort_acc-using-total_acc" class="level2">
-<h2 class="anchored" data-anchor-id="filling-mort_acc-using-total_acc">3.2. <a id="toc3_2_"></a><a href="#toc0_">Filling <code>mort_acc</code> using <code>total_acc</code></a></h2>
-<div class="cell" data-tags="[]" data-execution_count="38">
+<h2 class="anchored" data-anchor-id="filling-mort_acc-using-total_acc">Filling <code>mort_acc</code> using <code>total_acc</code></h2>
+<div class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>percentage_null(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1714,9 +1718,9 @@ dtype: float64</code></pre>
 </div>
 </section>
 <section id="categorical-features" class="level2">
-<h2 class="anchored" data-anchor-id="categorical-features">3.3. <a id="toc3_3_"></a><a href="#toc0_">Categorical Features</a></h2>
+<h2 class="anchored" data-anchor-id="categorical-features">Categorical Features</h2>
 <p>Here we treat the categorical features such as <code>home_ownership</code> and <code>purpose</code> by either dropping them or one-hot encoding them as to end with a dataframe consisting only of numeric features.</p>
-<div class="cell" data-tags="[]" data-execution_count="48">
+<div class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>df.select_dtypes([<span class="st">'object'</span>]).columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="48">
 <pre><code>Index(['term', 'grade', 'sub_grade', 'home_ownership', 'verification_status',
@@ -1898,9 +1902,9 @@ Name: earliest_cr_year, Length: 395219, dtype: int64</code></pre>
 </section>
 </section>
 <section id="preprocessing" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">Preprocessing</a></h1>
+<h1>Preprocessing</h1>
 <p>After our feature engineering we have the following dataset:</p>
-<div class="cell" data-tags="[]" data-execution_count="65">
+<div class="cell" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="65">
 <div>
@@ -2326,10 +2330,10 @@ memory usage: 143.2 MB</code></pre>
 </div>
 </div>
 <section id="traintest-split" class="level2">
-<h2 class="anchored" data-anchor-id="traintest-split">4.1. <a id="toc4_1_"></a><a href="#toc0_">TRAIN/TEST SPLIT</a></h2>
+<h2 class="anchored" data-anchor-id="traintest-split">TRAIN/TEST SPLIT</h2>
 <p>Splitting the dataset into a training set and a test set:</p>
 <p>(Note that cross-validation is performed inside the Optuna study, so we don’t need to separate out a validation set here)</p>
-<div class="cell" data-tags="[]" data-execution_count="97">
+<div class="cell" data-execution_count="97">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.drop(<span class="st">'loan_repaid'</span>, axis<span class="op">=</span><span class="dv">1</span>).values</span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'loan_repaid'</span>].values</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2354,10 +2358,10 @@ Test set shape:  (19761, 78) (19761,)</code></pre>
 </div>
 </section>
 <section id="normalising-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="normalising-the-data">4.2. <a id="toc4_2_"></a><a href="#toc0_">Normalising the Data</a></h2>
+<h2 class="anchored" data-anchor-id="normalising-the-data">Normalising the Data</h2>
 <p>Some machine learning algorithms require all columns of the dataframe to consist of data on comparable scales. We use <code>StandardScalar</code> from scikit-learn to force this to be true.</p>
 <p>There is rarely a drawback to normalising data like this. If in doubt, normalise.</p>
-<div class="cell" data-tags="[]" data-execution_count="73">
+<div class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="74">
@@ -2385,7 +2389,7 @@ Test set shape:  (19761, 78) (19761,)</code></pre>
 </section>
 </section>
 <section id="model-selection-and-hyperparameter-tuning-with-optuna" class="level1">
-<h1>5. <a id="toc5_"></a><a href="#toc0_">Model Selection and Hyperparameter Tuning with Optuna</a></h1>
+<h1>Model Selection and Hyperparameter Tuning with Optuna</h1>
 <p>The following two code cells implement an Optuna study to select a model with tuned hyperparameters to maximize the F1 score using cross-validation.</p>
 <ul>
 <li><p>We tune to maximize the F1 score of the classifiers rather than other metrics (such as classification accuracy) because the target <code>loan_repaid</code> is imbalanced.</p></li>
@@ -2395,7 +2399,7 @@ Test set shape:  (19761, 78) (19761,)</code></pre>
 <li><p>Combining the model selection and hyperparameter tuning into a single Optuna study is elegant and allows for a more automated tuning process. It also allows for computational gains due to the shared hyperparameters between the tree-based models <code>DecisionTreeClasifier</code>, <code>RandomForestClassifier</code> and <code>XGBClassifier</code>. In expense for the higher degree of automation the user gains less insight into the reasons behind the model selection than they would if the model was selected manually.</p></li>
 <li><p>Attempts to incorporate a support vector machine (<code>SVC</code> from sklearn) into the study failed due to the training time required.</p></li>
 </ul>
-<div class="cell" data-tags="[]" data-execution_count="72">
+<div class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective(trial):</span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>    model_type <span class="op">=</span> trial.suggest_categorical(<span class="st">'model_type'</span>, [<span class="st">'random_forest'</span>, <span class="st">'decision_tree'</span>, <span class="st">'xgboost'</span>, <span class="st">'neural_network'</span>, <span class="st">'logistic_regression'</span>])</span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -2555,10 +2559,10 @@ Test set shape:  (19761, 78) (19761,)</code></pre>
 </div>
 </section>
 <section id="fitting-the-best-model-and-predicting-on-test-set" class="level1">
-<h1>6. <a id="toc6_"></a><a href="#toc0_">Fitting the Best Model and Predicting on Test Set</a></h1>
+<h1>Fitting the Best Model and Predicting on Test Set</h1>
 <p>The Optuna study tried all of the allowed models at least once, and settled on a <code>RandomForestClassifier</code> being the one that maxmised the mean of the F1 scores across each fold of the cross-validation.</p>
 <p>Initialising and fitting this model to the train set:</p>
-<div class="cell" data-tags="[]" data-execution_count="77">
+<div class="cell" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'max_depth'</span>: <span class="dv">31</span>, <span class="st">'min_samples_split'</span>: <span class="dv">2</span>, <span class="st">'min_samples_leaf'</span>: <span class="dv">1</span>, <span class="st">'n_estimators'</span>: <span class="dv">297</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="78">
@@ -2603,9 +2607,9 @@ weighted avg       0.90      0.89      0.87     19761
 </div>
 </section>
 <section id="examining-misclassified-points" class="level1">
-<h1>7. <a id="toc7_"></a><a href="#toc0_">Examining Misclassified Points</a></h1>
+<h1>Examining Misclassified Points</h1>
 <p>Printing the features of a random false positive and a random false negative:</p>
-<div class="cell" data-tags="[]" data-execution_count="95">
+<div class="cell" data-execution_count="95">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_rows'</span>, <span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -2806,8 +2810,8 @@ Name: 8627, dtype: float64</code></pre>
 </div>
 </div>
 <section id="producing-some-visualisations-investigating-the-distribution-of-misclassified-points" class="level2">
-<h2 class="anchored" data-anchor-id="producing-some-visualisations-investigating-the-distribution-of-misclassified-points">7.1. <a id="toc7_1_"></a><a href="#toc0_">Producing some visualisations investigating the distribution of misclassified points</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="86">
+<h2 class="anchored" data-anchor-id="producing-some-visualisations-investigating-the-distribution-of-misclassified-points">Producing some visualisations investigating the distribution of misclassified points</h2>
+<div class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>misclassified <span class="op">=</span> df.iloc[np.concatenate((fp_indices[<span class="dv">0</span>], fn_indices[<span class="dv">0</span>]))].copy()</span>
 <span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a>misclassified.loc[:, <span class="st">'type'</span>] <span class="op">=</span> [<span class="st">'FP'</span> <span class="cf">if</span> i <span class="kw">in</span> fp_indices[<span class="dv">0</span>] <span class="cf">else</span> <span class="st">'FN'</span> <span class="cf">for</span> i <span class="kw">in</span> misclassified.index]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -2856,14 +2860,10 @@ Name: 8627, dtype: float64</code></pre>
 </section>
 </section>
 <section id="remarks-further-directions" class="level1">
-<h1>8. <a id="toc8_"></a><a href="#toc0_">Remarks &amp; Further Directions</a></h1>
+<h1>Remarks &amp; Further Directions</h1>
 <blockquote class="blockquote">
 <p>I would’ve liked to conduct more extensive Optuna studies with more trials, but was limited by the extensive training time. The Optuna study above alone took &gt;2 hours. Conducting several studies turned out to just be impractical.</p>
-</blockquote>
-<blockquote class="blockquote">
 <p>Similarly, I wanted to conduct a seperate Optuna study tuning only over neural networks of varying architecture.</p>
-</blockquote>
-<blockquote class="blockquote">
 <p>I would’ve preferred to include a <code>SupportVectorClassifier</code> in the study, but again was limited by my computational resources.</p>
 </blockquote>
 
@@ -2950,6 +2950,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,

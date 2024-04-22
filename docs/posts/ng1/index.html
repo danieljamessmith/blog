@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -135,7 +135,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">DATA</a>
+  <ul class="collapse">
+  <li><a href="#important-remark" id="toc-important-remark" class="nav-link" data-scroll-target="#important-remark">IMPORTANT REMARK</a></li>
+  </ul></li>
+  <li><a href="#the-sigmoid" id="toc-the-sigmoid" class="nav-link" data-scroll-target="#the-sigmoid">THE SIGMOID</a></li>
+  <li><a href="#logistic-regression-and-gradient-descent" id="toc-logistic-regression-and-gradient-descent" class="nav-link" data-scroll-target="#logistic-regression-and-gradient-descent">LOGISTIC REGRESSION AND GRADIENT DESCENT</a>
+  <ul class="collapse">
+  <li><a href="#mathematical-expression-of-the-algorithm" id="toc-mathematical-expression-of-the-algorithm" class="nav-link" data-scroll-target="#mathematical-expression-of-the-algorithm">Mathematical expression of the algorithm</a></li>
+  <li><a href="#vectorization" id="toc-vectorization" class="nav-link" data-scroll-target="#vectorization">Vectorization</a></li>
+  <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a></li>
+  </ul></li>
+  <li><a href="#the-unregularized-model" id="toc-the-unregularized-model" class="nav-link" data-scroll-target="#the-unregularized-model">THE UNREGULARIZED MODEL</a>
+  <ul class="collapse">
+  <li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions">Helper Functions</a></li>
+  <li><a href="#combining-into-logistic-regression" id="toc-combining-into-logistic-regression" class="nav-link" data-scroll-target="#combining-into-logistic-regression">Combining into logistic regression</a></li>
+  <li><a href="#errors-and-learning-curves" id="toc-errors-and-learning-curves" class="nav-link" data-scroll-target="#errors-and-learning-curves">Errors and learning curves</a></li>
+  <li><a href="#animal-testing" id="toc-animal-testing" class="nav-link" data-scroll-target="#animal-testing">Animal Testing</a></li>
+  </ul></li>
+  <li><a href="#the-l2-regularized-model" id="toc-the-l2-regularized-model" class="nav-link" data-scroll-target="#the-l2-regularized-model">THE L2-REGULARIZED MODEL</a>
+  <ul class="collapse">
+  <li><a href="#regularizing-the-helper-functions" id="toc-regularizing-the-helper-functions" class="nav-link" data-scroll-target="#regularizing-the-helper-functions">Regularizing the helper functions</a></li>
+  <li><a href="#combining-into-regularized-logistic-regression" id="toc-combining-into-regularized-logistic-regression" class="nav-link" data-scroll-target="#combining-into-regularized-logistic-regression">Combining into regularized logistic regression</a></li>
+  <li><a href="#tuning-the-regularization-parameter" id="toc-tuning-the-regularization-parameter" class="nav-link" data-scroll-target="#tuning-the-regularization-parameter">Tuning the regularization parameter</a></li>
+  <li><a href="#more-animal-testing" id="toc-more-animal-testing" class="nav-link" data-scroll-target="#more-animal-testing">More animal testing</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -199,39 +231,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Python 3.11.4</code></pre>
 </div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">DATA</a><br>
-1.1.1. <a href="#toc1_1_1_">IMPORTANT REMARK</a><br>
-2. <a href="#toc2_">THE SIGMOID</a><br>
-3. <a href="#toc3_">LOGISTIC REGRESSION AND GRADIENT DESCENT</a><br>
-3.1. <a href="#toc3_1_">Mathematical expression of the algorithm</a><br>
-3.2. <a href="#toc3_2_">Vectorization</a><br>
-3.3. <a href="#toc3_3_">Gradient Descent</a><br>
-4. <a href="#toc4_">THE UNREGULARIZED MODEL</a><br>
-4.1. <a href="#toc4_1_">Helper Functions</a><br>
-4.2. <a href="#toc4_2_">Combining into logistic regression</a><br>
-4.3. <a href="#toc4_3_">Errors and learning curves</a><br>
-4.4. <a href="#toc4_4_">Animal Testing</a><br>
-5. <a href="#toc5_">THE L2-REGULARIZED MODEL</a><br>
-5.1. <a href="#toc5_1_">Regularizing the helper functions</a><br>
-5.2. <a href="#toc5_2_">Combining into regularized logistic regression</a><br>
-5.3. <a href="#toc5_3_">Tuning the regularization parameter</a><br>
-5.4. <a href="#toc5_4_">More animal testing</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>The data and basic architecture of this post is taken from an exercise in the first course of Andrew Ng’s Deep Learning Specialization:</p>
 <p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
 <section id="data" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">DATA</a></h1>
+<h1>DATA</h1>
 <p>The data comprises of training and test sets of 64x64 images, some of cats and some of non-cats. Each image is encoded as a NumPy array of shape (64,64,3), where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
 <p>The problem is then to contruct and train a model that can accurately classify an unseen image as either a cat (<span class="math inline">\(y=1\)</span>) or a non-cat (<span class="math inline">\(y=0\)</span>).</p>
-<div class="cell" data-tags="[]" data-execution_count="2">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> h5py.File(<span class="st">'train_catvnoncat.h5'</span>, <span class="st">"r"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>train_set_x_orig <span class="op">=</span> np.array(train_dataset[<span class="st">"train_set_x"</span>][:])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>train_set_y <span class="op">=</span> np.array(train_dataset[<span class="st">"train_set_y"</span>][:])</span>
@@ -259,12 +265,12 @@ Python 3.11.4</code></pre>
 </div>
 <p>And our test set comprises of another 50 images</p>
 <section id="important-remark" class="level3">
-<h3 class="anchored" data-anchor-id="important-remark">1.1.1. <a id="toc1_1_1_"></a><a href="#toc0_">IMPORTANT REMARK</a></h3>
+<h3 class="anchored" data-anchor-id="important-remark">IMPORTANT REMARK</h3>
 <p>The arrays <code>test_set_x_orig</code> and <code>test_set_y</code> and their flattened/normalized/etc counterparts are referred to as the <strong>test</strong> set both in code and in text.</p>
 <p>In practice this data forms more of a <strong>validation/development</strong> set, as I use classification accuracy on this set to tune the regularization hyperparameter and evaluate the model based upon its performance on unseen images from my camera roll which form the true <em>test</em> set.</p>
 <p>Strictly speaking this is an abuse of language (albeit a common one) and poor practice. Both the test and validation sets should be of comparable size. Both sets should also be drawn from the same probability distribution.</p>
 <p>I won’t worry about such details here, as the purpose of this post is to explain the mathematics of logistic regression and to demonstrate its implementation from scratch in NumPy.</p>
-<div class="cell" data-tags="[]" data-execution_count="6">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a 'cat' image</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">25</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(train_set_x_orig[index])</span>
@@ -348,14 +354,14 @@ test_set_y shape: (1, 50)</code></pre>
 </section>
 </section>
 <section id="the-sigmoid" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">THE SIGMOID</a></h1>
+<h1>THE SIGMOID</h1>
 <p>The <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid function</a> <span class="math inline">\(\sigma\)</span> is defined as</p>
 <p><span class="math display">\[\sigma: \mathbb{R} \to \left(0,1\right)\]</span></p>
 <p><span class="math display">\[\begin{align*}
 \sigma(x) &amp;= \frac{1}{1 + e^{-x}}\\[0.1cm]
 \end{align*}\]</span></p>
 <p><span class="math inline">\(\sigma\)</span> is non-linear, smooth and strictly increasing. It is the activation function of choice for the output layer of neural networks built for binary classification problems. In particular, logistic regression uses the sigmoid to extract a prediction of the label for a given feature vector.</p>
-<div class="cell" data-tags="[]" data-execution_count="12">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute the sigmoid of z</span></span>
@@ -385,17 +391,13 @@ test_set_y shape: (1, 50)</code></pre>
 <p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p><strong>LEMMA:</strong></p>
-<p>The derivative <span class="math inline">\(\sigma'\)</span> of the sigmoid <span class="math inline">\(\sigma\)</span> satisfies</p>
-<p><span class="math display">\[\sigma'(x) = \sigma(x)\left(1-\sigma(x)\right)\]</span></p>
-<p><em>Proof</em>:</p>
 </section>
 <section id="logistic-regression-and-gradient-descent" class="level1">
-<h1>3. <a id="toc3_"></a><a href="#toc0_">LOGISTIC REGRESSION AND GRADIENT DESCENT</a></h1>
+<h1>LOGISTIC REGRESSION AND GRADIENT DESCENT</h1>
 <p>The following image illustrates how <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as a <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a> with sigmoid activation.</p>
-<p><img src="percep.png" style="width:650px;height:400px;"></p>
+<p><img src="img/percep.png" style="width:650px;height:400px;"></p>
 <section id="mathematical-expression-of-the-algorithm" class="level2">
-<h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">3.1. <a id="toc3_1_"></a><a href="#toc0_">Mathematical expression of the algorithm</a></h2>
+<h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">Mathematical expression of the algorithm</h2>
 <p>For one training example <span class="math inline">\(\left(x^{(i)},y^{(i)}\right)\in \mathbb{R}^n \times \{0,1\}\)</span> in the training set <span class="math inline">\(\left\{ \left(x^{(i)} , y^{(i)} \right) \right\} _{i=1}^{m}\)</span> and a choice of parameters <span class="math inline">\(w\in\mathbb{R}^{n}\,\)</span>, <span class="math inline">\(b\in\mathbb{R}\)</span>, <strong>forward propagation</strong> consists of computing the <strong>prediction</strong> <span class="math inline">\(\hat y^{(i)}\in(0,1)\)</span> of the model as <span class="math inline">\(x \mapsto \left(w\cdot x + b\right) \mapsto \sigma\left( w\cdot x + b \right)\)</span>. That is,</p>
 <p><span class="math display">\[z^{(i)} = w \cdot x^{(i)} + b\]</span></p>
 <p><span class="math display">\[\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right)\]</span></p>
@@ -441,7 +443,7 @@ J(w,b) &amp;= \frac{1}{m} \sum_{i=1}^{m} \mathcal{L}\left(a^{(i)}, y^{(i)}\right
 \end{align*}\]</span></p>
 </section>
 <section id="vectorization" class="level2">
-<h2 class="anchored" data-anchor-id="vectorization">3.2. <a id="toc3_2_"></a><a href="#toc0_">Vectorization</a></h2>
+<h2 class="anchored" data-anchor-id="vectorization">Vectorization</h2>
 <p>Looping over all the <span class="math inline">\(m\)</span> training examples <span class="math inline">\(\left (x^{(i)},y^{(i)} \right)\)</span> in turn to calculate <span class="math inline">\(\hat{y}^{(i)} = a^{(i)} = \sigma\left(z^{(i)}\right) = \sigma\left( w \cdot x^{(i)} + b\right)\)</span> and <span class="math inline">\(\mathcal{L}\left(a^{(i)}, y^{(i)}\right)\)</span> is computationally inefficient if <span class="math inline">\(m\)</span> is large <span class="math inline">\(\left(\text{e.g.}\,\, m\sim10^6\right)\)</span> as is common in modern industry applications.</p>
 <p>By turning to a so called <em>vectorized</em> implementation we can take advantage of NumPy’s powerful numerical linear algebra capabilities to implement forward propagation more efficiently.</p>
 <p>Define vectors <span class="math inline">\(Z = \left( z^{(1)}, z^{(2)}, \dots, z^{(m)} \right) \in \mathbb{R}^m\)</span> and <span class="math inline">\(A = \left( a^{(1)}, a^{(2)}, \dots, a^{(m)} \right) \in \mathbb{R}^m\)</span>. Define the <span class="math inline">\(n\,\times\,m\)</span> matrix <span class="math inline">\(X\)</span> with <span class="math inline">\(i^{\text{th}}\)</span> column <span class="math inline">\(x^{(i)}\)</span>. That is,</p>
@@ -463,7 +465,7 @@ w^T X + \left(b,b,\dots,b\right) &amp;= \left( w^T x^{(1)}+b, \,w^T x^{(2)}+b, \
 <p><code>A = sigmoid(np.dot(w.T,X) + b)</code> is a computationally efficient implementation of forward propagation across the entire training set at once. In particular, this is more efficient than using a <code>for</code> loop to iterate over each training example in turn.</p>
 </section>
 <section id="gradient-descent" class="level2">
-<h2 class="anchored" data-anchor-id="gradient-descent">3.3. <a id="toc3_3_"></a><a href="#toc0_">Gradient Descent</a></h2>
+<h2 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h2>
 <p>The optimization problem <span class="math display">\[
 \min_{w\in\mathbb{R}^n,\,b\in\mathbb{R}} J(w, b)
 \]</span></p>
@@ -476,10 +478,10 @@ b &amp;\mapsto b - \alpha \frac{\partial J(w,b)}{\partial b}
 </section>
 </section>
 <section id="the-unregularized-model" class="level1">
-<h1>4. <a id="toc4_"></a><a href="#toc0_">THE UNREGULARIZED MODEL</a></h1>
+<h1>THE UNREGULARIZED MODEL</h1>
 <section id="helper-functions" class="level2">
-<h2 class="anchored" data-anchor-id="helper-functions">4.1. <a id="toc4_1_"></a><a href="#toc0_">Helper Functions</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="14">
+<h2 class="anchored" data-anchor-id="helper-functions">Helper Functions</h2>
+<div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initialize_with_zeros(dim):</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Create a vector of zeros of shape (dim, 1) for w and initializes b to 0.</span></span>
@@ -636,9 +638,9 @@ b &amp;\mapsto b - \alpha \frac{\partial J(w,b)}{\partial b}
 </div>
 </section>
 <section id="combining-into-logistic-regression" class="level2">
-<h2 class="anchored" data-anchor-id="combining-into-logistic-regression">4.2. <a id="toc4_2_"></a><a href="#toc0_">Combining into logistic regression</a></h2>
+<h2 class="anchored" data-anchor-id="combining-into-logistic-regression">Combining into logistic regression</h2>
 <p>Combining the previously defined functions <code>intialize_with_zeros</code>, <code>propagate</code>, <code>optimize</code> and <code>predict</code> into the logistic regression model</p>
-<div class="cell" data-tags="[]" data-execution_count="20">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(X_train, Y_train, X_test, Y_test, num_iterations<span class="op">=</span><span class="dv">3000</span>, learning_rate<span class="op">=</span><span class="fl">0.005</span>, print_cost<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Combines the helper functions to construct the unregularized logistic regression model</span></span>
@@ -696,8 +698,8 @@ test accuracy: 68.0 %</code></pre>
 <p>The model accuractely classified &gt;99% of the images in the training set and 70% of the images in the test set, suggesting that we are experiences overfitting to our training data.</p>
 </section>
 <section id="errors-and-learning-curves" class="level2">
-<h2 class="anchored" data-anchor-id="errors-and-learning-curves">4.3. <a id="toc4_3_"></a><a href="#toc0_">Errors and learning curves</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="22">
+<h2 class="anchored" data-anchor-id="errors-and-learning-curves">Errors and learning curves</h2>
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a 'cat' that was inaccuractely classified as 'not-cat' (False Negative)</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(test_set_x[:, index].reshape((num_px, num_px, <span class="dv">3</span>)))</span>
@@ -735,8 +737,8 @@ test accuracy: 68.0 %</code></pre>
 </div>
 </section>
 <section id="animal-testing" class="level2">
-<h2 class="anchored" data-anchor-id="animal-testing">4.4. <a id="toc4_4_"></a><a href="#toc0_">Animal Testing</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="25">
+<h2 class="anchored" data-anchor-id="animal-testing">Animal Testing</h2>
+<div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_cat(image_str):</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Applies the trained logistic regression model to predict if an inputted image is a cat (y=1) or a non-cat (y=0)</span></span>
@@ -871,10 +873,10 @@ Observing on some other images in my camera roll:</p>
 </section>
 </section>
 <section id="the-l2-regularized-model" class="level1">
-<h1>5. <a id="toc5_"></a><a href="#toc0_">THE L2-REGULARIZED MODEL</a></h1>
+<h1>THE L2-REGULARIZED MODEL</h1>
 <section id="regularizing-the-helper-functions" class="level2">
-<h2 class="anchored" data-anchor-id="regularizing-the-helper-functions">5.1. <a id="toc5_1_"></a><a href="#toc0_">Regularizing the helper functions</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="36">
+<h2 class="anchored" data-anchor-id="regularizing-the-helper-functions">Regularizing the helper functions</h2>
+<div class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_cost_regularized(w, b, X, Y, lambda_):</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes the L2-regularized negative log-likelihood cost J(w,b) across the training set</span></span>
@@ -968,8 +970,8 @@ Observing on some other images in my camera roll:</p>
 </div>
 </section>
 <section id="combining-into-regularized-logistic-regression" class="level2">
-<h2 class="anchored" data-anchor-id="combining-into-regularized-logistic-regression">5.2. <a id="toc5_2_"></a><a href="#toc0_">Combining into regularized logistic regression</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="39">
+<h2 class="anchored" data-anchor-id="combining-into-regularized-logistic-regression">Combining into regularized logistic regression</h2>
+<div class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> regularized_model(X_train, Y_train, X_test, Y_test, num_iterations<span class="op">=</span><span class="dv">3000</span>, learning_rate<span class="op">=</span><span class="fl">0.5</span>, lambda_<span class="op">=</span><span class="dv">0</span>, print_cost<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Combines the helper functions to construct the regularized model</span></span>
@@ -1028,8 +1030,8 @@ test accuracy: 74.0 %</code></pre>
 </div>
 </section>
 <section id="tuning-the-regularization-parameter" class="level2">
-<h2 class="anchored" data-anchor-id="tuning-the-regularization-parameter">5.3. <a id="toc5_3_"></a><a href="#toc0_">Tuning the regularization parameter</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="41">
+<h2 class="anchored" data-anchor-id="tuning-the-regularization-parameter">Tuning the regularization parameter</h2>
+<div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tune_lambda(lambdas):</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Trains the regularized model with a choice of different regularization hyperparameters lambda_</span></span>
@@ -1157,8 +1159,8 @@ test accuracy: 82.0 %
 </div>
 </section>
 <section id="more-animal-testing" class="level2">
-<h2 class="anchored" data-anchor-id="more-animal-testing">5.4. <a id="toc5_4_"></a><a href="#toc0_">More animal testing</a></h2>
-<div class="cell" data-tags="[]" data-execution_count="45">
+<h2 class="anchored" data-anchor-id="more-animal-testing">More animal testing</h2>
+<div class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>tuned_regularized_model <span class="op">=</span> regularized_model(train_set_x,</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                                            train_set_y,</span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>                                            test_set_x,</span>
@@ -1388,6 +1390,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,

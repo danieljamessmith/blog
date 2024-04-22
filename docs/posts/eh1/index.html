@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -137,7 +137,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#geocoding-with-pgeocode" id="toc-geocoding-with-pgeocode" class="nav-link active" data-scroll-target="#geocoding-with-pgeocode">Geocoding with pgeocode</a></li>
+  <li><a href="#geocoding-with-ons-data" id="toc-geocoding-with-ons-data" class="nav-link" data-scroll-target="#geocoding-with-ons-data">Geocoding with ONS data</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -189,24 +198,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pgeocode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Table of contents</strong><a id="toc0_"></a><br>
-1. <a href="#toc1_">Geocoding with pgeocode</a><br>
-2. <a href="#toc2_">Geocoding with ONS data</a></p>
-<!-- vscode-jupyter-toc-config
-    numbering=true
-    anchor=true
-    flat=true
-    minLevel=1
-    maxLevel=5
-    /vscode-jupyter-toc-config -->
-<!-- THIS CELL WILL BE REPLACED ON TOC UPDATE. DO NOT WRITE YOUR TEXT IN THIS CELL -->
 <p>As part of my voluntary work for <a href="https://www.emmanuelhouse.org.uk/">Emmanuel House</a>, a Nottingham charity providing support and shelter for the homeless and vulnerably housed, I undertook a project studying the geographic distribution of individual donors to the charity across the UK.</p>
 <p>In this post I illustrate an issue I encountered while attempting to encode the postcodes of individual donors as latitude and longitude pairs, and the solution.</p>
 <p>The goal of encoding the postcodes was to produce visualisations showing how donors are distributed across Nottingham. This allowed us to gain insight into which areas/demographics should be targeted by marketing campaigns, and which social groups are underrepresented in Emmanuel House’s donor database.</p>
 <div class="cell" data-tags="[]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'files/nottm_postcodes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#dnldts27573" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUNCk5HOSAzV0YNCk5HOSA0V1ANCk5HOSAzRUwNCk5HMSA5RkgNCk5HNSA2UVoNCk5HNyA1UUwNCk5HNyAyRlQNCk5HNCAxUFkNCk5HOCAzU0wNCk5HOSA0QVgNCk5HNSAxUFMNCk5HMTMgOFhTDQpORzEgM1JEDQpORzggMkZVDQpORzMgN0dODQpORzEgMU5SDQpORzEgM05FDQpORzcgMkdRDQpORzggM0RCDQpORzUgNUdEDQpORzkgM0hHDQpORzkgMlVCDQpORzIgNUhODQpORzMgMUxFDQpORzIgM0RXDQpORzIgN1JZDQpORzMgM0VODQpORzMgNEpMDQpORzUgMkVUDQpORzUgOVdBDQpORzIgNlBQDQpORzUgMUJXDQpORzkgMVBSDQpORzQgMUpZDQpORzEgMUxGDQpORzEgMU5ODQpORzYgMEdBDQpORzggM0RKDQpORzEgNUJUDQpORzggOVFODQpORzcgMkxGDQpORzUgME5UDQpORzMgMkVVDQpORzMgNk5ZDQpORzcgNEdSDQpORzIgNVhTDQpORzIgNVhaDQpORzMgNUhSDQpORzIgNEdXDQpORzkgMVBZDQpORzEyIDJBVA0KTkczIDdGRQ0KTkcyIDZRQg0KTkc3IDFSQQ0KTkc1IDNGRA0KTkc3IDNMVA0KTkc2IDZFRw0KTkc0IDFQRA0KTkc2IDhQSg0KTkcxMSA3QVgNCk5HOCA2RFENCk5HMSAxRVENCk5HNiA5TEUNCk5HOSAySkINCk5HOCAzSFQNCk5HNyAxUFkNCk5HMTEgN0VTDQpORzMgNVNIDQpORzEgNERCDQpORzggNUxXDQpORzIgMVFIDQpORzEgOUVaDQpORzIgN0RMDQpORzUgM0hXDQpORzEgM0pQDQpORzEgMURVDQpORzEgOUdFDQpORzcgNkhCDQpORzUgMUpHDQpORzcgM1BCDQpORzEgNldZDQpORzEgMUVODQpORzIgNERHDQpORzIgOUpZDQpORzcgMUpRDQpORzcgNVFYDQpORzMgNkdZDQpORzggNVdFDQpORzcgN0RCDQpORzggM0VODQpORzkgMlpaDQpORzYgOUVKDQpORzcgMUZQDQpORzEgMVFRDQpORzggMlJODQpORzIgMVdZDQpORzggMU5EDQpORzkgMlFBDQpORzMgMUZGDQpORzcgMVVCDQo=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts14027" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUNCk5HOSAzV0YNCk5HOSA0V1ANCk5HOSAzRUwNCk5HMSA5RkgNCk5HNSA2UVoNCk5HNyA1UUwNCk5HNyAyRlQNCk5HNCAxUFkNCk5HOCAzU0wNCk5HOSA0QVgNCk5HNSAxUFMNCk5HMTMgOFhTDQpORzEgM1JEDQpORzggMkZVDQpORzMgN0dODQpORzEgMU5SDQpORzEgM05FDQpORzcgMkdRDQpORzggM0RCDQpORzUgNUdEDQpORzkgM0hHDQpORzkgMlVCDQpORzIgNUhODQpORzMgMUxFDQpORzIgM0RXDQpORzIgN1JZDQpORzMgM0VODQpORzMgNEpMDQpORzUgMkVUDQpORzUgOVdBDQpORzIgNlBQDQpORzUgMUJXDQpORzkgMVBSDQpORzQgMUpZDQpORzEgMUxGDQpORzEgMU5ODQpORzYgMEdBDQpORzggM0RKDQpORzEgNUJUDQpORzggOVFODQpORzcgMkxGDQpORzUgME5UDQpORzMgMkVVDQpORzMgNk5ZDQpORzcgNEdSDQpORzIgNVhTDQpORzIgNVhaDQpORzMgNUhSDQpORzIgNEdXDQpORzkgMVBZDQpORzEyIDJBVA0KTkczIDdGRQ0KTkcyIDZRQg0KTkc3IDFSQQ0KTkc1IDNGRA0KTkc3IDNMVA0KTkc2IDZFRw0KTkc0IDFQRA0KTkc2IDhQSg0KTkcxMSA3QVgNCk5HOCA2RFENCk5HMSAxRVENCk5HNiA5TEUNCk5HOSAySkINCk5HOCAzSFQNCk5HNyAxUFkNCk5HMTEgN0VTDQpORzMgNVNIDQpORzEgNERCDQpORzggNUxXDQpORzIgMVFIDQpORzEgOUVaDQpORzIgN0RMDQpORzUgM0hXDQpORzEgM0pQDQpORzEgMURVDQpORzEgOUdFDQpORzcgNkhCDQpORzUgMUpHDQpORzcgM1BCDQpORzEgNldZDQpORzEgMUVODQpORzIgNERHDQpORzIgOUpZDQpORzcgMUpRDQpORzcgNVFYDQpORzMgNkdZDQpORzggNVdFDQpORzcgN0RCDQpORzggM0VODQpORzkgMlpaDQpORzYgOUVKDQpORzcgMUZQDQpORzEgMVFRDQpORzggMlJODQpORzIgMVdZDQpORzggMU5EDQpORzkgMlFBDQpORzMgMUZGDQpORzcgMVVCDQo=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -214,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'nottm_postcodes.csv'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-info downloadthis  " id="dnldts27573"><i class="bi bi-database-fill-down"></i> Download nottm_postcodes.csv </button></a></p>
+        });"><button class="btn btn-info downloadthis  " id="dnldts14027"><i class="bi bi-database-fill-down"></i> Download nottm_postcodes.csv </button></a></p>
 <p><code>nottm_postcodes.csv</code> is a file I constructed consisting of 100 random postcodes within Nottingham city.</p>
 <p><strong>Importantly, these are not postcodes of real donors to the charity. Sharing such information online would violate GDPR. These postcodes are randomly selected from publicly available datasets</strong></p>
 <div class="cell" data-tags="[]" data-execution_count="28">
@@ -301,9 +299,9 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>postcodes <span class="op">=</span> df[<span class="st">'Postcode'</span>].to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="geocoding-with-pgeocode" class="level1">
-<h1>1. <a id="toc1_"></a><a href="#toc0_">Geocoding with pgeocode</a></h1>
+<h1>Geocoding with pgeocode</h1>
 <p>I first attempted to geocode the postcodes using <a href="https://pypi.org/project/pgeocode/">pgeocode</a>, a lightweight Python library for geocoding postcodes and distance calculations.</p>
-<div class="cell" data-tags="[]" data-execution_count="32">
+<div class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nomi <span class="op">=</span> pgeocode.Nominatim(<span class="st">'gb'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-tags="[]" data-execution_count="33">
@@ -1161,7 +1159,7 @@ dtype: int64</code></pre>
 </div>
 </section>
 <section id="geocoding-with-ons-data" class="level1">
-<h1>2. <a id="toc2_"></a><a href="#toc0_">Geocoding with ONS data</a></h1>
+<h1>Geocoding with ONS data</h1>
 <p>Upon suggestion from a friend I proceeded to directly encode the postcodes by downloading data from the Office for National Statistics (ONS) instead of relying on a Python library.</p>
 <p>This had the advantage of resulting in a far more accurate geocoding, but had the disadvantage of being more computationally expensive.</p>
 <div class="cell" data-execution_count="42">
@@ -2092,6 +2090,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
