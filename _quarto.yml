@@ -18,11 +18,5 @@ format:
       sidebar-width: 300px
       margin-width: 300px
 
-mathjax: true
-
-font:
-  main: Roboto 
-  mono: Courier New 
-
 
 

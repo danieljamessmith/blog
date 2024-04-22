@@ -7,11 +7,6 @@ freeze: true
 # Enable banner style title blocks
 title-block-banner: false
 
-format:
-  html: default
-  ipynb: default
-  pdf: default
-
 code-block-bg: true
 code-block-border-left: "#413764"
 highlight-style: atom-one
