@@ -2,6 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import h5py
+import prettytable
+import sys
+
+def versions():
+    table = prettytable.PrettyTable()
+    table.field_names = ["Component", "Version"]
+    table.add_row(["Python", sys.version.split(' ')[0]])
+    table.add_row(["numpy", np.__version__])
+    table.hrules = prettytable.ALL
+    print(table)
+
 
 def load_data():
     train_dataset = h5py.File('datasets/train_catvnoncat.h5', "r")
