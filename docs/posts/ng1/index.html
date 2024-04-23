@@ -165,6 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#tuning-the-regularization-parameter" id="toc-tuning-the-regularization-parameter" class="nav-link" data-scroll-target="#tuning-the-regularization-parameter">Tuning the regularization parameter</a></li>
   <li><a href="#more-animal-testing" id="toc-more-animal-testing" class="nav-link" data-scroll-target="#more-animal-testing">More animal testing</a></li>
   </ul></li>
+  <li><a href="#remarks-and-further-directions" id="toc-remarks-and-further-directions" class="nav-link" data-scroll-target="#remarks-and-further-directions">Remarks and Further Directions</a></li>
   </ul>
 </nav>
     </div>
@@ -232,7 +233,9 @@ Python 3.11.4</code></pre>
 </div>
 </div>
 <p>The data and basic architecture of this post is taken from an exercise in the first course of Andrew Ng’s Deep Learning Specialization:</p>
+<blockquote class="blockquote">
 <p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
+</blockquote>
 <section id="data" class="level1">
 <h1>DATA</h1>
 <p>The data comprises of training and test sets of 64x64 images, some of cats and some of non-cats. Each image is encoded as a NumPy array of shape (64,64,3), where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
@@ -395,7 +398,7 @@ test_set_y shape: (1, 50)</code></pre>
 <section id="logistic-regression-and-gradient-descent" class="level1">
 <h1>LOGISTIC REGRESSION AND GRADIENT DESCENT</h1>
 <p>The following image illustrates how <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a> may be viewed as a <a href="https://en.wikipedia.org/wiki/Perceptron">perceptron</a> with sigmoid activation.</p>
-<p><img src="img/percep.png" style="width:650px;height:400px;"></p>
+<p><img src="img/percep.png" style="width:50%"></p>
 <section id="mathematical-expression-of-the-algorithm" class="level2">
 <h2 class="anchored" data-anchor-id="mathematical-expression-of-the-algorithm">Mathematical expression of the algorithm</h2>
 <p>For one training example <span class="math inline">\(\left(x^{(i)},y^{(i)}\right)\in \mathbb{R}^n \times \{0,1\}\)</span> in the training set <span class="math inline">\(\left\{ \left(x^{(i)} , y^{(i)} \right) \right\} _{i=1}^{m}\)</span> and a choice of parameters <span class="math inline">\(w\in\mathbb{R}^{n}\,\)</span>, <span class="math inline">\(b\in\mathbb{R}\)</span>, <strong>forward propagation</strong> consists of computing the <strong>prediction</strong> <span class="math inline">\(\hat y^{(i)}\in(0,1)\)</span> of the model as <span class="math inline">\(x \mapsto \left(w\cdot x + b\right) \mapsto \sigma\left( w\cdot x + b \right)\)</span>. That is,</p>
@@ -1301,13 +1304,18 @@ test accuracy: 82.0 %</code></pre>
 <p><img src="index_files/figure-html/cell-58-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>An improvement to be sure, but the model is still far from perfect. It seems that we have improved the validation accuracy at the expense of increasing the prevelence of false positives.</p>
+</section>
+</section>
+<section id="remarks-and-further-directions" class="level1">
+<h1>Remarks and Further Directions</h1>
+<blockquote class="blockquote">
+<p>Tuning the regularization parameter achieved improvement to be sure, but the model is still far from perfect. It seems that we have improved the validation accuracy at the expense of increasing the prevelence of false positives.</p>
 <p>This might be because the validation set has a lot of cat images and we are overfitting to it, or because the images I am testing on are drawn from a different probability distribution than the images in the validation set.</p>
 <p>We could investigate further by performing a more rigorous cross-validation process.</p>
 <p>Adding hidden layers to the neural network would result in a more expressive model capable of telling apart cats and anthropomorphic cartoon horses or midwest emo album covers. We will explore these possiblities in later blog posts.</p>
+</blockquote>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

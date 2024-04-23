@@ -223,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="variational-autoencoders-vaes" class="level1">
 <h1>Variational AutoEncoders (VAEs)</h1>
 <p>Variational AutoEncoders (VAEs) are a type of generative model designed to capture the underlying probability distribution of a given dataset and generate novel samples. They utilize an architecture that comprises of an encoder-decoder structure:</p>
-<p><img src="vae.png"></p>
+<p><img src="vae.png" style="width:50%"></p>
 <p>In a nutshell, a VAE is an autoencoder whose encodings distribution is regularised during the training to ensure that its latent space has good properties allowing us to generate some new data. The term “variational” comes from the close relation there is between the regularisation and the variational inference method in statistics.</p>
 <p>VAEs tackle the problem of the latent space irregularity by making the encoder return a distribution over the latent space instead of a single point and by adding in the loss function a regularisation term over that returned distribution in order to ensure a better organisation of the latent space.</p>
 <p>For more details see the VAE wikipedia page:</p>

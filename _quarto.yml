@@ -7,16 +7,18 @@ website:
   site-url: "https://danieljamessmith.github.io/portfolio/"
   navbar:
     right:
+      - icon: LinkedIn
+        text: "LinkedIn"
+        href: https://www.linkedin.com/in/danieljames-smith/
+      - text: "GitHub Repo"
+        href: https://github.com/danieljamessmith/blog
       - about.qmd
+
 
 format:
   html:
     theme: Lux
     css: styles.css
-    grid: 
-      body-width: 1000px
-      sidebar-width: 300px
-      margin-width: 300px
 
 code-block-bg: true
 code-block-border-left: "#413764"
