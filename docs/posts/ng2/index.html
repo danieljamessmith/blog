@@ -233,22 +233,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>According to that post:</p>
 <blockquote class="blockquote">
-<p>The data comprises of training and test sets of <span class="math inline">\(64\times64\)</span> images, some of cats and some of non-cats. Each image is encoded as a NumPy array of shape <span class="math inline">\((64,64,3)\)</span>, where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
+<p>The data comprises of training and test sets of <span class="math inline">\(64\times64\)</span> images, some of cats and some of non-cats. Each image is encoded as a numpy array of shape <span class="math inline">\((64,64,3)\)</span>, where the third dimension encapsulates the 3 RGB colour channels of the image.</p>
 <p>The problem is then to contruct and train a model that can accurately classify an unseen image as either a cat (<span class="math inline">\(y=1\)</span>) or a non-cat (<span class="math inline">\(y=0\)</span>).</p>
 </blockquote>
-<p>In that post I implemented logistic regression in NumPy and used it to solve the cat classification problem by optimizing with gradient descent.</p>
-<p>In this notebook I extend this approach by implementing a deep (and fully-connected) neural network with an arbitary number of layers <span class="math inline">\(L\)</span> in NumPy and solve the cat classification problem by optimizing with both gradient descent and the Adam optimizer.</p>
+<p>In that post I implemented logistic regression in numpy and used it to solve the cat classification problem by optimizing with gradient descent.</p>
+<p>In this notebook I extend this approach by implementing a deep (and fully-connected) neural network with an arbitary number of layers <span class="math inline">\(L\)</span> in numpy and solve the cat classification problem by optimizing with both gradient descent and the Adam optimizer.</p>
 <p>The hidden layers have <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)">ReLU activation</a> while the output layer has <a href="https://danieljamessmith.github.io/blog/posts/ng1/#the-sigmoid">sigmoid activation</a>.</p>
 <p>I took the data and learned the techniques used in this post from several exercises in Andrew Ng’s Deep learning specializaion:</p>
 <blockquote class="blockquote">
 <p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
 </blockquote>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>train_x_orig, train_y, test_x_orig, test_y, classes <span class="op">=</span> load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">## helper function from `utils.py` ##</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>show_cat(<span class="dv">27</span>, classes, train_y, train_x_orig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>show_cat(<span class="dv">57</span>, classes, train_y, train_x_orig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y = [1], it's a 'cat' picture.</code></pre>
 </div>
@@ -265,8 +265,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>show_cat(<span class="dv">57</span>, classes, train_y, train_x_orig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>show_cat(<span class="dv">27</span>, classes, train_y, train_x_orig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y = [1], it's a 'cat' picture.</code></pre>
 </div>
@@ -296,6 +296,8 @@ test_x's shape: (12288, 50)</code></pre>
 <p>The following class <code>BaseModel</code> consists of the methods common to both the Batch Gradient Descent and Adam optimzed <span class="math inline">\(L\)</span>-layer neural network models.</p>
 <p>The later subclasses <code>L_Layer_NN_GradientDescent</code> and <code>L_Layer_NN_AdamOptimizer</code> will inherit from <code>BaseModel</code>.</p>
 <div class="cell" data-execution_count="1">
+<details open="">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BaseModel:</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A base class for a neural network model.</span></span>
@@ -561,6 +563,7 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>acc<span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
 <span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="the-bgd-optimized-model" class="level1">
@@ -577,6 +580,8 @@ test_x's shape: (12288, 50)</code></pre>
 <p>The number of neurons in each layer are passed into the model via the list <code>layer_dims</code>. The <span class="math inline">\(l\)</span>-th entry of <code>layer_dims</code> represents the number of neurons in the <span class="math inline">\(l\)</span>-th layer of the neural network (being careful to remember that Python indexing starts at 0). Thus the number <span class="math inline">\(L\)</span> of layers in the network is implicity passed to the class via <code>L = len(layer_dims)</code>.</p>
 <p>When creating an instance of the class <code>L_Layer_NN_GradientDescent</code> we need also to specify a learning rate <span class="math inline">\(\alpha\)</span>. If no learning rate is specified the model defaults to <span class="math inline">\(\alpha = 0.0075\)</span>.</p>
 <div class="cell" data-execution_count="5">
+<details open="">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> L_Layer_NN_GradientDescent(BaseModel):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A neural network model with L layers trained using gradient descent.</span></span>
@@ -651,6 +656,7 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>                </span>
 <span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.best_parameters <span class="op">=</span> parameters</span>
 <span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.costs <span class="op">=</span> costs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <section id="fitting-bgd-model" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-bgd-model">Fitting BGD Model</h2>
@@ -759,6 +765,8 @@ Accuracy: 72.00%</code></pre>
 <p>https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam</p>
 </blockquote>
 <div class="cell" data-execution_count="2">
+<details open="">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> L_Layer_NN_AdamOptimizer(BaseModel):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A neural network model with L layers trained using Adam optimization.</span></span>
@@ -895,6 +903,7 @@ Accuracy: 72.00%</code></pre>
 <span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.best_parameters <span class="op">=</span> parameters</span>
 <span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.costs <span class="op">=</span> costs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="fitting-adam-model-with-default-parameters" class="level2">
