@@ -296,8 +296,6 @@ test_x's shape: (12288, 50)</code></pre>
 <p>The following class <code>BaseModel</code> consists of the methods common to both the Batch Gradient Descent and Adam optimzed <span class="math inline">\(L\)</span>-layer neural network models.</p>
 <p>The later subclasses <code>L_Layer_NN_GradientDescent</code> and <code>L_Layer_NN_AdamOptimizer</code> will inherit from <code>BaseModel</code>.</p>
 <div class="cell" data-execution_count="1">
-<details open="">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BaseModel:</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A base class for a neural network model.</span></span>
@@ -362,7 +360,7 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="co">        Z (numpy.ndarray): The input of the activation function, also called pre-activation parameter </span></span>
 <span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="co">        cache (tuple): A tuple containing "A", "W", and "b", stored for computing the backward pass efficiently</span></span>
 <span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>        Z <span class="op">=</span> W<span class="op">@</span>A <span class="op">+</span> b</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>        Z <span class="op">=</span> W <span class="op">@</span> A <span class="op">+</span> b</span>
 <span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>        cache <span class="op">=</span> (A, W, b)</span>
 <span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Z, cache</span>
@@ -383,11 +381,11 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
 <span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> activation <span class="op">==</span> <span class="st">"sigmoid"</span>:</span>
-<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>            Z, linear_cache <span class="op">=</span> <span class="va">self</span>._linear_forward(A_prev,W,b)</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>            Z, linear_cache <span class="op">=</span> <span class="va">self</span>._linear_forward(A_prev, W, b)</span>
 <span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>            A, activation_cache <span class="op">=</span> <span class="va">self</span>._sigmoid(Z)</span>
 <span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> activation <span class="op">==</span> <span class="st">"relu"</span>:</span>
-<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>            Z, linear_cache <span class="op">=</span> <span class="va">self</span>._linear_forward(A_prev,W,b)</span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>            Z, linear_cache <span class="op">=</span> <span class="va">self</span>._linear_forward(A_prev, W, b)</span>
 <span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>            A, activation_cache <span class="op">=</span> <span class="va">self</span>._relu(Z)</span>
 <span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>        cache <span class="op">=</span> (linear_cache, activation_cache)</span>
@@ -454,9 +452,9 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb13-154"><a href="#cb13-154" aria-hidden="true" tabindex="-1"></a>        A_prev, W, b <span class="op">=</span> cache</span>
 <span id="cb13-155"><a href="#cb13-155" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> A_prev.shape[<span class="dv">1</span>]</span>
 <span id="cb13-156"><a href="#cb13-156" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>        dA_prev <span class="op">=</span> W.T<span class="op">@</span>dZ</span>
-<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>        db <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>m)<span class="op">*</span>np.<span class="bu">sum</span>(dZ,axis<span class="op">=</span><span class="dv">1</span>,keepdims<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a>        dW <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>m)<span class="op">*</span>dZ<span class="op">@</span>A_prev.T</span>
+<span id="cb13-157"><a href="#cb13-157" aria-hidden="true" tabindex="-1"></a>        dA_prev <span class="op">=</span> W.T <span class="op">@</span> dZ</span>
+<span id="cb13-158"><a href="#cb13-158" aria-hidden="true" tabindex="-1"></a>        db <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>m) <span class="op">*</span> np.<span class="bu">sum</span>(dZ, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-159"><a href="#cb13-159" aria-hidden="true" tabindex="-1"></a>        dW <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>m) <span class="op">*</span> dZ <span class="op">@</span> A_prev.T</span>
 <span id="cb13-160"><a href="#cb13-160" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb13-161"><a href="#cb13-161" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> dA_prev, dW, db</span>
 <span id="cb13-162"><a href="#cb13-162" aria-hidden="true" tabindex="-1"></a></span>
@@ -563,7 +561,6 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb13-263"><a href="#cb13-263" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Accuracy: </span><span class="sc">{</span>acc<span class="sc">:.2f}</span><span class="ss">%"</span>)</span>
 <span id="cb13-264"><a href="#cb13-264" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb13-265"><a href="#cb13-265" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="the-bgd-optimized-model" class="level1">
@@ -580,8 +577,6 @@ test_x's shape: (12288, 50)</code></pre>
 <p>The number of neurons in each layer are passed into the model via the list <code>layer_dims</code>. The <span class="math inline">\(l\)</span>-th entry of <code>layer_dims</code> represents the number of neurons in the <span class="math inline">\(l\)</span>-th layer of the neural network (being careful to remember that Python indexing starts at 0). Thus the number <span class="math inline">\(L\)</span> of layers in the network is implicity passed to the class via <code>L = len(layer_dims)</code>.</p>
 <p>When creating an instance of the class <code>L_Layer_NN_GradientDescent</code> we need also to specify a learning rate <span class="math inline">\(\alpha\)</span>. If no learning rate is specified the model defaults to <span class="math inline">\(\alpha = 0.0075\)</span>.</p>
 <div class="cell" data-execution_count="5">
-<details open="">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> L_Layer_NN_GradientDescent(BaseModel):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A neural network model with L layers trained using gradient descent.</span></span>
@@ -620,8 +615,8 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        L <span class="op">=</span> <span class="bu">len</span>(parameters) <span class="op">//</span> <span class="dv">2</span>  <span class="co"># number of layers in the neural network</span></span>
 <span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> l <span class="kw">in</span> <span class="bu">range</span>(L):</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">=</span> parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">-</span> <span class="va">self</span>.learning_rate<span class="op">*</span>grads[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)]</span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">=</span> parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">-</span> <span class="va">self</span>.learning_rate<span class="op">*</span>grads[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)]</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">-=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> grads[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)]</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)] <span class="op">-=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> grads[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l<span class="op">+</span><span class="dv">1</span>)]</span>
 <span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> parameters</span>
 <span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
@@ -655,9 +650,7 @@ test_x's shape: (12288, 50)</code></pre>
 <span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>                costs.append(cost)</span>
 <span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>                </span>
 <span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.best_parameters <span class="op">=</span> parameters</span>
-<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.costs <span class="op">=</span> costs</span>
-<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>        </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.costs <span class="op">=</span> costs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="fitting-bgd-model" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-bgd-model">Fitting BGD Model</h2>
@@ -766,8 +759,6 @@ Accuracy: 72.00%</code></pre>
 <p>https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Adam</p>
 </blockquote>
 <div class="cell" data-execution_count="2">
-<details open="">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> L_Layer_NN_AdamOptimizer(BaseModel):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A neural network model with L layers trained using Adam optimization.</span></span>
@@ -867,8 +858,8 @@ Accuracy: 72.00%</code></pre>
 <span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>            s_corrected[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">=</span> s[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)]<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.beta2<span class="op">**</span>t)</span>
 <span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>            s_corrected[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">=</span> s[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)]<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span><span class="va">self</span>.beta2<span class="op">**</span>t)</span>
 <span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">=</span> parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">-</span> <span class="va">self</span>.learning_rate<span class="op">*</span>np.divide(v_corrected[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)], np.sqrt(s_corrected[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)]) <span class="op">+</span> <span class="va">self</span>.epsilon)</span>
-<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">=</span> parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">-</span> <span class="va">self</span>.learning_rate<span class="op">*</span>np.divide(v_corrected[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)], np.sqrt(s_corrected[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)]) <span class="op">+</span> <span class="va">self</span>.epsilon)</span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"W"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">-=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.divide(v_corrected[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)], np.sqrt(s_corrected[<span class="st">"dW"</span> <span class="op">+</span> <span class="bu">str</span>(l)]) <span class="op">+</span> <span class="va">self</span>.epsilon)</span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>            parameters[<span class="st">"b"</span> <span class="op">+</span> <span class="bu">str</span>(l)] <span class="op">-=</span> <span class="va">self</span>.learning_rate <span class="op">*</span> np.divide(v_corrected[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)], np.sqrt(s_corrected[<span class="st">"db"</span> <span class="op">+</span> <span class="bu">str</span>(l)]) <span class="op">+</span> <span class="va">self</span>.epsilon)</span>
 <span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> parameters, v, s</span>
 <span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a></span>
@@ -904,7 +895,6 @@ Accuracy: 72.00%</code></pre>
 <span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.best_parameters <span class="op">=</span> parameters</span>
 <span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.costs <span class="op">=</span> costs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="fitting-adam-model-with-default-parameters" class="level2">

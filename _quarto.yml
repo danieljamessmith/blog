@@ -17,8 +17,12 @@ website:
 
 format:
   html:
-    theme: Lux
+    theme:
+      - Lux
+      - custom.scss
     css: styles.css
+    grid:
+      body-width: 1250px
 
 code-block-bg: true
 code-block-border-left: "#413764"
