@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel J Smith">
+<meta name="dcterms.date" content="2024-04-28">
+<meta name="description" content="Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes CNN and CNN_Reg than inherit from tensorflow.keras.Model. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, regularization (dropout layers and L2) and training for more epochs we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.">
+
+<title>Blog - Convolutional Neural Networks in TensorFlow</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.linkedin.com/in/danieljames-smith/" rel="" target=""><i class="bi bi-LinkedIn" role="img">
+</i> 
+ <span class="menu-text">LinkedIn</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/danieljamessmith/blog" rel="" target="">
+ <span class="menu-text">GitHub Repo</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#the-cnn-class" id="toc-the-cnn-class" class="nav-link" data-scroll-target="#the-cnn-class">The <code>CNN</code> Class</a>
+  <ul class="collapse">
+  <li><a href="#model-1---convx2" id="toc-model-1---convx2" class="nav-link" data-scroll-target="#model-1---convx2">Model 1 - CONVx2</a></li>
+  <li><a href="#model-2---convx2-densex3" id="toc-model-2---convx2-densex3" class="nav-link" data-scroll-target="#model-2---convx2-densex3">Model 2 - CONVx2 + DENSEx3</a></li>
+  <li><a href="#model-3---convx4-densex3" id="toc-model-3---convx4-densex3" class="nav-link" data-scroll-target="#model-3---convx4-densex3">Model 3 - CONVx4 + DENSEx3</a></li>
+  </ul></li>
+  <li><a href="#the-cnn_reg-class" id="toc-the-cnn_reg-class" class="nav-link" data-scroll-target="#the-cnn_reg-class">The <code>CNN_Reg</code> Class</a>
+  <ul class="collapse">
+  <li><a href="#model-4---convx5-densex4-regularization" id="toc-model-4---convx5-densex4-regularization" class="nav-link" data-scroll-target="#model-4---convx5-densex4-regularization">Model 4 - CONVx5 + DENSEx4 + REGULARIZATION</a></li>
+  </ul></li>
+  <li><a href="#remarks-and-further-directions" id="toc-remarks-and-further-directions" class="nav-link" data-scroll-target="#remarks-and-further-directions">Remarks and Further Directions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Convolutional Neural Networks in TensorFlow</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Python</div>
+    <div class="quarto-category">ML</div>
+    <div class="quarto-category">Deep Learning</div>
+    <div class="quarto-category">TensorFlow</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes <code>CNN</code> and <code>CNN_Reg</code> than inherit from <code>tensorflow.keras.Model</code>. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, regularization (dropout layers and L2) and training for more epochs we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daniel J Smith </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.python.framework <span class="im">import</span> ops</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>versions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+------------+---------+
+| Component  | Version |
++------------+---------+
+|   Python   |  3.12.2 |
++------------+---------+
+| TensorFlow |  2.16.1 |
++------------+---------+</code></pre>
+</div>
+</div>
+<section id="dataset" class="level1">
+<h1>Dataset</h1>
+<p>We use the SIGNS dataset, consisting of 64 x 64 images of human hands signing the values 0, 1, 2, 3, 4 and 5.</p>
+<p>This dataset is used in Course 4 (Convolutional Neural Networks) of Andrew Ng’s Deep Learning Specialization:</p>
+<blockquote class="blockquote">
+<p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
+</blockquote>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes <span class="op">=</span> load_dataset()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = 4
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">26</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'img/preview.png'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = 2
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">594</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = 0
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of X_train_orig: "</span>, X_train_orig.shape)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of Y_train_orig: "</span>, Y_train_orig.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of X_train_orig:  (1080, 64, 64, 3)
+Shape of Y_train_orig:  (1, 1080)</code></pre>
+</div>
+</div>
+<p>We use one-hot-encoding to turn the multiclass label of each image (y = 0, 1, 2, 3, 4 or 5) into a binary label as illustrated in the following image:</p>
+<p><img src="img/SIGNS.png" style="width:75%"></p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, split the original training set into a new training set and a validation set</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>X_train_orig, X_val_orig, Y_train_orig, Y_val_orig <span class="op">=</span> train_test_split(X_train_orig, np.squeeze(Y_train_orig), test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, normalize the input features</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X_train_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>X_val <span class="op">=</span> X_val_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X_test_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the output labels to one-hot vectors</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>Y_train <span class="op">=</span> convert_to_one_hot(Y_train_orig, <span class="dv">6</span>).T</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Y_val <span class="op">=</span> convert_to_one_hot(Y_val_orig, <span class="dv">6</span>).T</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>Y_test <span class="op">=</span> convert_to_one_hot(Y_test_orig, <span class="dv">6</span>).T</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the shapes of the datasets</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of training examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape[<span class="dv">0</span>]))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of validation examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape[<span class="dv">0</span>]))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of test examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape[<span class="dv">0</span>]) <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape))</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_train.shape))</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_val.shape))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_test.shape))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of training examples = 918
+number of validation examples = 162
+number of test examples = 120
+
+X_train shape: (918, 64, 64, 3)
+Y_train shape: (918, 6)
+X_val shape: (162, 64, 64, 3)
+Y_val shape: (162, 6)
+X_test shape: (120, 64, 64, 3)
+Y_test shape: (120, 6)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">64</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_train, Y_train)).batch(BATCH_SIZE)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>val_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(BATCH_SIZE)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_test, Y_test)).batch(BATCH_SIZE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-cnn-class" class="level1">
+<h1>The <code>CNN</code> Class</h1>
+<p>See Wikipedia for information on Convolutional Neural Networks (CNNs):</p>
+<blockquote class="blockquote">
+<p><a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">https://en.wikipedia.org/wiki/Convolutional_neural_network</a></p>
+</blockquote>
+<div class="cell" data-execution_count="14">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN(tf.keras.Model):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: [CONV2D -&gt; RELU -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation)]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_layer_dims):</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN class.</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co">        For example:</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co">            conv_params = [{'filters': 32, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 'same', 'pool_size': (2, 2)},</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">                           {'filters': 64, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 1, 'pool_size': (2, 2)}]</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_layer_dims (list): The number of neurons in each dense layer. For example, [512, 256, 10] for a network with three dense layers.</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(dim, activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_layer_dims)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>)) <span class="cf">for</span> i, dim <span class="kw">in</span> <span class="bu">enumerate</span>(dense_layer_dims)]</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.pools):</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense <span class="kw">in</span> <span class="va">self</span>.dense_layers:</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="model-1---convx2" class="level2">
+<h2 class="anchored" data-anchor-id="model-1---convx2">Model 1 - CONVx2</h2>
+<p>The architecture of the first model is:</p>
+<ol type="1">
+<li><p><strong>Input Layer</strong>: The input layer accepts images of shape (64, 64, 3), which corresponds to a 64x64 RGB image.</p></li>
+<li><p><strong>Convolutional Layer 1</strong>: The first convolutional layer has 8 filters, each of size (4, 4). The stride is 1, and the padding strategy is ‘same’, which means that zero-padding is used to preserve the spatial dimensions of the input.</p></li>
+<li><p><strong>ReLU Activation Function 1</strong>: The first ReLU activation function introduces non-linearity after the first convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 1</strong>: The first max pooling layer uses a pooling window of size (4, 4) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Convolutional Layer 2</strong>: The second convolutional layer has 16 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’.</p></li>
+<li><p><strong>ReLU Activation Function 2</strong>: The second ReLU activation function introduces non-linearity after the second convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 2</strong>: The second max pooling layer uses a pooling window of size (8, 8) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Flatten Layer</strong>: The flatten layer reshapes the 3D output of the previous layer into a 1D vector.</p></li>
+<li><p><strong>Output Layer</strong>: The output layer is a dense layer with 6 neurons. The activation function is linear, but when calculating the loss during training, a softmax activation function is applied to the logits because <code>from_logits=True</code> is used in the loss function. This means that the model’s output is expected to be logits and the softmax activation function is applied to convert these logits to probabilities when calculating the loss.</p></li>
+</ol>
+<p><br> This architecture can be represented as:</p>
+<center>
+[CONV2D -&gt; RELU -&gt; MAXPOOL] * 2 -&gt; FLATTEN -&gt; DENSE (Softmax activation from logits)
+</center>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">6</span>]  <span class="co"># 1 output layer with 6 neurons</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time     </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                                                 beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                                                 beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                                                 epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>model1_history <span class="op">=</span> model.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 51ms/step - accuracy: 0.1624 - loss: 4.5708 - val_accuracy: 0.1358 - val_loss: 2.1793
+Epoch 2/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.2397 - loss: 2.0271 - val_accuracy: 0.3210 - val_loss: 1.6034
+Epoch 3/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.4177 - loss: 1.5144 - val_accuracy: 0.5556 - val_loss: 1.2332
+Epoch 4/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.6214 - loss: 1.1302 - val_accuracy: 0.7593 - val_loss: 0.9770
+Epoch 5/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 46ms/step - accuracy: 0.7430 - loss: 0.8014 - val_accuracy: 0.8148 - val_loss: 0.7882
+Epoch 6/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.7978 - loss: 0.6133 - val_accuracy: 0.7901 - val_loss: 0.6515
+Epoch 7/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 47ms/step - accuracy: 0.8492 - loss: 0.4740 - val_accuracy: 0.8333 - val_loss: 0.5664
+Epoch 8/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.8797 - loss: 0.3754 - val_accuracy: 0.8148 - val_loss: 0.5370
+Epoch 9/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9048 - loss: 0.3061 - val_accuracy: 0.8210 - val_loss: 0.5078
+Epoch 10/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 46ms/step - accuracy: 0.9223 - loss: 0.2731 - val_accuracy: 0.8580 - val_loss: 0.4567
+Epoch 11/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9344 - loss: 0.2344 - val_accuracy: 0.8704 - val_loss: 0.4783
+Epoch 12/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9333 - loss: 0.1945 - val_accuracy: 0.8519 - val_loss: 0.4340
+Epoch 13/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9783 - loss: 0.1474 - val_accuracy: 0.8827 - val_loss: 0.4232
+Epoch 14/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 46ms/step - accuracy: 0.9740 - loss: 0.1254 - val_accuracy: 0.8765 - val_loss: 0.4111
+Epoch 15/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 44ms/step - accuracy: 0.9835 - loss: 0.1086 - val_accuracy: 0.8704 - val_loss: 0.4078
+Epoch 16/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9909 - loss: 0.0949 - val_accuracy: 0.8827 - val_loss: 0.4102
+Epoch 17/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9914 - loss: 0.0825 - val_accuracy: 0.9012 - val_loss: 0.3916
+Epoch 18/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9874 - loss: 0.0786 - val_accuracy: 0.9012 - val_loss: 0.3793
+Epoch 19/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9897 - loss: 0.0721 - val_accuracy: 0.8951 - val_loss: 0.3809
+Epoch 20/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 45ms/step - accuracy: 0.9890 - loss: 0.0725 - val_accuracy: 0.8765 - val_loss: 0.4653
+
+Training Complete.
+
+CPU times: total: 2min 7s
+Wall time: 14.5 s</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model1_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model.evaluate(test_dataset)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 15ms/step - accuracy: 0.8479 - loss: 0.4076
+
+Test accuracy: 85.00%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 0s 14ms/step</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="model-2---convx2-densex3" class="level2">
+<h2 class="anchored" data-anchor-id="model-2---convx2-densex3">Model 2 - CONVx2 + DENSEx3</h2>
+<p>The architecture of the second model is:</p>
+<ol type="1">
+<li><p><strong>Input Layer</strong>: The input layer accepts images of shape (64, 64, 3), which corresponds to a 64x64 RGB image.</p></li>
+<li><p><strong>Convolutional Layer 1</strong>: The first convolutional layer has 8 filters, each of size (4, 4). The stride is 1, and the padding strategy is ‘same’, which means that zero-padding is used to preserve the spatial dimensions of the input.</p></li>
+<li><p><strong>ReLU Activation Function 1</strong>: The first ReLU activation function introduces non-linearity after the first convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 1</strong>: The first max pooling layer uses a pooling window of size (4, 4) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Convolutional Layer 2</strong>: The second convolutional layer has 16 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’.</p></li>
+<li><p><strong>ReLU Activation Function 2</strong>: The second ReLU activation function introduces non-linearity after the second convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 2</strong>: The second max pooling layer uses a pooling window of size (8, 8) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Flatten Layer</strong>: The flatten layer reshapes the 3D output of the previous layer into a 1D vector.</p></li>
+<li><p><strong>Dense Layer 1</strong>: The first dense layer has 128 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Dense Layer 2</strong>: The second dense layer has 64 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Dense Layer 3</strong>: The third dense layer has 32 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Output Layer</strong>: The output layer is a dense layer with 6 neurons. The activation function is linear, but when calculating the loss during training, a softmax activation function is applied to the logits because <code>from_logits=True</code> is used in the loss function. This means that the model’s output is expected to be logits and the softmax activation function is applied to convert these logits to probabilities when calculating the loss.</p></li>
+</ol>
+<p><br> This architecture can be represented as:</p>
+<center>
+[CONV2D -&gt; RELU -&gt; MAXPOOL] * 2 -&gt; FLATTEN -&gt; [DENSE (ReLU activation)] * 3 -&gt; DENSE (Softmax activation from logits)
+</center>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time  </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>model2_history <span class="op">=</span> model2.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 3s 109ms/step - accuracy: 0.1684 - loss: 2.7840 - val_accuracy: 0.1296 - val_loss: 1.8596
+Epoch 2/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 103ms/step - accuracy: 0.2148 - loss: 1.7787 - val_accuracy: 0.3457 - val_loss: 1.7083
+Epoch 3/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 101ms/step - accuracy: 0.3261 - loss: 1.6809 - val_accuracy: 0.3765 - val_loss: 1.5629
+Epoch 4/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 104ms/step - accuracy: 0.3701 - loss: 1.5516 - val_accuracy: 0.4444 - val_loss: 1.3756
+Epoch 5/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 103ms/step - accuracy: 0.4248 - loss: 1.4038 - val_accuracy: 0.4074 - val_loss: 1.2754
+Epoch 6/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 109ms/step - accuracy: 0.4994 - loss: 1.1962 - val_accuracy: 0.6420 - val_loss: 1.0361
+Epoch 7/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 107ms/step - accuracy: 0.6326 - loss: 0.9407 - val_accuracy: 0.6111 - val_loss: 0.8805
+Epoch 8/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 110ms/step - accuracy: 0.6985 - loss: 0.7753 - val_accuracy: 0.7901 - val_loss: 0.7639
+Epoch 9/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 103ms/step - accuracy: 0.7606 - loss: 0.6323 - val_accuracy: 0.7716 - val_loss: 0.7495
+Epoch 10/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 104ms/step - accuracy: 0.8253 - loss: 0.5350 - val_accuracy: 0.8025 - val_loss: 0.6187
+Epoch 11/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 104ms/step - accuracy: 0.8897 - loss: 0.3794 - val_accuracy: 0.8333 - val_loss: 0.5593
+Epoch 12/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 108ms/step - accuracy: 0.8975 - loss: 0.3293 - val_accuracy: 0.8519 - val_loss: 0.5415
+Epoch 13/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 107ms/step - accuracy: 0.9072 - loss: 0.2789 - val_accuracy: 0.7840 - val_loss: 0.5942
+Epoch 14/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 102ms/step - accuracy: 0.9140 - loss: 0.2676 - val_accuracy: 0.8827 - val_loss: 0.4759
+Epoch 15/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 104ms/step - accuracy: 0.9328 - loss: 0.2261 - val_accuracy: 0.8457 - val_loss: 0.5378
+Epoch 16/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 103ms/step - accuracy: 0.9141 - loss: 0.2515 - val_accuracy: 0.8765 - val_loss: 0.4160
+Epoch 17/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 105ms/step - accuracy: 0.9368 - loss: 0.1952 - val_accuracy: 0.8457 - val_loss: 0.5423
+Epoch 18/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 102ms/step - accuracy: 0.9613 - loss: 0.1689 - val_accuracy: 0.8395 - val_loss: 0.5287
+Epoch 19/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 104ms/step - accuracy: 0.9651 - loss: 0.1352 - val_accuracy: 0.9074 - val_loss: 0.3936
+Epoch 20/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 2s 105ms/step - accuracy: 0.9449 - loss: 0.1510 - val_accuracy: 0.9074 - val_loss: 0.4150
+
+Training Complete.
+
+CPU times: total: 4min 52s
+Wall time: 32.7 s</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model2_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model2.evaluate(test_dataset)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 26ms/step - accuracy: 0.8747 - loss: 0.3343
+
+Test accuracy: 86.67%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model2.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 0s 22ms/step</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-21-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="model-3---convx4-densex3" class="level2">
+<h2 class="anchored" data-anchor-id="model-3---convx4-densex3">Model 3 - CONVx4 + DENSEx3</h2>
+<p>The architecture of the third model is:</p>
+<ol type="1">
+<li><p><strong>Input Layer</strong>: The input layer accepts images of shape (64, 64, 3), which corresponds to a 64x64 RGB image.</p></li>
+<li><p><strong>Convolutional Layer 1</strong>: The first convolutional layer has 8 filters, each of size (4, 4). The stride is 1, and the padding strategy is ‘same’, which means that zero-padding is used to preserve the spatial dimensions of the input.</p></li>
+<li><p><strong>ReLU Activation Function 1</strong>: The first ReLU activation function introduces non-linearity after the first convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 1</strong>: The first max pooling layer uses a pooling window of size (4, 4) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Convolutional Layer 2</strong>: The second convolutional layer has 16 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’.</p></li>
+<li><p><strong>ReLU Activation Function 2</strong>: The second ReLU activation function introduces non-linearity after the second convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 2</strong>: The second max pooling layer uses a pooling window of size (8, 8) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Convolutional Layer 3</strong>: The third convolutional layer has 32 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’.</p></li>
+<li><p><strong>ReLU Activation Function 3</strong>: The third ReLU activation function introduces non-linearity after the third convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 3</strong>: The third max pooling layer uses a pooling window of size (4, 4) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Convolutional Layer 4</strong>: The fourth convolutional layer has 64 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’.</p></li>
+<li><p><strong>ReLU Activation Function 4</strong>: The fourth ReLU activation function introduces non-linearity after the fourth convolutional layer.</p></li>
+<li><p><strong>Max Pooling Layer 4</strong>: The fourth max pooling layer uses a pooling window of size (4, 4) and a stride of 1. The padding strategy is ‘same’.</p></li>
+<li><p><strong>Flatten Layer</strong>: The flatten layer reshapes the 3D output of the previous layer into a 1D vector.</p></li>
+<li><p><strong>Dense Layer 1</strong>: The first dense layer has 128 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Dense Layer 2</strong>: The second dense layer has 64 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Dense Layer 3</strong>: The third dense layer has 32 neurons and uses a ReLU activation function.</p></li>
+<li><p><strong>Output Layer</strong>: The output layer is a dense layer with 6 neurons. The activation function is linear, but when calculating the loss during training, a softmax activation function is applied to the logits because <code>from_logits=True</code> is used in the loss function. This means that the model’s output is expected to be logits and the softmax activation function is applied to convert these logits to probabilities when calculating the loss.</p></li>
+</ol>
+<p><br> This architecture can be represented as:</p>
+<center>
+[CONV2D -&gt; RELU -&gt; MAXPOOL] * 4 -&gt; FLATTEN -&gt; [DENSE (ReLU activation)] * 3 -&gt; DENSE (Softmax activation from logits)
+</center>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)},</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>model3.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>model3_history <span class="op">=</span> model3.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 8s 401ms/step - accuracy: 0.1967 - loss: 3.1120 - val_accuracy: 0.1358 - val_loss: 1.7858
+Epoch 2/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 403ms/step - accuracy: 0.2096 - loss: 1.7440 - val_accuracy: 0.2654 - val_loss: 1.7415
+Epoch 3/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 398ms/step - accuracy: 0.3801 - loss: 1.5042 - val_accuracy: 0.4383 - val_loss: 1.3922
+Epoch 4/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 392ms/step - accuracy: 0.5176 - loss: 1.2117 - val_accuracy: 0.5556 - val_loss: 1.1236
+Epoch 5/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 393ms/step - accuracy: 0.5856 - loss: 1.0351 - val_accuracy: 0.6667 - val_loss: 0.9586
+Epoch 6/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 408ms/step - accuracy: 0.6690 - loss: 0.8851 - val_accuracy: 0.7284 - val_loss: 0.7769
+Epoch 7/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 400ms/step - accuracy: 0.7404 - loss: 0.6485 - val_accuracy: 0.7716 - val_loss: 0.6890
+Epoch 8/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 390ms/step - accuracy: 0.8220 - loss: 0.4962 - val_accuracy: 0.7593 - val_loss: 0.6425
+Epoch 9/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 393ms/step - accuracy: 0.8452 - loss: 0.4354 - val_accuracy: 0.8827 - val_loss: 0.4200
+Epoch 10/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 390ms/step - accuracy: 0.8666 - loss: 0.3775 - val_accuracy: 0.8827 - val_loss: 0.3574
+Epoch 11/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 394ms/step - accuracy: 0.9215 - loss: 0.2436 - val_accuracy: 0.9012 - val_loss: 0.3768
+Epoch 12/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 390ms/step - accuracy: 0.9291 - loss: 0.2042 - val_accuracy: 0.8951 - val_loss: 0.3472
+Epoch 13/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 389ms/step - accuracy: 0.9311 - loss: 0.2238 - val_accuracy: 0.7901 - val_loss: 0.4974
+Epoch 14/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 390ms/step - accuracy: 0.9552 - loss: 0.1670 - val_accuracy: 0.9321 - val_loss: 0.2744
+Epoch 15/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 389ms/step - accuracy: 0.9671 - loss: 0.0944 - val_accuracy: 0.9259 - val_loss: 0.2453
+Epoch 16/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 391ms/step - accuracy: 0.9792 - loss: 0.0825 - val_accuracy: 0.9259 - val_loss: 0.2370
+Epoch 17/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 402ms/step - accuracy: 0.9820 - loss: 0.0452 - val_accuracy: 0.9259 - val_loss: 0.2395
+Epoch 18/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 433ms/step - accuracy: 0.9895 - loss: 0.0272 - val_accuracy: 0.9444 - val_loss: 0.1991
+Epoch 19/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 400ms/step - accuracy: 1.0000 - loss: 0.0240 - val_accuracy: 0.9198 - val_loss: 0.2222
+Epoch 20/20
+15/15 ━━━━━━━━━━━━━━━━━━━━ 6s 421ms/step - accuracy: 0.9991 - loss: 0.0154 - val_accuracy: 0.9136 - val_loss: 0.2425
+
+Training Complete.
+
+CPU times: total: 20min 11s
+Wall time: 2min 1s</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model3_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-scrolled="true" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model3.evaluate(test_dataset)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 77ms/step - accuracy: 0.8965 - loss: 0.2692
+
+Test accuracy: 89.17%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model3.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 1s 37ms/step</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-26-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-cnn_reg-class" class="level1">
+<h1>The <code>CNN_Reg</code> Class</h1>
+<blockquote class="blockquote">
+<p>While the above models are improving, they all show signs of overfitting. For example, the validation loss starting to increase again at the end of training.</p>
+<p>Regularization techniques will help us to see further improvements while counteracting this overfitting.</p>
+<p>We can adapt the class <code>CNN</code> into a new class <code>CNN_Reg</code> by including the option to add dropout layers after each convolutional/dense layer, and including non-zero L2 regularization parameters in the dense layers.</p>
+</blockquote>
+<div class="cell" data-execution_count="30">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN_Reg(tf.keras.Model):</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API including dropout layers and L2_reg in the Dense layers</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: </span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">    [CONV2D -&gt; RELU -&gt; DROPOUT -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation) -&gt; DROPOUT]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co">    dropouts: List of dropout layers.</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_params):</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN_Reg class.</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the conv layer.</span></span>
+<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_params (list): A list of dictionaries where each dictionary contains the parameters for a dense layer.</span></span>
+<span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a><span class="co">            'units' (int): The number of neurons in the dense layer.</span></span>
+<span id="cb41-40"><a href="#cb41-40" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the dense layer.</span></span>
+<span id="cb41-41"><a href="#cb41-41" aria-hidden="true" tabindex="-1"></a><span class="co">            'l2_reg' (float): The L2 regularization factor.</span></span>
+<span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN_Reg, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
+<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
+<span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb41-48"><a href="#cb41-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb41-49"><a href="#cb41-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
+<span id="cb41-50"><a href="#cb41-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(params[<span class="st">'units'</span>], activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_params)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>), kernel_regularizer<span class="op">=</span>tf.keras.regularizers.l2(params[<span class="st">'l2_reg'</span>])) <span class="cf">for</span> i, params <span class="kw">in</span> <span class="bu">enumerate</span>(dense_params)]</span>
+<span id="cb41-51"><a href="#cb41-51" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> dense_params]</span>
+<span id="cb41-52"><a href="#cb41-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-53"><a href="#cb41-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
+<span id="cb41-54"><a href="#cb41-54" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb41-55"><a href="#cb41-55" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
+<span id="cb41-56"><a href="#cb41-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-57"><a href="#cb41-57" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb41-58"><a href="#cb41-58" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
+<span id="cb41-59"><a href="#cb41-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-60"><a href="#cb41-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb41-61"><a href="#cb41-61" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
+<span id="cb41-62"><a href="#cb41-62" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb41-63"><a href="#cb41-63" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
+<span id="cb41-64"><a href="#cb41-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, dropout, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.dropouts, <span class="va">self</span>.pools):</span>
+<span id="cb41-65"><a href="#cb41-65" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
+<span id="cb41-66"><a href="#cb41-66" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
+<span id="cb41-67"><a href="#cb41-67" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
+<span id="cb41-68"><a href="#cb41-68" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
+<span id="cb41-69"><a href="#cb41-69" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb41-70"><a href="#cb41-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense, dropout <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.dense_layers, <span class="va">self</span>.dense_dropouts):</span>
+<span id="cb41-71"><a href="#cb41-71" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
+<span id="cb41-72"><a href="#cb41-72" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
+<span id="cb41-73"><a href="#cb41-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="model-4---convx5-densex4-regularization" class="level2">
+<h2 class="anchored" data-anchor-id="model-4---convx5-densex4-regularization">Model 4 - CONVx5 + DENSEx4 + REGULARIZATION</h2>
+<p>The architecture of the fourth model is:</p>
+<ol type="1">
+<li><p><strong>Input Layer</strong>: The input layer accepts images of shape (64, 64, 3), which corresponds to a 64x64 RGB image.</p></li>
+<li><p><strong>Convolutional Layer 1</strong>: The first convolutional layer has 8 filters, each of size (4, 4). The stride is 1, and the padding strategy is ‘same’. After the convolutional layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.25.</p></li>
+<li><p><strong>Max Pooling Layer 1</strong>: The first max pooling layer uses a pooling window of size (4, 4).</p></li>
+<li><p><strong>Convolutional Layer 2</strong>: The second convolutional layer has 16 filters, each of size (4, 4). The stride is 1, and the padding strategy is ‘same’. After the convolutional layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.25.</p></li>
+<li><p><strong>Max Pooling Layer 2</strong>: The second max pooling layer uses a pooling window of size (8, 8).</p></li>
+<li><p><strong>Convolutional Layer 3</strong>: The third convolutional layer has 32 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’. After the convolutional layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.25.</p></li>
+<li><p><strong>Max Pooling Layer 3</strong>: The third max pooling layer uses a pooling window of size (4, 4).</p></li>
+<li><p><strong>Convolutional Layer 4</strong>: The fourth convolutional layer has 64 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’. After the convolutional layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.25.</p></li>
+<li><p><strong>Max Pooling Layer 4</strong>: The fourth max pooling layer uses a pooling window of size (4, 4).</p></li>
+<li><p><strong>Convolutional Layer 5</strong>: The fifth convolutional layer has 128 filters, each of size (2, 2). The stride is 1, and the padding strategy is ‘same’. After the convolutional layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.25.</p></li>
+<li><p><strong>Max Pooling Layer 5</strong>: The fifth max pooling layer uses a pooling window of size (4, 4).</p></li>
+<li><p><strong>Flatten Layer</strong>: The flatten layer reshapes the 3D output of the previous layer into a 1D vector.</p></li>
+<li><p><strong>Dense Layer 1</strong>: The first dense layer has 256 neurons. After the dense layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.5. This layer also has L2 regularization with a factor of 0.001.</p></li>
+<li><p><strong>Dense Layer 2</strong>: The second dense layer has 128 neurons. After the dense layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.5. This layer also has L2 regularization with a factor of 0.001.</p></li>
+<li><p><strong>Dense Layer 3</strong>: The third dense layer has 64 neurons. After the dense layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.5. This layer also has L2 regularization with a factor of 0.001.</p></li>
+<li><p><strong>Dense Layer 4</strong>: The fourth dense layer has 32 neurons. After the dense layer, a ReLU activation function introduces non-linearity, and a dropout layer is applied with a rate of 0.5. This layer also has L2 regularization with a factor of 0.001.</p></li>
+<li><p><strong>Output Layer</strong>: The output layer is a dense layer with 6 neurons. There is no dropout after this layer. The activation function is linear, but when calculating the loss during training, a softmax activation function is applied to the logits because <code>from_logits=True</code> is used in the loss function. This means that the model’s output is expected to be logits and the softmax activation function is applied to convert these logits to probabilities when calculating the loss. This layer also has L2 regularization with a factor of 0.001.</p></li>
+</ol>
+<p>This architecture can be represented as:</p>
+<center>
+[CONV2D -&gt; RELU -&gt; DROPOUT -&gt; MAXPOOL] * 5 -&gt; FLATTEN -&gt; [DENSE (ReLU activation) -&gt; DROPOUT] * 4 -&gt; DENSE (Softmax activation from logits)
+</center>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">128</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>}</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>dense_params <span class="op">=</span> [</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">256</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">128</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">64</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">32</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">6</span>, <span class="st">'dropout'</span>: <span class="dv">0</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},  <span class="co"># No dropout for the output layer</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span> CNN_Reg(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_params<span class="op">=</span>dense_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>With a regularized model we will train for far longer, <code>epochs=100</code>.</p>
+<p>The hope is that the increased training time will give the model more chance to learn the intricacies of the data distribution while the regularization will stop the model from memorizing the distribution of the training data (overfitting).</p>
+</blockquote>
+<div class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>model4.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>model4_history <span class="op">=</span> model4.fit(train_dataset, epochs<span class="op">=</span><span class="dv">100</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 27s 2s/step - accuracy: 0.1620 - loss: 6.2356 - val_accuracy: 0.1358 - val_loss: 2.9833
+Epoch 2/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.2168 - loss: 2.9632 - val_accuracy: 0.2654 - val_loss: 2.7816
+Epoch 3/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.3516 - loss: 2.6073 - val_accuracy: 0.3580 - val_loss: 2.4996
+Epoch 4/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.4670 - loss: 2.1334 - val_accuracy: 0.4938 - val_loss: 1.9900
+Epoch 5/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.5698 - loss: 1.8123 - val_accuracy: 0.7222 - val_loss: 1.5858
+Epoch 6/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.7270 - loss: 1.4288 - val_accuracy: 0.7284 - val_loss: 1.4681
+Epoch 7/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.7642 - loss: 1.2207 - val_accuracy: 0.6049 - val_loss: 1.6744
+Epoch 8/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.7288 - loss: 1.2981 - val_accuracy: 0.8395 - val_loss: 1.1413
+Epoch 9/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8214 - loss: 1.0202 - val_accuracy: 0.7469 - val_loss: 1.3735
+Epoch 10/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8570 - loss: 0.9302 - val_accuracy: 0.7716 - val_loss: 1.0934
+Epoch 11/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8699 - loss: 0.7897 - val_accuracy: 0.7407 - val_loss: 1.3671
+Epoch 12/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8535 - loss: 0.8504 - val_accuracy: 0.7593 - val_loss: 1.1791
+Epoch 13/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8650 - loss: 0.7723 - val_accuracy: 0.8395 - val_loss: 0.8838
+Epoch 14/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9140 - loss: 0.6719 - val_accuracy: 0.8765 - val_loss: 0.8008
+Epoch 15/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9479 - loss: 0.6024 - val_accuracy: 0.7222 - val_loss: 1.1934
+Epoch 16/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8504 - loss: 0.7278 - val_accuracy: 0.8765 - val_loss: 0.7511
+Epoch 17/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9326 - loss: 0.5967 - val_accuracy: 0.8148 - val_loss: 0.7815
+Epoch 18/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9287 - loss: 0.5644 - val_accuracy: 0.9012 - val_loss: 0.6538
+Epoch 19/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9085 - loss: 0.6052 - val_accuracy: 0.9136 - val_loss: 0.6378
+Epoch 20/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9701 - loss: 0.4528 - val_accuracy: 0.9321 - val_loss: 0.5749
+Epoch 21/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9734 - loss: 0.4292 - val_accuracy: 0.9012 - val_loss: 0.6929
+Epoch 22/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9564 - loss: 0.4333 - val_accuracy: 0.9074 - val_loss: 0.5624
+Epoch 23/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9379 - loss: 0.5011 - val_accuracy: 0.8827 - val_loss: 0.7382
+Epoch 24/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9576 - loss: 0.4716 - val_accuracy: 0.9321 - val_loss: 0.5930
+Epoch 25/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9772 - loss: 0.4066 - val_accuracy: 0.9383 - val_loss: 0.5381
+Epoch 26/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9643 - loss: 0.3814 - val_accuracy: 0.9074 - val_loss: 0.5819
+Epoch 27/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9487 - loss: 0.4560 - val_accuracy: 0.8333 - val_loss: 0.9663
+Epoch 28/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.6337 - loss: 1.3982 - val_accuracy: 0.5679 - val_loss: 1.6912
+Epoch 29/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.6333 - loss: 1.4273 - val_accuracy: 0.4630 - val_loss: 1.8655
+Epoch 30/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.5850 - loss: 1.6849 - val_accuracy: 0.6852 - val_loss: 1.4429
+Epoch 31/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.7212 - loss: 1.2814 - val_accuracy: 0.7778 - val_loss: 1.1745
+Epoch 32/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8276 - loss: 0.9652 - val_accuracy: 0.8395 - val_loss: 1.0079
+Epoch 33/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8792 - loss: 0.7353 - val_accuracy: 0.8457 - val_loss: 0.9016
+Epoch 34/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9199 - loss: 0.6312 - val_accuracy: 0.8827 - val_loss: 0.8751
+Epoch 35/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9174 - loss: 0.5758 - val_accuracy: 0.8827 - val_loss: 0.9350
+Epoch 36/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8909 - loss: 0.6174 - val_accuracy: 0.8519 - val_loss: 0.8674
+Epoch 37/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9246 - loss: 0.5637 - val_accuracy: 0.7778 - val_loss: 0.9864
+Epoch 38/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9070 - loss: 0.5787 - val_accuracy: 0.8086 - val_loss: 1.0043
+Epoch 39/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9190 - loss: 0.5501 - val_accuracy: 0.8272 - val_loss: 0.9312
+Epoch 40/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9457 - loss: 0.4871 - val_accuracy: 0.8951 - val_loss: 0.7946
+Epoch 41/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9617 - loss: 0.4359 - val_accuracy: 0.8580 - val_loss: 0.8824
+Epoch 42/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9674 - loss: 0.4178 - val_accuracy: 0.8395 - val_loss: 1.0029
+Epoch 43/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9426 - loss: 0.4555 - val_accuracy: 0.9012 - val_loss: 0.7421
+Epoch 44/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9667 - loss: 0.3693 - val_accuracy: 0.8457 - val_loss: 0.9235
+Epoch 45/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9493 - loss: 0.4499 - val_accuracy: 0.8765 - val_loss: 0.7632
+Epoch 46/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9771 - loss: 0.3512 - val_accuracy: 0.8889 - val_loss: 0.8511
+Epoch 47/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9709 - loss: 0.3821 - val_accuracy: 0.8704 - val_loss: 0.8721
+Epoch 48/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9677 - loss: 0.3612 - val_accuracy: 0.8642 - val_loss: 0.9992
+Epoch 49/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9719 - loss: 0.3600 - val_accuracy: 0.8827 - val_loss: 0.8648
+Epoch 50/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9799 - loss: 0.3303 - val_accuracy: 0.8951 - val_loss: 0.7907
+Epoch 51/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9564 - loss: 0.3879 - val_accuracy: 0.8148 - val_loss: 1.0517
+Epoch 52/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9041 - loss: 0.5492 - val_accuracy: 0.7963 - val_loss: 0.9532
+Epoch 53/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9091 - loss: 0.5380 - val_accuracy: 0.8642 - val_loss: 0.8355
+Epoch 54/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9588 - loss: 0.4090 - val_accuracy: 0.8827 - val_loss: 0.7720
+Epoch 55/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9659 - loss: 0.3630 - val_accuracy: 0.8889 - val_loss: 0.8303
+Epoch 56/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9751 - loss: 0.3360 - val_accuracy: 0.8951 - val_loss: 0.7807
+Epoch 57/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9888 - loss: 0.3062 - val_accuracy: 0.8889 - val_loss: 0.8557
+Epoch 58/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9904 - loss: 0.2811 - val_accuracy: 0.9074 - val_loss: 0.8780
+Epoch 59/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9956 - loss: 0.2600 - val_accuracy: 0.9383 - val_loss: 0.6578
+Epoch 60/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9989 - loss: 0.2386 - val_accuracy: 0.9259 - val_loss: 0.6584
+Epoch 61/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.2242 - val_accuracy: 0.9383 - val_loss: 0.6327
+Epoch 62/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9968 - loss: 0.2223 - val_accuracy: 0.9198 - val_loss: 0.6559
+Epoch 63/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9974 - loss: 0.2152 - val_accuracy: 0.8827 - val_loss: 0.7064
+Epoch 64/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9996 - loss: 0.2086 - val_accuracy: 0.9198 - val_loss: 0.5703
+Epoch 65/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9979 - loss: 0.1999 - val_accuracy: 0.9012 - val_loss: 0.5444
+Epoch 66/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9993 - loss: 0.1922 - val_accuracy: 0.9198 - val_loss: 0.5736
+Epoch 67/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9991 - loss: 0.1885 - val_accuracy: 0.9012 - val_loss: 0.6271
+Epoch 68/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9879 - loss: 0.2147 - val_accuracy: 0.9012 - val_loss: 0.7182
+Epoch 69/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9819 - loss: 0.2304 - val_accuracy: 0.9136 - val_loss: 0.6253
+Epoch 70/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9541 - loss: 0.3188 - val_accuracy: 0.8457 - val_loss: 0.8789
+Epoch 71/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9420 - loss: 0.3629 - val_accuracy: 0.8210 - val_loss: 0.9289
+Epoch 72/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.8632 - loss: 0.6289 - val_accuracy: 0.7901 - val_loss: 1.0566
+Epoch 73/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9324 - loss: 0.4914 - val_accuracy: 0.9136 - val_loss: 0.5650
+Epoch 74/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9736 - loss: 0.3409 - val_accuracy: 0.9074 - val_loss: 0.6690
+Epoch 75/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9793 - loss: 0.3261 - val_accuracy: 0.8580 - val_loss: 0.7094
+Epoch 76/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9793 - loss: 0.3011 - val_accuracy: 0.8951 - val_loss: 0.7572
+Epoch 77/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9957 - loss: 0.2720 - val_accuracy: 0.8827 - val_loss: 0.8553
+Epoch 78/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9896 - loss: 0.2698 - val_accuracy: 0.9136 - val_loss: 0.6873
+Epoch 79/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9723 - loss: 0.2737 - val_accuracy: 0.9383 - val_loss: 0.5609
+Epoch 80/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9912 - loss: 0.2419 - val_accuracy: 0.8765 - val_loss: 0.8657
+Epoch 81/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9685 - loss: 0.2911 - val_accuracy: 0.9012 - val_loss: 0.7114
+Epoch 82/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9603 - loss: 0.3087 - val_accuracy: 0.8642 - val_loss: 0.9624
+Epoch 83/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9635 - loss: 0.3166 - val_accuracy: 0.9074 - val_loss: 0.6693
+Epoch 84/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9850 - loss: 0.2649 - val_accuracy: 0.8951 - val_loss: 0.6677
+Epoch 85/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9735 - loss: 0.2888 - val_accuracy: 0.9012 - val_loss: 0.6874
+Epoch 86/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9725 - loss: 0.2862 - val_accuracy: 0.8827 - val_loss: 0.8227
+Epoch 87/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9795 - loss: 0.2853 - val_accuracy: 0.9136 - val_loss: 0.7170
+Epoch 88/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9894 - loss: 0.2422 - val_accuracy: 0.9259 - val_loss: 0.5987
+Epoch 89/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9946 - loss: 0.2328 - val_accuracy: 0.8889 - val_loss: 0.8390
+Epoch 90/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9794 - loss: 0.2786 - val_accuracy: 0.9321 - val_loss: 0.5397
+Epoch 91/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9923 - loss: 0.2222 - val_accuracy: 0.9074 - val_loss: 0.6283
+Epoch 92/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 0.9956 - loss: 0.2238 - val_accuracy: 0.9321 - val_loss: 0.5519
+Epoch 93/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1990 - val_accuracy: 0.9506 - val_loss: 0.6280
+Epoch 94/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1881 - val_accuracy: 0.9383 - val_loss: 0.5802
+Epoch 95/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1786 - val_accuracy: 0.9568 - val_loss: 0.5699
+Epoch 96/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1711 - val_accuracy: 0.9568 - val_loss: 0.5285
+Epoch 97/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1645 - val_accuracy: 0.9568 - val_loss: 0.5148
+Epoch 98/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1589 - val_accuracy: 0.9630 - val_loss: 0.5089
+Epoch 99/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1540 - val_accuracy: 0.9630 - val_loss: 0.5027
+Epoch 100/100
+15/15 ━━━━━━━━━━━━━━━━━━━━ 24s 2s/step - accuracy: 1.0000 - loss: 0.1497 - val_accuracy: 0.9568 - val_loss: 0.4960
+
+Training Complete.
+
+CPU times: total: 7h 35min 32s
+Wall time: 39min 57s</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model4_history, epochs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model4.evaluate(test_dataset)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 1s 305ms/step - accuracy: 0.9722 - loss: 0.3679
+
+Test accuracy: 95.83%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model4.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 1s 120ms/step</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-32-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="remarks-and-further-directions" class="level1">
+<h1>Remarks and Further Directions</h1>
+<blockquote class="blockquote">
+<p>CNNs of increasingly complex architectures achieved increasingly high accuracy scores on the test dataset, illustrating a neural network with more layers has a greater capability to learn complex patterns in its training data.</p>
+<p>The misclassified images are often understandably misclassified. i.e.&nbsp;hands at weird angles to the camera, hands somewhat out of frame etc. This seems increasingly true for the more complex models, perhaps indicating that the extra layers included in later models allowed the models to make less mistakes on the easier images but still be stumped by the hardest. A more comprehensive error analysis would be required to make definite claims in this direction.</p>
+<p>Data augmentation is a powerful technique that may allow the models to learn to classify even the hardest images by artificially increasing the number of these images in the dataset. I experimented using <code>ImageDataGenerator</code> from <code>tensorflow.keras.preprocessing.image</code> to augment the dataset. I feel that such augmentation would be most effective if it focused on the hardest images at weird angles, in weird poses etc. This might be the topic of a future post.</p>
+<p>A more complex model has more parameters. The more complex the model the greater the training time required:</p>
+<ul>
+<li><code>model1</code> had 2 convolutional layers and 1 dense layer (the output layer). 20 epochs of training took a real time of 14.5s and the resulting model scored 85.00% on the test dataset.</li>
+<li><code>model3</code> had 4 convolutional layers and 4 dense layers (including the output layer). 20 epochs of training took a real time of 2min 1s and the resulting model scored 89.17% on the test dataset.</li>
+<li><code>model4</code> had 5 convolutional layers, 5 dense layers (including the output layer) and regularization (such as dropout layers). 100 epochs of training took 39min 57s and the resulting model scored <strong>95.83% on the test dataset</strong>, a remarkable performance gain.</li>
+</ul>
+<p>The focus in this notebook was on the training of increasingly complex CNNs to observe the increases in training time and test accuracy gained from the addition of more convolutional and dense layers. In a real application it would be worthwhile to consider hyperparameter tuning. The hyperparameters <code>learning_rate</code>, <code>beta_1</code>, <code>beta_2</code>, <code>epsilon</code> of the Adam optimizer were left at their default values throughout. The minibatch size was fixed at 64 and not was varied.</p>
+<p>There was no focus on the choices of Convolutional layer specific hyperparameters such as the stride, padding and filter size. I am interested to see how tuning over such parameters might affect performance. I aim to learn the intuition guiding choices of such parameters.</p>
+<p>It does not seem particularly sensible to commit to a model of such complexity like <code>model4</code> that takes ~40min to train while still leaving so many hyperparameters at their default values. Achieving a high-performance model might be more practically achievable by using a less complex model that requires less time to train. The reduced computational expense of training would allow for faster iterations and more extensive hyperparameter searches to be conducted. The development advantage of faster interations may well outweigh the increase in accuracy gained by using a more complex model with more layers.</p>
+<p>I am working towards building CNNs using only NumPy and hope this will be the content of future posts.</p>
+</blockquote>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
