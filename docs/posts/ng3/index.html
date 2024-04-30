@@ -8,7 +8,7 @@
 
 <meta name="author" content="Daniel J Smith">
 <meta name="dcterms.date" content="2024-04-28">
-<meta name="description" content="Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes CNN and CNN_Reg than inherit from tensorflow.keras.Model. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, regularization (dropout layers and L2) and training for more epochs we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.">
+<meta name="description" content="Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes CNN and CNN_Reg that inherit from tensorflow.keras.Model. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, and regularization we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.">
 
 <title>Blog - Convolutional Neural Networks in TensorFlow</title>
 <style>
@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes <code>CNN</code> and <code>CNN_Reg</code> than inherit from <code>tensorflow.keras.Model</code>. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, regularization (dropout layers and L2) and training for more epochs we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.
+    Convolutional Neural Networks (CNNs) are implemented in TensorFlow as instances of built classes <code>CNN</code> and <code>CNN_Reg</code> that inherit from <code>tensorflow.keras.Model</code>. The resulting models are used in a multiclass classification problem, detecting how many fingers are raised on an image of a hand. By adding more convolutional layers, dense layers, and regularization we increase the test accuracy from 85.00% to 95.83% at the expense of increasing training time from ~15 seconds to ~40 minutes.
   </div>
 </div>
 
@@ -211,10 +211,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.python.framework <span class="im">import</span> ops</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>versions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> utils <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>versions()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>+------------+---------+
 | Component  | Version |
@@ -233,54 +231,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://www.coursera.org/specializations/deep-learning">https://www.coursera.org/specializations/deep-learning</a></p>
 </blockquote>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes <span class="op">=</span> load_dataset()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes <span class="op">=</span> load_dataset()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">9</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>y = 4
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="index_files/figure-html/cell-4-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">26</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'img/preview.png'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y = 2
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">26</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'img/preview.png'</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">594</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>y = 2
+<pre><code>y = 0
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an image from the dataset</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> <span class="dv">594</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.squeeze(Y_train_orig[:, index])</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(X_train_orig[index])</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f'y = </span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>y = 0
-</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
-</div>
-</div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of X_train_orig: "</span>, X_train_orig.shape)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of Y_train_orig: "</span>, Y_train_orig.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of X_train_orig: "</span>, X_train_orig.shape)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of Y_train_orig: "</span>, Y_train_orig.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Shape of X_train_orig:  (1080, 64, 64, 3)
 Shape of Y_train_orig:  (1, 1080)</code></pre>
@@ -289,29 +287,29 @@ Shape of Y_train_orig:  (1, 1080)</code></pre>
 <p>We use one-hot-encoding to turn the multiclass label of each image (y = 0, 1, 2, 3, 4 or 5) into a binary label as illustrated in the following image:</p>
 <p><img src="img/SIGNS.png" style="width:75%"></p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, split the original training set into a new training set and a validation set</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>X_train_orig, X_val_orig, Y_train_orig, Y_val_orig <span class="op">=</span> train_test_split(X_train_orig, np.squeeze(Y_train_orig), test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, normalize the input features</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X_train_orig<span class="op">/</span><span class="fl">255.</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>X_val <span class="op">=</span> X_val_orig<span class="op">/</span><span class="fl">255.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X_test_orig<span class="op">/</span><span class="fl">255.</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the output labels to one-hot vectors</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>Y_train <span class="op">=</span> convert_to_one_hot(Y_train_orig, <span class="dv">6</span>).T</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Y_val <span class="op">=</span> convert_to_one_hot(Y_val_orig, <span class="dv">6</span>).T</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>Y_test <span class="op">=</span> convert_to_one_hot(Y_test_orig, <span class="dv">6</span>).T</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the shapes of the datasets</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of training examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape[<span class="dv">0</span>]))</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of validation examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape[<span class="dv">0</span>]))</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of test examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape[<span class="dv">0</span>]) <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape))</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_train.shape))</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape))</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_val.shape))</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape))</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_test.shape))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, split the original training set into a new training set and a validation set</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>X_train_orig, X_val_orig, Y_train_orig, Y_val_orig <span class="op">=</span> train_test_split(X_train_orig, np.squeeze(Y_train_orig), test_size<span class="op">=</span><span class="fl">0.15</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, normalize the input features</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X_train_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>X_val <span class="op">=</span> X_val_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X_test_orig<span class="op">/</span><span class="fl">255.</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the output labels to one-hot vectors</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>Y_train <span class="op">=</span> convert_to_one_hot(Y_train_orig, <span class="dv">6</span>).T</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>Y_val <span class="op">=</span> convert_to_one_hot(Y_val_orig, <span class="dv">6</span>).T</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>Y_test <span class="op">=</span> convert_to_one_hot(Y_test_orig, <span class="dv">6</span>).T</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the shapes of the datasets</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of training examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape[<span class="dv">0</span>]))</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of validation examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape[<span class="dv">0</span>]))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"number of test examples = "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape[<span class="dv">0</span>]) <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_train.shape))</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_train shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_train.shape))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_val.shape))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_val shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_val.shape))</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"X_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(X_test.shape))</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="st">"Y_test shape: "</span> <span class="op">+</span> <span class="bu">str</span>(Y_test.shape))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>number of training examples = 918
 number of validation examples = 162
@@ -326,10 +324,10 @@ Y_test shape: (120, 6)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">64</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_train, Y_train)).batch(BATCH_SIZE)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>val_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(BATCH_SIZE)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_test, Y_test)).batch(BATCH_SIZE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">64</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_train, Y_train)).batch(BATCH_SIZE)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>val_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_val, Y_val)).batch(BATCH_SIZE)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>test_dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((X_test, Y_test)).batch(BATCH_SIZE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-cnn-class" class="level1">
@@ -341,70 +339,70 @@ Y_test shape: (120, 6)</code></pre>
 <div class="cell" data-execution_count="14">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN(tf.keras.Model):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API.</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: [CONV2D -&gt; RELU -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation)]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_layer_dims):</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN class.</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co">        For example:</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co">            conv_params = [{'filters': 32, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 'same', 'pool_size': (2, 2)},</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">                           {'filters': 64, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 1, 'pool_size': (2, 2)}]</span></span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_layer_dims (list): The number of neurons in each dense layer. For example, [512, 256, 10] for a network with three dense layers.</span></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(dim, activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_layer_dims)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>)) <span class="cf">for</span> i, dim <span class="kw">in</span> <span class="bu">enumerate</span>(dense_layer_dims)]</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.pools):</span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense <span class="kw">in</span> <span class="va">self</span>.dense_layers:</span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN(tf.keras.Model):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: [CONV2D -&gt; RELU -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation)]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_layer_dims):</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN class.</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">        For example:</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">            conv_params = [{'filters': 32, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 'same', 'pool_size': (2, 2)},</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">                           {'filters': 64, 'kernel_size': (3, 3), 'strides': (1, 1), 'padding': 1, 'pool_size': (2, 2)}]</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_layer_dims (list): The number of neurons in each dense layer. For example, [512, 256, 10] for a network with three dense layers.</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(dim, activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_layer_dims)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>)) <span class="cf">for</span> i, dim <span class="kw">in</span> <span class="bu">enumerate</span>(dense_layer_dims)]</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.pools):</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense <span class="kw">in</span> <span class="va">self</span>.dense_layers:</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="model-1---convx2" class="level2">
@@ -426,27 +424,27 @@ Y_test shape: (120, 6)</code></pre>
 [CONV2D -&gt; RELU -&gt; MAXPOOL] * 2 -&gt; FLATTEN -&gt; DENSE (Softmax activation from logits)
 </center>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">6</span>]  <span class="co"># 1 output layer with 6 neurons</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">6</span>]  <span class="co"># 1 output layer with 6 neurons</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time     </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                                                 beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                                                 beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                                                 epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>model1_history <span class="op">=</span> model.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time     </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                                                 beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                                 beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                                                 epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>model1_history <span class="op">=</span> model.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/20
 15/15 ━━━━━━━━━━━━━━━━━━━━ 1s 51ms/step - accuracy: 0.1624 - loss: 4.5708 - val_accuracy: 0.1358 - val_loss: 2.1793
@@ -496,15 +494,15 @@ Wall time: 14.5 s</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model1_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model1_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-13-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model.evaluate(test_dataset)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model.evaluate(test_dataset)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 15ms/step - accuracy: 0.8479 - loss: 0.4076
 
@@ -512,13 +510,13 @@ Test accuracy: 85.00%</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 0s 14ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -544,27 +542,27 @@ Test accuracy: 85.00%</code></pre>
 [CONV2D -&gt; RELU -&gt; MAXPOOL] * 2 -&gt; FLATTEN -&gt; [DENSE (ReLU activation)] * 3 -&gt; DENSE (Softmax activation from logits)
 </center>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)}</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time  </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>model2_history <span class="op">=</span> model2.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time  </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>model2_history <span class="op">=</span> model2.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/20
 15/15 ━━━━━━━━━━━━━━━━━━━━ 3s 109ms/step - accuracy: 0.1684 - loss: 2.7840 - val_accuracy: 0.1296 - val_loss: 1.8596
@@ -614,15 +612,15 @@ Wall time: 32.7 s</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model2_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model2_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-19-output-1.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model2.evaluate(test_dataset)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model2.evaluate(test_dataset)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 26ms/step - accuracy: 0.8747 - loss: 0.3343
 
@@ -630,13 +628,13 @@ Test accuracy: 86.67%</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model2.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model2.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 0s 22ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-21-output-2.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-20-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -668,29 +666,29 @@ Test accuracy: 86.67%</code></pre>
 [CONV2D -&gt; RELU -&gt; MAXPOOL] * 4 -&gt; FLATTEN -&gt; [DENSE (ReLU activation)] * 3 -&gt; DENSE (Softmax activation from logits)
 </center>
 <div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)},</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>)},</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>)},</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>dense_layer_dims <span class="op">=</span> [<span class="dv">128</span>, <span class="dv">64</span>, <span class="dv">32</span>, <span class="dv">6</span>]</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> CNN(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_layer_dims<span class="op">=</span>dense_layer_dims)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>model3.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>model3_history <span class="op">=</span> model3.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>model3.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>model3_history <span class="op">=</span> model3.fit(train_dataset, epochs<span class="op">=</span><span class="dv">20</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/20
 15/15 ━━━━━━━━━━━━━━━━━━━━ 8s 401ms/step - accuracy: 0.1967 - loss: 3.1120 - val_accuracy: 0.1358 - val_loss: 1.7858
@@ -740,15 +738,15 @@ Wall time: 2min 1s</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model3_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model3_history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-scrolled="true" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model3.evaluate(test_dataset)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model3.evaluate(test_dataset)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 0s 77ms/step - accuracy: 0.8965 - loss: 0.2692
 
@@ -756,13 +754,13 @@ Test accuracy: 89.17%</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model3.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model3.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 1s 37ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-26-output-2.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-25-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -777,79 +775,79 @@ Test accuracy: 89.17%</code></pre>
 <div class="cell" data-execution_count="30">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN_Reg(tf.keras.Model):</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API including dropout layers and L2_reg in the Dense layers</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: </span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">    [CONV2D -&gt; RELU -&gt; DROPOUT -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation) -&gt; DROPOUT]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co">    dropouts: List of dropout layers.</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_params):</span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN_Reg class.</span></span>
-<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
-<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
-<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
-<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
-<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
-<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
-<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
-<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
-<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
-<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the conv layer.</span></span>
-<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_params (list): A list of dictionaries where each dictionary contains the parameters for a dense layer.</span></span>
-<span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
-<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a><span class="co">            'units' (int): The number of neurons in the dense layer.</span></span>
-<span id="cb41-40"><a href="#cb41-40" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the dense layer.</span></span>
-<span id="cb41-41"><a href="#cb41-41" aria-hidden="true" tabindex="-1"></a><span class="co">            'l2_reg' (float): The L2 regularization factor.</span></span>
-<span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN_Reg, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
-<span id="cb41-45"><a href="#cb41-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
-<span id="cb41-46"><a href="#cb41-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
-<span id="cb41-47"><a href="#cb41-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
-<span id="cb41-48"><a href="#cb41-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
-<span id="cb41-49"><a href="#cb41-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
-<span id="cb41-50"><a href="#cb41-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(params[<span class="st">'units'</span>], activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_params)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>), kernel_regularizer<span class="op">=</span>tf.keras.regularizers.l2(params[<span class="st">'l2_reg'</span>])) <span class="cf">for</span> i, params <span class="kw">in</span> <span class="bu">enumerate</span>(dense_params)]</span>
-<span id="cb41-51"><a href="#cb41-51" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> dense_params]</span>
-<span id="cb41-52"><a href="#cb41-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-53"><a href="#cb41-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
-<span id="cb41-54"><a href="#cb41-54" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
-<span id="cb41-55"><a href="#cb41-55" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
-<span id="cb41-56"><a href="#cb41-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-57"><a href="#cb41-57" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
-<span id="cb41-58"><a href="#cb41-58" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
-<span id="cb41-59"><a href="#cb41-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-60"><a href="#cb41-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
-<span id="cb41-61"><a href="#cb41-61" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
-<span id="cb41-62"><a href="#cb41-62" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
-<span id="cb41-63"><a href="#cb41-63" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
-<span id="cb41-64"><a href="#cb41-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, dropout, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.dropouts, <span class="va">self</span>.pools):</span>
-<span id="cb41-65"><a href="#cb41-65" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
-<span id="cb41-66"><a href="#cb41-66" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
-<span id="cb41-67"><a href="#cb41-67" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
-<span id="cb41-68"><a href="#cb41-68" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
-<span id="cb41-69"><a href="#cb41-69" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
-<span id="cb41-70"><a href="#cb41-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense, dropout <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.dense_layers, <span class="va">self</span>.dense_dropouts):</span>
-<span id="cb41-71"><a href="#cb41-71" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
-<span id="cb41-72"><a href="#cb41-72" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
-<span id="cb41-73"><a href="#cb41-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CNN_Reg(tf.keras.Model):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A Convolutional Neural Network (CNN) model implemented using TensorFlow's Keras API including dropout layers and L2_reg in the Dense layers</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">    The architecture of the model is: </span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">    [CONV2D -&gt; RELU -&gt; DROPOUT -&gt; MAXPOOL]*N -&gt; FLATTEN -&gt; [DENSE (ReLU activation) -&gt; DROPOUT]*M-1 -&gt; DENSE (Softmax activation from logits)</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co">    convs: List of convolutional layers.</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co">    relus: List of ReLU activation functions.</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co">    dropouts: List of dropout layers.</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co">    pools: List of max pooling layers.</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co">    dense_layers: List of dense layers.</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co">    flatten: Flatten layer to convert the 3D outputs to 1D.</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Methods:</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="co">    call: Implements the forward propagation for the model.</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, conv_params, dense_params):</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a><span class="co">        The constructor for CNN_Reg class.</span></span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a><span class="co">        input_shape (tuple): The shape of the input images. For example, (32, 32, 3) for a 32x32 RGB image.</span></span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a><span class="co">        conv_params (list): A list of dictionaries where each dictionary contains the parameters for a conv layer. </span></span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a><span class="co">            'filters' (int): The number of filters.</span></span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a><span class="co">            'kernel_size' (int or tuple): The size of the filters.</span></span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a><span class="co">            'strides' (int or tuple): The stride of the convolution.</span></span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a><span class="co">            'padding' (str or int): The padding strategy. Can be 'same', 'valid', or an integer.</span></span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a><span class="co">            'pool_size' (int or tuple): The size of the pooling window.</span></span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the conv layer.</span></span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a><span class="co">        dense_params (list): A list of dictionaries where each dictionary contains the parameters for a dense layer.</span></span>
+<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a><span class="co">        Each dictionary should have the following keys:</span></span>
+<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a><span class="co">            'units' (int): The number of neurons in the dense layer.</span></span>
+<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a><span class="co">            'dropout' (float): The dropout rate for the dropout layer after the dense layer.</span></span>
+<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a><span class="co">            'l2_reg' (float): The L2 regularization factor.</span></span>
+<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CNN_Reg, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>input_shape)</span>
+<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.convs <span class="op">=</span> [tf.keras.layers.Conv2D(filters<span class="op">=</span>params[<span class="st">'filters'</span>], kernel_size<span class="op">=</span>params[<span class="st">'kernel_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span>params[<span class="st">'padding'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.relus <span class="op">=</span> [tf.keras.layers.ReLU() <span class="cf">for</span> _ <span class="kw">in</span> conv_params]</span>
+<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pools <span class="op">=</span> [tf.keras.layers.MaxPool2D(pool_size<span class="op">=</span>params[<span class="st">'pool_size'</span>], strides<span class="op">=</span>params[<span class="st">'strides'</span>], padding<span class="op">=</span><span class="st">"same"</span>) <span class="cf">for</span> params <span class="kw">in</span> conv_params]</span>
+<span id="cb40-49"><a href="#cb40-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.flatten <span class="op">=</span> tf.keras.layers.Flatten()</span>
+<span id="cb40-50"><a href="#cb40-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_layers <span class="op">=</span> [tf.keras.layers.Dense(params[<span class="st">'units'</span>], activation<span class="op">=</span>(<span class="st">"linear"</span> <span class="cf">if</span> i<span class="op">==</span><span class="bu">len</span>(dense_params)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">"relu"</span>), kernel_regularizer<span class="op">=</span>tf.keras.regularizers.l2(params[<span class="st">'l2_reg'</span>])) <span class="cf">for</span> i, params <span class="kw">in</span> <span class="bu">enumerate</span>(dense_params)]</span>
+<span id="cb40-51"><a href="#cb40-51" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dense_dropouts <span class="op">=</span> [tf.keras.layers.Dropout(params[<span class="st">'dropout'</span>]) <span class="cf">for</span> params <span class="kw">in</span> dense_params]</span>
+<span id="cb40-52"><a href="#cb40-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-53"><a href="#cb40-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
+<span id="cb40-54"><a href="#cb40-54" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb40-55"><a href="#cb40-55" aria-hidden="true" tabindex="-1"></a><span class="co">        Implements the forward propagation for the model.</span></span>
+<span id="cb40-56"><a href="#cb40-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-57"><a href="#cb40-57" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb40-58"><a href="#cb40-58" aria-hidden="true" tabindex="-1"></a><span class="co">        inputs (tensor): The input images.</span></span>
+<span id="cb40-59"><a href="#cb40-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-60"><a href="#cb40-60" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb40-61"><a href="#cb40-61" aria-hidden="true" tabindex="-1"></a><span class="co">        tensor: The classification results.</span></span>
+<span id="cb40-62"><a href="#cb40-62" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb40-63"><a href="#cb40-63" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> inputs</span>
+<span id="cb40-64"><a href="#cb40-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> conv, relu, dropout, pool <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.convs, <span class="va">self</span>.relus, <span class="va">self</span>.dropouts, <span class="va">self</span>.pools):</span>
+<span id="cb40-65"><a href="#cb40-65" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> conv(x)</span>
+<span id="cb40-66"><a href="#cb40-66" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> relu(x)</span>
+<span id="cb40-67"><a href="#cb40-67" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
+<span id="cb40-68"><a href="#cb40-68" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> pool(x)</span>
+<span id="cb40-69"><a href="#cb40-69" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.flatten(x)</span>
+<span id="cb40-70"><a href="#cb40-70" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> dense, dropout <span class="kw">in</span> <span class="bu">zip</span>(<span class="va">self</span>.dense_layers, <span class="va">self</span>.dense_dropouts):</span>
+<span id="cb40-71"><a href="#cb40-71" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dense(x)</span>
+<span id="cb40-72"><a href="#cb40-72" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> dropout(x)</span>
+<span id="cb40-73"><a href="#cb40-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <section id="model-4---convx5-densex4-regularization" class="level2">
@@ -879,41 +877,41 @@ Test accuracy: 89.17%</code></pre>
 [CONV2D -&gt; RELU -&gt; DROPOUT -&gt; MAXPOOL] * 5 -&gt; FLATTEN -&gt; [DENSE (ReLU activation) -&gt; DROPOUT] * 4 -&gt; DENSE (Softmax activation from logits)
 </center>
 <div class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">128</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>}</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>dense_params <span class="op">=</span> [</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">256</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">128</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">64</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">32</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">6</span>, <span class="st">'dropout'</span>: <span class="dv">0</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},  <span class="co"># No dropout for the output layer</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span> CNN_Reg(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_params<span class="op">=</span>dense_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>conv_params <span class="op">=</span> [</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">8</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">16</span>, <span class="st">'kernel_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">8</span>, <span class="dv">8</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">32</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">64</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>},</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'filters'</span>: <span class="dv">128</span>, <span class="st">'kernel_size'</span>: (<span class="dv">2</span>, <span class="dv">2</span>), <span class="st">'strides'</span>: <span class="dv">1</span>, <span class="st">'padding'</span>:<span class="st">'same'</span>, <span class="st">'pool_size'</span>: (<span class="dv">4</span>, <span class="dv">4</span>), <span class="st">'dropout'</span>: <span class="fl">0.25</span>}</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>dense_params <span class="op">=</span> [</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">256</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">128</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">64</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">32</span>, <span class="st">'dropout'</span>: <span class="fl">0.5</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'units'</span>: <span class="dv">6</span>, <span class="st">'dropout'</span>: <span class="dv">0</span>, <span class="st">'l2_reg'</span>: <span class="fl">0.001</span>},  <span class="co"># No dropout for the output layer</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span> CNN_Reg(input_shape<span class="op">=</span>(<span class="dv">64</span>, <span class="dv">64</span>, <span class="dv">3</span>), conv_params<span class="op">=</span>conv_params, dense_params<span class="op">=</span>dense_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p>With a regularized model we will train for far longer, <code>epochs=100</code>.</p>
 <p>The hope is that the increased training time will give the model more chance to learn the intricacies of the data distribution while the regularization will stop the model from memorizing the distribution of the training data (overfitting).</p>
 </blockquote>
 <div class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>model4.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>model4_history <span class="op">=</span> model4.fit(train_dataset, epochs<span class="op">=</span><span class="dv">100</span>, validation_data<span class="op">=</span>val_dataset)</span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>model4.<span class="bu">compile</span>(optimizer<span class="op">=</span>tf.keras.optimizers.Adam(learning_rate<span class="op">=</span><span class="fl">0.001</span>,  <span class="co">## DEFAULT HYPERPARAMS ## </span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                                                  beta_1<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                                                  beta_2<span class="op">=</span><span class="fl">0.999</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                                                  epsilon<span class="op">=</span><span class="fl">1e-07</span>,),</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>tf.keras.losses.CategoricalCrossentropy(from_logits<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>model4_history <span class="op">=</span> model4.fit(train_dataset, epochs<span class="op">=</span><span class="dv">100</span>, validation_data<span class="op">=</span>val_dataset)</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training Complete.</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/100
 15/15 ━━━━━━━━━━━━━━━━━━━━ 27s 2s/step - accuracy: 0.1620 - loss: 6.2356 - val_accuracy: 0.1358 - val_loss: 2.9833
@@ -1123,15 +1121,15 @@ Wall time: 39min 57s</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model4_history, epochs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>plot_model_history(model4_history, epochs<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-29-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model4.evaluate(test_dataset)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>test_loss, test_accuracy <span class="op">=</span> model4.evaluate(test_dataset)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Test accuracy: </span><span class="sc">{</span>test_accuracy<span class="op">*</span><span class="dv">100</span><span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2/2 ━━━━━━━━━━━━━━━━━━━━ 1s 305ms/step - accuracy: 0.9722 - loss: 0.3679
 
@@ -1139,13 +1137,13 @@ Test accuracy: 95.83%</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model4.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> np.argmax(model4.predict(X_test), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>print_mislabeled_images(classes, X_test, Y_test_orig, pred, number<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4/4 ━━━━━━━━━━━━━━━━━━━━ 1s 120ms/step</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-32-output-2.png" class="img-fluid"></p>
+<p><img src="index_files/figure-html/cell-31-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>

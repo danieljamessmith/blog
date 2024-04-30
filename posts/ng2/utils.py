@@ -9,7 +9,7 @@ def versions():
     table = prettytable.PrettyTable()
     table.field_names = ["Component", "Version"]
     table.add_row(["Python", sys.version.split(' ')[0]])
-    table.add_row(["numpy", np.__version__])
+    table.add_row(["NumPy", np.__version__])
     table.hrules = prettytable.ALL
     print(table)
 
