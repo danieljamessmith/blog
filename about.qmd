@@ -13,9 +13,5 @@ about:
 
 ---
 
-This site is made using Quarto, an open source technical publishing system that provides the functionality to render .ipynb files as blog posts, and hosted with GitHub pages.
-
-The .ipynb files are written in Python3 using Jupyter Lab.
-
-The mathematics posts are typically written in LaTeX and converted to markdown using Pandoc.
+This site is made using Quarto and hosted with GitHub pages. Quarto is an open source technical publishing system that provides the functionality to render .ipynb files as blog posts.
 
