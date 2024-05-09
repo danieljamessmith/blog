@@ -18,8 +18,8 @@ website:
 format:
   html:
     theme:
-      - Lux
-      - custom.scss
+      light: Lux
+      dark : cyborg
     css: styles.css
     grid:
       body-width: 1250px

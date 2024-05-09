@@ -72,10 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -137,6 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -213,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-tags="[]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'files/nottm_postcodes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#dnldts44285" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUNCk5HOSAzV0YNCk5HOSA0V1ANCk5HOSAzRUwNCk5HMSA5RkgNCk5HNSA2UVoNCk5HNyA1UUwNCk5HNyAyRlQNCk5HNCAxUFkNCk5HOCAzU0wNCk5HOSA0QVgNCk5HNSAxUFMNCk5HMTMgOFhTDQpORzEgM1JEDQpORzggMkZVDQpORzMgN0dODQpORzEgMU5SDQpORzEgM05FDQpORzcgMkdRDQpORzggM0RCDQpORzUgNUdEDQpORzkgM0hHDQpORzkgMlVCDQpORzIgNUhODQpORzMgMUxFDQpORzIgM0RXDQpORzIgN1JZDQpORzMgM0VODQpORzMgNEpMDQpORzUgMkVUDQpORzUgOVdBDQpORzIgNlBQDQpORzUgMUJXDQpORzkgMVBSDQpORzQgMUpZDQpORzEgMUxGDQpORzEgMU5ODQpORzYgMEdBDQpORzggM0RKDQpORzEgNUJUDQpORzggOVFODQpORzcgMkxGDQpORzUgME5UDQpORzMgMkVVDQpORzMgNk5ZDQpORzcgNEdSDQpORzIgNVhTDQpORzIgNVhaDQpORzMgNUhSDQpORzIgNEdXDQpORzkgMVBZDQpORzEyIDJBVA0KTkczIDdGRQ0KTkcyIDZRQg0KTkc3IDFSQQ0KTkc1IDNGRA0KTkc3IDNMVA0KTkc2IDZFRw0KTkc0IDFQRA0KTkc2IDhQSg0KTkcxMSA3QVgNCk5HOCA2RFENCk5HMSAxRVENCk5HNiA5TEUNCk5HOSAySkINCk5HOCAzSFQNCk5HNyAxUFkNCk5HMTEgN0VTDQpORzMgNVNIDQpORzEgNERCDQpORzggNUxXDQpORzIgMVFIDQpORzEgOUVaDQpORzIgN0RMDQpORzUgM0hXDQpORzEgM0pQDQpORzEgMURVDQpORzEgOUdFDQpORzcgNkhCDQpORzUgMUpHDQpORzcgM1BCDQpORzEgNldZDQpORzEgMUVODQpORzIgNERHDQpORzIgOUpZDQpORzcgMUpRDQpORzcgNVFYDQpORzMgNkdZDQpORzggNVdFDQpORzcgN0RCDQpORzggM0VODQpORzkgMlpaDQpORzYgOUVKDQpORzcgMUZQDQpORzEgMVFRDQpORzggMlJODQpORzIgMVdZDQpORzggMU5EDQpORzkgMlFBDQpORzMgMUZGDQpORzcgMVVCDQo=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts59312" onclick="fetch('data:text/csv;base64,UG9zdGNvZGUNCk5HOSAzV0YNCk5HOSA0V1ANCk5HOSAzRUwNCk5HMSA5RkgNCk5HNSA2UVoNCk5HNyA1UUwNCk5HNyAyRlQNCk5HNCAxUFkNCk5HOCAzU0wNCk5HOSA0QVgNCk5HNSAxUFMNCk5HMTMgOFhTDQpORzEgM1JEDQpORzggMkZVDQpORzMgN0dODQpORzEgMU5SDQpORzEgM05FDQpORzcgMkdRDQpORzggM0RCDQpORzUgNUdEDQpORzkgM0hHDQpORzkgMlVCDQpORzIgNUhODQpORzMgMUxFDQpORzIgM0RXDQpORzIgN1JZDQpORzMgM0VODQpORzMgNEpMDQpORzUgMkVUDQpORzUgOVdBDQpORzIgNlBQDQpORzUgMUJXDQpORzkgMVBSDQpORzQgMUpZDQpORzEgMUxGDQpORzEgMU5ODQpORzYgMEdBDQpORzggM0RKDQpORzEgNUJUDQpORzggOVFODQpORzcgMkxGDQpORzUgME5UDQpORzMgMkVVDQpORzMgNk5ZDQpORzcgNEdSDQpORzIgNVhTDQpORzIgNVhaDQpORzMgNUhSDQpORzIgNEdXDQpORzkgMVBZDQpORzEyIDJBVA0KTkczIDdGRQ0KTkcyIDZRQg0KTkc3IDFSQQ0KTkc1IDNGRA0KTkc3IDNMVA0KTkc2IDZFRw0KTkc0IDFQRA0KTkc2IDhQSg0KTkcxMSA3QVgNCk5HOCA2RFENCk5HMSAxRVENCk5HNiA5TEUNCk5HOSAySkINCk5HOCAzSFQNCk5HNyAxUFkNCk5HMTEgN0VTDQpORzMgNVNIDQpORzEgNERCDQpORzggNUxXDQpORzIgMVFIDQpORzEgOUVaDQpORzIgN0RMDQpORzUgM0hXDQpORzEgM0pQDQpORzEgMURVDQpORzEgOUdFDQpORzcgNkhCDQpORzUgMUpHDQpORzcgM1BCDQpORzEgNldZDQpORzEgMUVODQpORzIgNERHDQpORzIgOUpZDQpORzcgMUpRDQpORzcgNVFYDQpORzMgNkdZDQpORzggNVdFDQpORzcgN0RCDQpORzggM0VODQpORzkgMlpaDQpORzYgOUVKDQpORzcgMUZQDQpORzEgMVFRDQpORzggMlJODQpORzIgMVdZDQpORzggMU5EDQpORzkgMlFBDQpORzMgMUZGDQpORzcgMVVCDQo=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -221,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'nottm_postcodes.csv'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-info downloadthis  " id="dnldts44285"><i class="bi bi-database-fill-down"></i> Download nottm_postcodes.csv </button></a></p>
+        });"><button class="btn btn-info downloadthis  " id="dnldts59312"><i class="bi bi-database-fill-down"></i> Download nottm_postcodes.csv </button></a></p>
 <p><code>nottm_postcodes.csv</code> is a file I constructed consisting of 100 random postcodes within Nottingham city.</p>
 <p><strong>Importantly, these are not postcodes of real donors to the charity. Sharing such information online would violate GDPR. These postcodes are randomly selected from publicly available datasets</strong></p>
 <div class="cell" data-tags="[]" data-execution_count="28">
@@ -2040,6 +2043,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
